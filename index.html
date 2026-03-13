@@ -760,6 +760,22 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
       </div>
     </div>
 
+    <p class="sec">管理者に渡す</p>
+    <div class="card">
+      <div style="font-size:.75rem;color:var(--muted);margin-bottom:10px;">チップを管理者（胴元）に渡します。相手はプレイヤー画面に表示されません。</div>
+      <div class="quicks" id="pay-admin-quicks">
+        <button class="qbtn" onclick="payAdminQ(1)">1</button>
+        <button class="qbtn" onclick="payAdminQ(2)">2</button>
+        <button class="qbtn" onclick="payAdminQ(3)">3</button>
+        <button class="qbtn" onclick="payAdminQ(5)">5</button>
+        <button class="qbtn" onclick="payAdminQ(10)">10</button>
+      </div>
+      <div class="row" style="margin-bottom:0;">
+        <input type="number" id="pay-admin-amt" placeholder="枚数" min="1"/>
+        <button class="btn btn-g" onclick="doPayAdmin()">渡す</button>
+      </div>
+    </div>
+
     <p class="sec">取引履歴</p>
     <div class="card" style="padding:14px;">
       <ul class="loglist" id="plog"><li class="empty">まだ取引がありません</li></ul>
@@ -785,6 +801,15 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
   <!-- ADMIN SCREEN -->
   <div id="s2" style="display:none;" class="screen">
     <br>
+    <p class="sec">胴元チップ</p>
+    <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+      <div>
+        <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);margin-bottom:4px;">プレイヤーから受け取ったチップ</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--brass-light);" id="admin-chest-val">0<span style="font-size:1rem;color:var(--muted);"> 枚</span></div>
+      </div>
+      <button class="btn btn-o" style="white-space:nowrap;" onclick="clearAdminChest()">リセット</button>
+    </div>
+
     <p class="sec">プレイヤー管理</p>
     <div class="card">
       <div id="amlist"><div class="empty">プレイヤーなし</div></div>
@@ -944,14 +969,75 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
 </div>
 
 <!-- PROFILE MODAL -->
-<div id="profile-modal" style="position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;display:none;align-items:center;justify-content:center;">
-  <div class="popup-box" style="max-width:340px;">
-    <div style="font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:.15em;color:var(--brass);margin-bottom:16px;">✏️ プロフィール編集</div>
-    <div class="emoji-grid" id="profile-emoji-grid"></div>
-    <div style="margin-top:12px;">
-      <input type="text" id="profile-name" placeholder="表示名" maxlength="10"/>
+<div id="profile-modal" style="position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:16px 0 40px;">
+  <div style="background:linear-gradient(160deg,#091a10 0%,#0f2a18 50%,#091a10 100%);border:1px solid rgba(201,168,76,.4);border-radius:2px;padding:24px 20px;width:100%;max-width:400px;box-shadow:0 0 60px rgba(201,168,76,.1);">
+    <div style="font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:.15em;color:var(--brass-light);margin-bottom:18px;text-align:center;">✏️ プロフィール編集</div>
+
+    <!-- プレビュー -->
+    <div style="display:flex;justify-content:center;margin-bottom:18px;">
+      <div style="width:96px;height:96px;border-radius:50%;border:2px solid rgba(201,168,76,.4);overflow:hidden;background:#0a1a0e;box-shadow:0 0 20px rgba(201,168,76,.15);">
+        <canvas id="avatar-preview" width="96" height="96" style="display:block;"></canvas>
+      </div>
     </div>
-    <div style="display:flex;gap:8px;margin-top:14px;">
+
+    <!-- 名前 -->
+    <input type="text" id="profile-name" placeholder="表示名" maxlength="10" style="margin-bottom:14px;"/>
+
+    <!-- パーツ選択 -->
+    <div id="avatar-builder">
+      <!-- 肌色 -->
+      <div class="ab-row">
+        <div class="ab-label">肌色</div>
+        <div class="ab-opts" id="ab-skin"></div>
+      </div>
+      <!-- 髪型 -->
+      <div class="ab-row">
+        <div class="ab-label">髪型</div>
+        <div class="ab-opts" id="ab-hair"></div>
+      </div>
+      <!-- 髪色 -->
+      <div class="ab-row">
+        <div class="ab-label">髪色</div>
+        <div class="ab-opts" id="ab-haircolor"></div>
+      </div>
+      <!-- 眉毛 -->
+      <div class="ab-row">
+        <div class="ab-label">眉毛</div>
+        <div class="ab-opts" id="ab-eyebrow"></div>
+      </div>
+      <!-- 目 -->
+      <div class="ab-row">
+        <div class="ab-label">目</div>
+        <div class="ab-opts" id="ab-eyes"></div>
+      </div>
+      <!-- 鼻 -->
+      <div class="ab-row">
+        <div class="ab-label">鼻</div>
+        <div class="ab-opts" id="ab-nose"></div>
+      </div>
+      <!-- 口 -->
+      <div class="ab-row">
+        <div class="ab-label">口</div>
+        <div class="ab-opts" id="ab-mouth"></div>
+      </div>
+      <!-- 髭 -->
+      <div class="ab-row">
+        <div class="ab-label">髭</div>
+        <div class="ab-opts" id="ab-beard"></div>
+      </div>
+      <!-- 帽子 -->
+      <div class="ab-row">
+        <div class="ab-label">帽子</div>
+        <div class="ab-opts" id="ab-hat"></div>
+      </div>
+      <!-- マスク -->
+      <div class="ab-row">
+        <div class="ab-label">マスク</div>
+        <div class="ab-opts" id="ab-mask"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:18px;">
       <button class="btn btn-o btn-full" onclick="closeProfile()">キャンセル</button>
       <button class="btn btn-g btn-full" onclick="saveProfile()">保存</button>
     </div>
@@ -1042,6 +1128,19 @@ window.selectEmoji = (e, gridId) => {
 };
 
 // ── Auth ─────────────────────────────────────────────────
+
+// ── AVATAR HELPER ─────────────────────────────────────────
+function avatarImg(player, size = 48) {
+  if (player && player.avatarSvg) {
+    const enc = encodeURIComponent(player.avatarSvg);
+    return `<img src="data:image/svg+xml,${enc}" width="${size}" height="${size}" style="border-radius:50%;display:block;" />`;
+  }
+  return player?.emoji || '🃏';
+}
+function avatarIsCustom(player) {
+  return !!(player && player.avatarSvg);
+}
+
 onAuthStateChanged(auth, async user => {
   hide('loading');
   if (user) {
@@ -1189,8 +1288,13 @@ function renderHome() {
   if (!me) return;
 
   document.getElementById('user-badge').textContent = `${me.emoji || '🃏'} ${me.name}`;
-  document.getElementById('my-avatar').textContent = me.emoji || '🃏';
   document.getElementById('my-name').textContent = me.name;
+  const avatarEl = document.getElementById('my-avatar');
+  if (me.avatarSvg) {
+    avatarEl.innerHTML = `<img src="data:image/svg+xml,${encodeURIComponent(me.avatarSvg)}" style="width:100%;height:100%;border-radius:50%;display:block;" />`;
+  } else {
+    avatarEl.textContent = me.emoji || '🃏';
+  }
   const cv = document.getElementById('my-chips');
   cv.textContent = me.chips;
   bump('my-chips');
@@ -1258,23 +1362,58 @@ function renderHome() {
 }
 
 // ── RANKING ───────────────────────────────────────────────
+let prevRankMap = {}; // uid → 前回の順位（1始まり）
+
 function renderRanking(animate = false) {
   const sorted = Object.values(players).sort((a,b) => (b.chips + (b.invested||0)) - (a.chips + (a.invested||0)));
   const el = document.getElementById('rank-list');
   if (!sorted.length) { el.innerHTML = '<div class="empty">プレイヤーなし</div>'; return; }
   const cls = ['rank-gold','rank-silver','rank-bronze'];
-  el.innerHTML = sorted.map((p, i) => `
+
+  el.innerHTML = sorted.map((p, i) => {
+    const rank = i + 1;
+    const prev = prevRankMap[p.uid];
+    let arrow = '';
+    if (prev !== undefined && prev !== rank) {
+      const diff = prev - rank; // 正=上昇、負=下落
+      if (diff > 0) {
+        arrow = `<div style="display:flex;flex-direction:column;align-items:center;gap:1px;">
+          <span style="color:#2ab06a;font-size:1rem;line-height:1;">▲</span>
+          <span style="color:#2ab06a;font-size:.65rem;font-weight:700;line-height:1;">+${diff}</span>
+        </div>`;
+      } else {
+        arrow = `<div style="display:flex;flex-direction:column;align-items:center;gap:1px;">
+          <span style="color:var(--crimson-light);font-size:1rem;line-height:1;">▼</span>
+          <span style="color:var(--crimson-light);font-size:.65rem;font-weight:700;line-height:1;">${diff}</span>
+        </div>`;
+      }
+    } else if (prev === undefined) {
+      arrow = `<div style="color:var(--muted);font-size:.65rem;letter-spacing:.05em;font-family:'Cinzel',serif;">NEW</div>`;
+    } else {
+      arrow = `<div style="color:var(--brass-light);font-size:1rem;line-height:1;">→</div>`;
+    }
+
+    return `
     <div class="rank-item ${cls[i] || ''} ${animate ? 'animate' : ''}" style="${animate ? `animation-delay:${i*0.08}s` : ''}">
       <div class="rank-num">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i+1}</div>
-      <div class="rank-emoji">${p.emoji || '🃏'}</div>
+      <div class="rank-emoji">${p.avatarSvg
+        ? `<img src="data:image/svg+xml,${encodeURIComponent(p.avatarSvg)}" style="width:100%;height:100%;border-radius:50%;display:block;"/>`
+        : (p.emoji || '🃏')}</div>
       <div class="rank-info">
         <div class="rank-name">${p.name}${currentUser && p.uid === currentUser.uid ? '<span class="rank-me">自分</span>' : ''}</div>
         <div class="rank-sub">所持チップ</div>
         ${(p.invested||0) > 0 ? `<div class="rank-invest">📈 ${p.invested}枚 投資中</div>` : ''}
         ${(p.debt||0) > 0 ? `<div style="font-size:.7rem;color:var(--crimson-light);margin-top:1px;">💸 借金 ${p.debt}枚</div>` : ''}
       </div>
-      <div class="rank-chips">${p.chips}<span style="font-size:.8rem;color:var(--muted);"> 枚</span></div>
-    </div>`).join('');
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="min-width:28px;text-align:center;">${arrow}</div>
+        <div class="rank-chips">${p.chips}<span style="font-size:.8rem;color:var(--muted);"> 枚</span></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // 今回の順位を保存（次回の比較用）
+  sorted.forEach((p, i) => { prevRankMap[p.uid] = i + 1; });
 }
 
 // ── SEND ──────────────────────────────────────────────────
@@ -1303,7 +1442,34 @@ window.doSend = async () => {
   toast(`${to.name} に ${amt}枚 送りました！`);
 };
 
-// ── INVEST ────────────────────────────────────────────────
+window.payAdminQ = (v) => {
+  document.getElementById('pay-admin-amt').value = v;
+  document.querySelectorAll('#pay-admin-quicks .qbtn').forEach(b =>
+    b.classList.toggle('on', parseInt(b.textContent) === v));
+};
+
+window.doPayAdmin = async () => {
+  const me  = players[currentUser.uid];
+  if (!me) return;
+  const amt = parseInt(document.getElementById('pay-admin-amt').value);
+  if (!amt || amt <= 0) { toast('枚数を入力してください'); return; }
+  if (me.chips < amt)  { toast(`チップが足りません（${me.chips}枚）`); return; }
+  const prev = parseInt((await get(ref(db, 'settings/adminChest'))).val() || 0);
+  await update(ref(db, `players/${currentUser.uid}`), { chips: me.chips - amt });
+  await update(ref(db, 'settings'), { adminChest: prev + amt });
+  await pushLog('t', me.name, '管理者', amt, `管理者に${amt}枚を渡した`);
+  document.getElementById('pay-admin-amt').value = '';
+  document.querySelectorAll('#pay-admin-quicks .qbtn').forEach(b => b.classList.remove('on'));
+  toast(`管理者に ${amt}枚 渡しました`);
+};
+
+window.clearAdminChest = async () => {
+  if (!confirm('胴元チップをリセットしますか？')) return;
+  await update(ref(db, 'settings'), { adminChest: 0 });
+  toast('胴元チップをリセットしました');
+};
+
+
 // 投資枠 = 時間報酬精算回数 × 2 + 2（上限なし・累計）
 // investedTotal = ゲーム開始から今まで投資した累計枚数（判定後もリセットしない）
 // 各プレイヤーの今期の投資枠を計算
@@ -1681,6 +1847,13 @@ function renderAdmin() {
   if (!adminUnlocked) return;
   const sorted = Object.values(players).sort((a,b) => b.chips - a.chips);
 
+  // 胴元チップ表示
+  const chestEl = document.getElementById('admin-chest-val');
+  if (chestEl) {
+    const chest = parseInt(settings.adminChest || 0);
+    chestEl.innerHTML = `${chest}<span style="font-size:1rem;color:var(--muted);"> 枚</span>`;
+  }
+
   document.getElementById('amlist').innerHTML = sorted.map(p => `
     <div class="citem">
       <div><span style="font-size:1.1rem;">${p.emoji||'🃏'}</span>
@@ -1704,7 +1877,9 @@ function renderAdmin() {
 
   document.getElementById('aview').innerHTML = sorted.map((p, i) => `
     <div class="prow">
-      <div class="cicon">${p.emoji||'🃏'}</div>
+      <div class="cicon">${p.avatarSvg
+        ? `<img src="data:image/svg+xml,${encodeURIComponent(p.avatarSvg)}" style="width:100%;height:100%;border-radius:50%;display:block;"/>`
+        : (p.emoji||'🃏')}</div>
       <div style="flex:1;">
         <div style="font-weight:700;">${p.name}
           ${i===0?'<span style="font-size:.7rem;background:rgba(240,208,128,.2);color:var(--brass-light);border:1px solid var(--brass);border-radius:2px;padding:2px 8px;margin-left:6px;">👑 1位</span>':''}
@@ -1932,16 +2107,435 @@ window.doReset = async () => {
 };
 
 // ── PROFILE ───────────────────────────────────────────────
+// ── AVATAR BUILDER ────────────────────────────────────────
+const AB = {
+  skin: [
+    { id:'s1', hex:'#FDDBB4' },
+    { id:'s2', hex:'#F5C68A' },
+    { id:'s3', hex:'#D4905A' },
+    { id:'s4', hex:'#9A5C28' },
+    { id:'s5', hex:'#532808' },
+  ],
+  hair: [
+    { id:'h0', label:'なし' },
+    { id:'h1', label:'短髪' },
+    { id:'h2', label:'センター分け' },
+    { id:'h3', label:'オールバック' },
+    { id:'h4', label:'七三分け' },
+    { id:'h5', label:'ロング' },
+    { id:'h6', label:'ボサボサ' },
+    { id:'h7', label:'刈り上げ' },
+  ],
+  haircolor: [
+    { id:'hc1', hex:'#0d0600' },  // 黒
+    { id:'hc2', hex:'#2e1506' },  // 焦茶
+    { id:'hc3', hex:'#6b3a1f' },  // ブラウン
+    { id:'hc4', hex:'#8a8a8a' },  // グレー
+    { id:'hc5', hex:'#c8c8c8' },  // 白（レイリー）
+    { id:'hc6', hex:'#e8d050' },  // 金髪（浦原）
+    { id:'hc7', hex:'#c0392b' },  // 赤
+    { id:'hc8', hex:'#e8e0c8' },  // 白金
+  ],
+  eyes: [
+    { id:'e1', label:'切れ長' },
+    { id:'e2', label:'鋭い目' },
+    { id:'e3', label:'細目' },
+    { id:'e4', label:'たれ目' },   // 浦原
+    { id:'e5', label:'眼鏡' },
+    { id:'e6', label:'丸眼鏡' },   // レイリー
+    { id:'e7', label:'サングラス' },
+  ],
+  eyebrow: [
+    { id:'eb1', label:'普通' },
+    { id:'eb2', label:'太い' },
+    { id:'eb3', label:'つり上がり' }, // ジャック
+    { id:'eb4', label:'細い' },
+  ],
+  nose: [
+    { id:'n1', label:'普通' },
+    { id:'n2', label:'高い鷹鼻' },   // レイリー・ジャック
+    { id:'n3', label:'小さい' },
+  ],
+  mouth: [
+    { id:'m1', label:'普通' },
+    { id:'m2', label:'スマイル' },
+    { id:'m3', label:'不敵な笑み' }, // 浦原
+    { id:'m4', label:'真一文字' },
+    { id:'m5', label:'口角上がり' }, // ジャック
+  ],
+  beard: [
+    { id:'b0', label:'なし' },
+    { id:'b1', label:'無精髭' },
+    { id:'b2', label:'顎髭' },       // レイリー
+    { id:'b3', label:'細口髭' },     // 浦原・ジャック
+    { id:'b4', label:'フル髭' },
+    { id:'b5', label:'もみあげ' },
+  ],
+  hat: [
+    { id:'ht0', label:'なし' },
+    { id:'ht1', label:'シルクハット' },
+    { id:'ht2', label:'ハンチング黒' },
+    { id:'ht3', label:'ハンチング緑' }, // 浦原
+    { id:'ht4', label:'山高帽' },
+    { id:'ht5', label:'麦わら帽' },
+    { id:'ht6', label:'ベレー帽' },
+  ],
+  mask: [
+    { id:'mk0', label:'なし' },
+    { id:'mk1', label:'黒マスク' },
+    { id:'mk2', label:'白マスク' },
+    { id:'mk3', label:'バンダナ' },
+  ],
+};
+
+let abState = { skin:'s1', hair:'h2', haircolor:'hc1', eyebrow:'eb1', eyes:'e1', nose:'n1', mouth:'m2', beard:'b0', hat:'ht0', mask:'mk0' };
+
+// ═══════════════════════════════════════════════
+// 漫画風SVGアバター描画エンジン
+// ═══════════════════════════════════════════════
+function buildAvatarSVG(st) {
+  const skin = (AB.skin.find(x=>x.id===st.skin)||AB.skin[0]).hex;
+  const hcol = (AB.haircolor.find(x=>x.id===st.haircolor)||AB.haircolor[0]).hex;
+  // 肌の影色
+  const skinShadow = blendHex(skin, '#8B4513', 0.18);
+  const p = [];
+
+  // ── 背景円 ──
+  p.push(`<circle cx="48" cy="48" r="47" fill="#0b1e12"/>`);
+
+  // ── 首 ──
+  p.push(`<path d="M38 78 Q48 82 58 78 L58 90 Q48 94 38 90Z" fill="${skin}"/>`);
+  p.push(`<path d="M38 78 Q48 82 58 78 L58 82 Q48 86 38 82Z" fill="${skinShadow}"/>`);
+
+  // ── 耳 ──
+  p.push(`<path d="M18 50 Q13 54 14 60 Q16 66 20 64 L20 50Z" fill="${skin}" stroke="#0004" stroke-width=".5"/>`);
+  p.push(`<path d="M78 50 Q83 54 82 60 Q80 66 76 64 L76 50Z" fill="${skin}" stroke="#0004" stroke-width=".5"/>`);
+  // 耳の線
+  p.push(`<path d="M15 54 Q15 60 16 64" stroke="${skinShadow}" stroke-width="1" fill="none" stroke-linecap="round"/>`);
+  p.push(`<path d="M81 54 Q81 60 80 64" stroke="${skinShadow}" stroke-width="1" fill="none" stroke-linecap="round"/>`);
+
+  // ── 顔輪郭（漫画風のシャープな輪郭） ──
+  p.push(`<path d="M20 38 Q18 54 20 64 Q26 78 38 82 Q48 86 58 82 Q70 78 76 64 Q78 54 76 38 Q68 18 48 18 Q28 18 20 38Z"
+    fill="${skin}" stroke="#1a0a00" stroke-width="1.2"/>`);
+  // 顎のシャドウ
+  p.push(`<path d="M34 76 Q48 84 62 76 Q68 70 74 62 Q70 72 58 80 Q48 84 38 80 Q26 72 22 62 Q28 70 34 76Z" fill="${skinShadow}" opacity=".5"/>`);
+
+  // ── 眉毛 ──
+  const browCol = hcol === '#e8d050' ? '#8B6914' : (hcol === '#c8c8c8' || hcol === '#e8e0c8' ? '#666' : '#1a0800');
+  if (st.eyebrow === 'eb1') { // 普通
+    p.push(`<path d="M28 36 Q36 32 44 35" stroke="${browCol}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            <path d="M52 35 Q60 32 68 36" stroke="${browCol}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`);
+  } else if (st.eyebrow === 'eb2') { // 太い
+    p.push(`<path d="M27 36 Q36 31 44 34" stroke="${browCol}" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M52 34 Q60 31 69 36" stroke="${browCol}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`);
+  } else if (st.eyebrow === 'eb3') { // つり上がり（ジャック）
+    p.push(`<path d="M28 38 Q36 30 44 33" stroke="${browCol}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M52 33 Q60 30 68 38" stroke="${browCol}" stroke-width="2.5" fill="none" stroke-linecap="round"/>`);
+  } else if (st.eyebrow === 'eb4') { // 細い
+    p.push(`<path d="M29 36 Q36 33 44 35" stroke="${browCol}" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            <path d="M52 35 Q60 33 67 36" stroke="${browCol}" stroke-width="1.4" fill="none" stroke-linecap="round"/>`);
+  }
+
+  // ── 目 ──
+  if (st.eyes === 'e1') { // 切れ長
+    p.push(`<path d="M28 46 Q36 42 44 46 Q36 50 28 46Z" fill="#1a0800"/>
+            <circle cx="36" cy="46" r="2.5" fill="#1a0800"/>
+            <circle cx="37" cy="45" r="1" fill="#fff" opacity=".8"/>
+            <path d="M28 46 Q36 42 44 46" stroke="#0d0600" stroke-width="1.5" fill="none"/>
+            <path d="M52 46 Q60 42 68 46 Q60 50 52 46Z" fill="#1a0800"/>
+            <circle cx="60" cy="46" r="2.5" fill="#1a0800"/>
+            <circle cx="61" cy="45" r="1" fill="#fff" opacity=".8"/>
+            <path d="M52 46 Q60 42 68 46" stroke="#0d0600" stroke-width="1.5" fill="none"/>`);
+  } else if (st.eyes === 'e2') { // 鋭い目（ジャック）
+    p.push(`<path d="M27 44 Q36 40 45 45 L44 50 Q36 52 28 48Z" fill="#1a0800"/>
+            <circle cx="36" cy="46" r="3" fill="#0d0600"/>
+            <circle cx="37" cy="44.5" r="1.2" fill="#fff" opacity=".9"/>
+            <path d="M27 44 Q36 40 45 45" stroke="#0d0600" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M51 45 Q60 40 69 44 L68 48 Q60 52 52 50Z" fill="#1a0800"/>
+            <circle cx="60" cy="46" r="3" fill="#0d0600"/>
+            <circle cx="61" cy="44.5" r="1.2" fill="#fff" opacity=".9"/>
+            <path d="M51 45 Q60 40 69 44" stroke="#0d0600" stroke-width="2" fill="none" stroke-linecap="round"/>`);
+  } else if (st.eyes === 'e3') { // 細目
+    p.push(`<path d="M28 46 Q36 43 44 46" stroke="#0d0600" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M28 47 Q36 50 44 47" stroke="#0d0600" stroke-width="1" fill="none" stroke-linecap="round"/>
+            <path d="M52 46 Q60 43 68 46" stroke="#0d0600" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M52 47 Q60 50 68 47" stroke="#0d0600" stroke-width="1" fill="none" stroke-linecap="round"/>`);
+  } else if (st.eyes === 'e4') { // たれ目（浦原）
+    p.push(`<path d="M29 44 Q36 48 43 45 Q36 52 29 48Z" fill="#1a0800"/>
+            <circle cx="36" cy="47" r="2.5" fill="#1a0800"/>
+            <circle cx="37" cy="45.5" r="1" fill="#fff" opacity=".8"/>
+            <path d="M29 44 Q36 42 43 45" stroke="#0d0600" stroke-width="1.5" fill="none"/>
+            <path d="M43 45 Q42 50 37 51" stroke="#0d0600" stroke-width="1" fill="none"/>
+            <path d="M53 45 Q60 48 67 44 Q60 52 53 48Z" fill="#1a0800"/>
+            <circle cx="60" cy="47" r="2.5" fill="#1a0800"/>
+            <circle cx="61" cy="45.5" r="1" fill="#fff" opacity=".8"/>
+            <path d="M53 45 Q60 42 67 44" stroke="#0d0600" stroke-width="1.5" fill="none"/>
+            <path d="M67 44 Q66 50 61 51" stroke="#0d0600" stroke-width="1" fill="none"/>`);
+  } else if (st.eyes === 'e5') { // 眼鏡（四角）
+    p.push(`<circle cx="36" cy="46" r="3" fill="#1a0800"/>
+            <circle cx="37" cy="45" r="1.2" fill="#fff" opacity=".8"/>
+            <circle cx="60" cy="46" r="3" fill="#1a0800"/>
+            <circle cx="61" cy="45" r="1.2" fill="#fff" opacity=".8"/>
+            <rect x="28" y="40" width="16" height="12" rx="2" fill="none" stroke="#555" stroke-width="1.8"/>
+            <rect x="52" y="40" width="16" height="12" rx="2" fill="none" stroke="#555" stroke-width="1.8"/>
+            <line x1="44" y1="46" x2="52" y2="46" stroke="#555" stroke-width="1.5"/>
+            <line x1="20" y1="44" x2="28" y2="44" stroke="#555" stroke-width="1.2"/>
+            <line x1="68" y1="44" x2="76" y2="44" stroke="#555" stroke-width="1.2"/>`);
+  } else if (st.eyes === 'e6') { // 丸眼鏡（レイリー）
+    p.push(`<circle cx="36" cy="46" r="3" fill="#1a0800"/>
+            <circle cx="37" cy="45" r="1.2" fill="#fff" opacity=".8"/>
+            <circle cx="60" cy="46" r="3" fill="#1a0800"/>
+            <circle cx="61" cy="45" r="1.2" fill="#fff" opacity=".8"/>
+            <circle cx="36" cy="46" r="7" fill="none" stroke="#7a6030" stroke-width="1.8"/>
+            <circle cx="60" cy="46" r="7" fill="none" stroke="#7a6030" stroke-width="1.8"/>
+            <line x1="43" y1="46" x2="53" y2="46" stroke="#7a6030" stroke-width="1.5"/>
+            <line x1="20" y1="44" x2="29" y2="44" stroke="#7a6030" stroke-width="1.2"/>
+            <line x1="67" y1="44" x2="76" y2="44" stroke="#7a6030" stroke-width="1.2"/>`);
+  } else if (st.eyes === 'e7') { // サングラス
+    p.push(`<path d="M26 41 Q36 38 46 42 L45 52 Q36 54 27 50Z" fill="#0a0a0a" opacity=".95"/>
+            <path d="M50 42 Q60 38 70 41 L69 50 Q60 54 51 52Z" fill="#0a0a0a" opacity=".95"/>
+            <path d="M26 41 Q36 38 46 42" stroke="#333" stroke-width="1" fill="none"/>
+            <path d="M50 42 Q60 38 70 41" stroke="#333" stroke-width="1" fill="none"/>
+            <line x1="46" y1="42" x2="50" y2="42" stroke="#333" stroke-width="1.5"/>
+            <line x1="20" y1="43" x2="26" y2="42" stroke="#333" stroke-width="1.5"/>
+            <line x1="76" y1="43" x2="70" y2="42" stroke="#333" stroke-width="1.5"/>`);
+  }
+
+  // ── 鼻 ──
+  if (st.nose === 'n1') {
+    p.push(`<path d="M44 55 Q48 58 52 55" stroke="${skinShadow}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <circle cx="44.5" cy="55" r="1.2" fill="${skinShadow}" opacity=".6"/>
+            <circle cx="51.5" cy="55" r="1.2" fill="${skinShadow}" opacity=".6"/>`);
+  } else if (st.nose === 'n2') { // 鷹鼻（レイリー・ジャック）
+    p.push(`<path d="M48 44 L46 56 Q48 60 50 56 L48 44" fill="${skinShadow}" opacity=".4"/>
+            <path d="M48 44 L46 58 Q44 60 44 58" stroke="${skinShadow}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M44 58 Q48 62 52 58" stroke="${skinShadow}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <circle cx="44.5" cy="58" r="1.5" fill="${skinShadow}" opacity=".5"/>
+            <circle cx="51.5" cy="58" r="1.5" fill="${skinShadow}" opacity=".5"/>`);
+  } else if (st.nose === 'n3') {
+    p.push(`<circle cx="46.5" cy="56" r="1" fill="${skinShadow}" opacity=".5"/>
+            <circle cx="49.5" cy="56" r="1" fill="${skinShadow}" opacity=".5"/>`);
+  }
+
+  // ── 口 ──
+  if (st.mouth === 'm1') {
+    p.push(`<path d="M38 68 Q48 72 58 68" stroke="#7a2a2a" stroke-width="2" fill="none" stroke-linecap="round"/>`);
+  } else if (st.mouth === 'm2') { // スマイル
+    p.push(`<path d="M38 66 Q48 74 58 66" stroke="#7a2a2a" stroke-width="2" fill="#c87070" stroke-linecap="round"/>
+            <path d="M38 66 Q48 74 58 66" stroke="#7a2a2a" stroke-width="1.5" fill="none"/>
+            <line x1="38" y1="66" x2="38" y2="69" stroke="#7a2a2a" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="58" y1="66" x2="58" y2="69" stroke="#7a2a2a" stroke-width="1.2" stroke-linecap="round"/>`);
+  } else if (st.mouth === 'm3') { // 不敵な笑み（浦原）
+    p.push(`<path d="M38 67 Q43 72 48 67 Q53 72 58 67" stroke="#7a2a2a" stroke-width="2" fill="#c87070" stroke-linecap="round"/>
+            <path d="M38 67 Q43 65 48 67 Q53 65 58 67" stroke="#7a2a2a" stroke-width="1" fill="none"/>
+            <path d="M36 67 L38 67" stroke="#7a2a2a" stroke-width="2" stroke-linecap="round"/>
+            <path d="M58 67 L60 67" stroke="#7a2a2a" stroke-width="2" stroke-linecap="round"/>`);
+  } else if (st.mouth === 'm4') { // 真一文字
+    p.push(`<path d="M38 68 L58 68" stroke="#5a1a1a" stroke-width="2" stroke-linecap="round"/>`);
+  } else if (st.mouth === 'm5') { // 口角上がり（ジャック）
+    p.push(`<path d="M40 70 Q48 68 56 70" stroke="#7a2a2a" stroke-width="2" fill="#c87070" stroke-linecap="round"/>
+            <path d="M38 66 Q40 70 42 69" stroke="#7a2a2a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M58 66 Q56 70 54 69" stroke="#7a2a2a" stroke-width="1.5" fill="none" stroke-linecap="round"/>`);
+  }
+
+  // ── 髭 ──
+  const beardCol = hcol === '#e8d050' ? '#b09020' : (hcol==='#c8c8c8'||hcol==='#e8e0c8' ? '#999' : hcol);
+  if (st.beard === 'b1') { // 無精髭
+    const dts = [];
+    [[32,64],[36,65],[40,65],[44,64],[48,65],[52,64],[56,65],[60,65],[64,64],
+     [33,68],[37,68],[41,69],[45,68],[49,69],[53,68],[57,69],[61,68],[63,68]].forEach(([x,y])=>{
+      dts.push(`<circle cx="${x}" cy="${y}" r="1" fill="${beardCol}" opacity=".55"/>`);
+    });
+    p.push(dts.join(''));
+  } else if (st.beard === 'b2') { // 顎髭（レイリー）
+    p.push(`<path d="M34 70 Q38 66 42 68 Q48 64 54 68 Q58 66 62 70 Q60 82 48 86 Q36 82 34 70Z" fill="${beardCol}" opacity=".88"/>
+            <path d="M38 70 Q48 66 58 70" stroke="${blendHex(beardCol,'#000',.2)}" stroke-width="1" fill="none"/>`);
+  } else if (st.beard === 'b3') { // 細口髭（浦原・ジャック）
+    p.push(`<path d="M37 63 Q42 60 48 63" stroke="${beardCol}" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M48 63 Q54 60 59 63" stroke="${beardCol}" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <circle cx="37.5" cy="63" r="1.2" fill="${beardCol}"/>
+            <circle cx="58.5" cy="63" r="1.2" fill="${beardCol}"/>`);
+  } else if (st.beard === 'b4') { // フル髭
+    p.push(`<path d="M30 66 Q34 62 40 64 Q48 60 56 64 Q62 62 66 66 L64 80 Q48 88 32 80Z" fill="${beardCol}" opacity=".85"/>
+            <path d="M30 66 Q48 62 66 66" stroke="${blendHex(beardCol,'#000',.15)}" stroke-width="1.2" fill="none"/>`);
+  } else if (st.beard === 'b5') { // もみあげ
+    p.push(`<path d="M20 52 Q18 62 20 70 Q22 72 24 66 Q24 58 22 52Z" fill="${beardCol}" opacity=".8"/>
+            <path d="M76 52 Q78 62 76 70 Q74 72 72 66 Q72 58 74 52Z" fill="${beardCol}" opacity=".8"/>`);
+  }
+
+  // ── 髪型（帽子なしの場合は上に描画。帽子ありは帽子の下から見える部分のみ） ──
+  const hasHat = st.hat !== 'ht0';
+  if (st.hair === 'h1') { // 短髪
+    p.push(`<path d="M20 38 Q24 16 48 14 Q72 16 76 38 Q68 22 48 20 Q28 22 20 38Z" fill="${hcol}"/>
+            ${hasHat?'':``}`);
+    if (!hasHat) p.push(`<path d="M20 38 L22 46 Q20 36 20 38Z" fill="${hcol}"/>
+                          <path d="M76 38 L74 46 Q76 36 76 38Z" fill="${hcol}"/>`);
+  } else if (st.hair === 'h2') { // センター分け
+    p.push(`<path d="M20 38 Q24 16 48 14 Q72 16 76 38 Q68 20 48 18 Q28 20 20 38Z" fill="${hcol}"/>
+            <path d="M48 14 Q46 28 40 38" stroke="${blendHex(hcol,'#000',.15)}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M48 14 Q50 28 56 38" stroke="${blendHex(hcol,'#000',.15)}" stroke-width="2.5" fill="none" stroke-linecap="round"/>`);
+    if (!hasHat) p.push(`<path d="M20 38 L18 52 Q18 44 20 42Z" fill="${hcol}"/>
+                          <path d="M76 38 L78 52 Q78 44 76 42Z" fill="${hcol}"/>`);
+  } else if (st.hair === 'h3') { // オールバック
+    p.push(`<path d="M20 38 Q26 18 48 16 Q70 18 76 38 Q66 22 48 20 Q30 22 20 38Z" fill="${hcol}"/>
+            <path d="M24 28 Q48 18 72 28 Q68 20 48 18 Q28 20 24 28Z" fill="${blendHex(hcol,'#fff',.08)}"/>`);
+    if (!hasHat) p.push(`<path d="M20 38 L19 50 Q19 44 20 40Z" fill="${hcol}"/>
+                          <path d="M76 38 L77 50 Q77 44 76 40Z" fill="${hcol}"/>`);
+  } else if (st.hair === 'h4') { // 七三分け
+    p.push(`<path d="M20 38 Q24 16 48 14 Q72 16 76 38 Q68 20 48 18 Q28 20 20 38Z" fill="${hcol}"/>
+            <path d="M40 14 Q38 32 30 44" stroke="${blendHex(hcol,'#000',.2)}" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M40 14 Q50 28 66 36" stroke="${blendHex(hcol,'#000',.2)}" stroke-width="3" fill="none" stroke-linecap="round"/>`);
+    if (!hasHat) p.push(`<path d="M20 38 L18 56 Q18 46 20 42Z" fill="${hcol}"/>
+                          <path d="M76 38 L78 56 Q78 46 76 42Z" fill="${hcol}"/>`);
+  } else if (st.hair === 'h5') { // ロング
+    p.push(`<path d="M20 38 Q24 16 48 14 Q72 16 76 38 Q68 20 48 18 Q28 20 20 38Z" fill="${hcol}"/>
+            <path d="M20 38 L16 70 Q18 80 22 74 L22 40" fill="${hcol}"/>
+            <path d="M76 38 L80 70 Q78 80 74 74 L74 40" fill="${hcol}"/>
+            <path d="M22 40 Q48 36 74 40 L74 44 Q48 40 22 44Z" fill="${hcol}"/>`);
+  } else if (st.hair === 'h6') { // ボサボサ
+    p.push(`<path d="M20 38 Q22 16 48 12 Q74 16 76 38" fill="${hcol}"/>
+            <path d="M20 36 Q18 24 22 18 Q20 28 24 22 Q22 32 28 28 Q26 36 32 32" fill="${hcol}"/>
+            <path d="M76 36 Q78 24 74 18 Q76 28 72 22 Q74 32 68 28 Q70 36 64 32" fill="${hcol}"/>
+            <path d="M48 12 Q44 8 40 14 Q46 8 48 10 Q50 8 54 14 Q56 8 52 12" fill="${hcol}"/>`);
+    if (!hasHat) {
+      p.push(`<path d="M20 38 L16 56 Q16 46 18 42Z" fill="${hcol}"/>
+              <path d="M76 38 L80 56 Q80 46 78 42Z" fill="${hcol}"/>`);
+    }
+  } else if (st.hair === 'h7') { // 刈り上げ
+    p.push(`<path d="M28 26 Q48 16 68 26 Q60 18 48 16 Q36 18 28 26Z" fill="${hcol}"/>
+            <path d="M20 40 L20 38 Q22 28 28 26 L28 40Z" fill="${hcol}"/>
+            <path d="M76 40 L76 38 Q74 28 68 26 L68 40Z" fill="${hcol}"/>`);
+  }
+
+  // ── 帽子 ──
+  if (st.hat === 'ht1') { // シルクハット
+    p.push(`<rect x="30" y="8" width="36" height="26" rx="3" fill="#111"/>
+            <rect x="22" y="32" width="52" height="6" rx="2" fill="#111"/>
+            <rect x="24" y="33" width="48" height="3" fill="#2a2a2a"/>
+            <path d="M30 8 L66 8" stroke="#333" stroke-width="1" opacity=".5"/>`);
+  } else if (st.hat === 'ht2') { // ハンチング（黒）
+    p.push(`<path d="M18 34 Q48 12 78 34 Q72 38 48 36 Q24 38 18 34Z" fill="#1a1a1a"/>
+            <ellipse cx="48" cy="34" rx="30" ry="5" fill="#222"/>
+            <path d="M18 34 Q14 36 15 40 Q20 40 22 36" fill="#111"/>
+            <path d="M22 24 Q48 14 74 24" stroke="#333" stroke-width="1" fill="none" opacity=".4"/>`);
+  } else if (st.hat === 'ht3') { // ハンチング（緑）浦原
+    p.push(`<path d="M18 34 Q48 12 78 34 Q72 38 48 36 Q24 38 18 34Z" fill="#2d5a1e"/>
+            <ellipse cx="48" cy="34" rx="30" ry="5" fill="#366824"/>
+            <path d="M18 34 Q14 36 15 40 Q20 40 22 36" fill="#2a5218"/>
+            <path d="M22 24 Q48 14 74 24" stroke="#4a8030" stroke-width="1.5" fill="none" opacity=".6"/>
+            <circle cx="48" cy="17" r="3" fill="#4a8030" opacity=".7"/>`);
+  } else if (st.hat === 'ht4') { // 山高帽
+    p.push(`<ellipse cx="48" cy="22" rx="24" ry="20" fill="#181818"/>
+            <rect x="24" y="30" width="48" height="6" rx="2" fill="#111"/>
+            <ellipse cx="48" cy="36" rx="28" ry="5" fill="#222"/>
+            <path d="M30 10 Q48 6 66 10" stroke="#333" stroke-width="1" fill="none" opacity=".5"/>`);
+  } else if (st.hat === 'ht5') { // 麦わら帽子
+    p.push(`<ellipse cx="48" cy="22" rx="22" ry="14" fill="#c8a030"/>
+            <ellipse cx="48" cy="30" width="56" rx="32" ry="6" fill="#b89020"/>
+            <path d="M26 22 Q48 14 70 22" stroke="#a07818" stroke-width="1.5" fill="none"/>
+            <path d="M20 30 Q48 24 76 30" stroke="#a07818" stroke-width="1" fill="none"/>`);
+  } else if (st.hat === 'ht6') { // ベレー帽
+    p.push(`<path d="M18 32 Q20 12 52 10 Q72 12 74 28 Q62 16 48 16 Q30 18 22 32Z" fill="#5a1a1a"/>
+            <ellipse cx="48" cy="32" rx="30" ry="5" fill="#4a1212"/>
+            <circle cx="58" cy="16" r="3" fill="#7a2a2a"/>`);
+  }
+
+  // ── マスク ──
+  if (st.mask === 'mk1') { // 黒マスク
+    p.push(`<path d="M28 62 Q48 70 68 62 L68 78 Q48 86 28 78Z" fill="#111"/>
+            <path d="M28 62 Q48 67 68 62" stroke="#333" stroke-width="1" fill="none"/>
+            <path d="M26 62 L20 60 Q18 62 20 68 L26 70Z" fill="#0a0a0a"/>
+            <path d="M70 62 L76 60 Q78 62 76 68 L70 70Z" fill="#0a0a0a"/>`);
+  } else if (st.mask === 'mk2') { // 白マスク
+    p.push(`<path d="M28 62 Q48 70 68 62 L68 78 Q48 86 28 78Z" fill="#eee"/>
+            <path d="M28 62 Q48 67 68 62" stroke="#ccc" stroke-width="1" fill="none"/>
+            <path d="M26 62 L20 60 Q18 62 20 68 L26 70Z" fill="#ddd"/>
+            <path d="M70 62 L76 60 Q78 62 76 68 L70 70Z" fill="#ddd"/>`);
+  } else if (st.mask === 'mk3') { // バンダナ
+    p.push(`<path d="M26 64 Q48 72 70 64 L70 80 Q48 84 26 80Z" fill="#8B1a2a"/>
+            <path d="M26 64 Q48 69 70 64" stroke="#6b1020" stroke-width="1.5" fill="none"/>
+            <path d="M22 60 L26 64 L22 78 Q20 70 20 64Z" fill="#6b1020"/>
+            <path d="M74 60 L70 64 L74 78 Q76 70 76 64Z" fill="#6b1020"/>`);
+  }
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">${p.join('')}</svg>`;
+}
+
+// 色のブレンドヘルパー
+function blendHex(hex1, hex2, t) {
+  const p = (h)=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+  const [r1,g1,b1]=p(hex1.length===4?hex1.replace(/./g,c=>c+c):hex1);
+  const [r2,g2,b2]=p(hex2.length===4?hex2.replace(/./g,c=>c+c):hex2);
+  const r=Math.round(r1+(r2-r1)*t).toString(16).padStart(2,'0');
+  const g=Math.round(g1+(g2-g1)*t).toString(16).padStart(2,'0');
+  const b=Math.round(b1+(b2-b1)*t).toString(16).padStart(2,'0');
+  return `#${r}${g}${b}`;
+}
+
+// プレビューCanvas更新
+function updateAvatarPreview() {
+  const canvas = document.getElementById('avatar-preview');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const svg = buildAvatarSVG(abState);
+  const enc = 'data:image/svg+xml,' + encodeURIComponent(svg);
+  const img = new Image();
+  img.onload = () => { ctx.clearRect(0,0,96,96); ctx.drawImage(img,0,0,96,96); };
+  img.src = enc;
+}
+
+// パーツ選択ボタン生成
+function initAvatarBuilder(me) {
+  if (me.avatarState) {
+    try { Object.assign(abState, JSON.parse(me.avatarState)); } catch(e) {}
+  }
+
+  // 肌色・髪色: 丸いカラーチップ
+  ['skin','haircolor'].forEach(key => {
+    const elId = key === 'haircolor' ? 'ab-haircolor' : 'ab-skin';
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.innerHTML = AB[key].map(s =>
+      `<button class="ab-btn ${abState[key]===s.id?'on':''}" onclick="abPick('${key}','${s.id}')">
+        <div class="ab-color" style="background:${s.hex};"></div>
+      </button>`).join('');
+  });
+
+  // その他パーツ: テキストラベル
+  const textKeys = [
+    ['ab-hair','hair'],['ab-eyebrow','eyebrow'],['ab-eyes','eyes'],
+    ['ab-nose','nose'],['ab-mouth','mouth'],['ab-beard','beard'],
+    ['ab-hat','hat'],['ab-mask','mask']
+  ];
+  textKeys.forEach(([elId, key]) => {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.innerHTML = AB[key].map(p =>
+      `<button class="ab-btn ${abState[key]===p.id?'on':''}" onclick="abPick('${key}','${p.id}')"
+        style="width:auto;padding:4px 8px;font-size:.65rem;color:var(--muted);height:auto;min-height:32px;">
+        ${p.label}
+      </button>`).join('');
+  });
+
+  updateAvatarPreview();
+}
+
+window.abPick = (key, id) => {
+  abState[key] = id;
+  const elId = key==='haircolor'?'ab-haircolor':'ab-'+key;
+  const el = document.getElementById(elId);
+  if (el) el.querySelectorAll('.ab-btn').forEach(b => {
+    b.classList.toggle('on', b.getAttribute('onclick') === `abPick('${key}','${id}')`);
+  });
+  updateAvatarPreview();
+};
+
 window.showProfile = () => {
   const me = players[currentUser.uid];
   if (!me) return;
-  profileEmoji = me.emoji || '🃏';
   document.getElementById('profile-name').value = me.name;
-  const grid = document.getElementById('profile-emoji-grid');
-  grid.innerHTML = EMOJIS.map(e => `
-    <button class="emoji-btn ${e === profileEmoji ? 'on' : ''}"
-      onclick="selectEmoji('${e}','profile-emoji-grid')">${e}</button>`).join('');
   document.getElementById('profile-modal').style.display = 'flex';
+  initAvatarBuilder(me);
 };
 window.closeProfile = () => {
   document.getElementById('profile-modal').style.display = 'none';
@@ -1949,7 +2543,9 @@ window.closeProfile = () => {
 window.saveProfile = async () => {
   const name = document.getElementById('profile-name').value.trim();
   if (!name) { toast('名前を入力してください'); return; }
-  await update(ref(db, `players/${currentUser.uid}`), { name, emoji: profileEmoji });
+  const avatarSvg   = buildAvatarSVG(abState);
+  const avatarState = JSON.stringify(abState);
+  await update(ref(db, `players/${currentUser.uid}`), { name, avatarSvg, avatarState });
   await updateProfile(currentUser, { displayName: name });
   closeProfile();
   toast('プロフィールを更新しました');
