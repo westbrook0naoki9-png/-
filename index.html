@@ -94,7 +94,9 @@ input[type="password"]{letter-spacing:.3em;}
 .err{color:var(--red-light);font-size:.75rem;margin-top:2px;min-height:16px;}
 
 /* EMOJI PICKER */
-.emoji-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:10px 0;}
+.emoji-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin:10px 0;max-height:180px;overflow-y:auto;padding-right:2px;}
+.emoji-grid::-webkit-scrollbar{width:3px;}
+.emoji-grid::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 .emoji-btn{background:var(--surface2);border:2px solid transparent;border-radius:8px;
   font-size:1.4rem;padding:6px 0;cursor:pointer;transition:all .15s;text-align:center;}
 .emoji-btn:hover{border-color:var(--gold);transform:scale(1.1);}
@@ -739,7 +741,18 @@ const firebaseConfig = {
 
 const ADMIN_PIN = "7131";
 const INIT_CHIPS = 20;
-const EMOJIS = ['🐶','🐱','🦊','🐼','🐨','🦁','🐯','🐸','🐙','🦋','🌸','🔥','⭐','🎭','🍀','👑','💎','🎯','🚀','🎪','🌈','🎸','🎲','🃏','🎰'];
+const EMOJIS = [
+  // 動物
+  '🐶','🐱','🦊','🐼','🐨','🦁','🐯','🐸','🐙','🦋','🐺','🦝','🐮','🐷','🐧','🦄','🐲','🦅','🐬','🐺',
+  // 食べ物・植物
+  '🌸','🍀','🌈','🌊','🌙','⭐','☀️','🌵','🍄','🌺',
+  // キャラ・人
+  '👑','🎭','🤖','👻','💀','🧙','🥷','🤡','👾','🎅',
+  // スポーツ・趣味
+  '🎯','🚀','🎪','🎸','🎲','🃏','🎰','🏆','⚽','🎮','🎻','🥊','🏹','🎳','🎺',
+  // モノ・シンボル
+  '💎','🔥','💫','⚡','🌀','❄️','💣','🗡️','🛡️','🔮',
+];
 const INVEST_MULTIPLIERS = [0.5, 0.75, 1.5, 2.0];
 const HOURLY_REWARDS = [-1, 1, 2];
 
