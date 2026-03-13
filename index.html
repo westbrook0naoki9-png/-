@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>🎰 Private Casino</title>
+
+<!-- PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Casino">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="manifest" href="manifest.json">
+
+<!-- アイコン（SVGインラインで生成） -->
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;--gold:#c9a84c;--gold-light:#f0d080;--gold-dark:#7a5f1a;
+  --red:#c0392b;--red-light:#e74c3c;--green:#27ae60;--green-light:#2ecc71;
+  --surface:#111;--surface2:#1a1a1a;--border:rgba(201,168,76,.25);
+  --text:#f0e6c8;--muted:#7a6a4a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(13,40,24,.5) 0%,transparent 60%),
+  repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(255,255,255,.004) 2px,rgba(255,255,255,.004) 4px);
+  pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent);z-index:100;}
+.wrap{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 16px 100px;}
+
+/* HEADER */
+header{text-align:center;padding:24px 0 14px;border-bottom:1px solid var(--border);}
+.logo{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;letter-spacing:.1em;
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold-light),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;}
+.logo-sub{font-size:.65rem;letter-spacing:.35em;color:var(--muted);text-transform:uppercase;margin-top:3px;}
+
+/* NAV TABS */
+.tabs{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:50;background:var(--bg);}
+.tab{padding:13px 0;font-family:'Noto Sans JP',sans-serif;font-size:.82rem;font-weight:700;
+  letter-spacing:.05em;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;position:relative;}
+.tab.on{color:var(--gold-light);}
+.tab.on::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold-light),transparent);border-radius:2px;}
+
+/* SECTION TITLE */
+.sec{font-family:'Playfair Display',serif;font-size:.9rem;color:var(--gold);
+  letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;}
+.sec::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:16px;margin-bottom:14px;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-light),transparent);opacity:.3;}
+
+/* INPUTS */
+input,select.sel{background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:.9rem;
+  padding:10px 14px;outline:none;transition:border-color .2s;width:100%;}
+input:focus,select.sel:focus{border-color:var(--gold);}
+input::placeholder{color:var(--muted);}
+input[type="password"]{letter-spacing:.3em;}
+.row{display:flex;gap:10px;margin-bottom:12px;align-items:center;}
+
+/* BUTTONS */
+.btn{font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:.85rem;
+  padding:10px 18px;border-radius:8px;border:none;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.btn-g{background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));color:#0a0a0a;}
+.btn-g:hover{filter:brightness(1.15);transform:translateY(-1px);}
+.btn-o{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.btn-o:hover{border-color:var(--gold);color:var(--gold);}
+.btn-d{background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.4);color:var(--red-light);}
+.btn-d:hover{background:rgba(192,57,43,.3);}
+.btn-gr{background:rgba(39,174,96,.15);border:1px solid rgba(39,174,96,.4);color:var(--green-light);}
+.btn-gr:hover{background:rgba(39,174,96,.3);}
+.btn-full{width:100%;padding:13px;font-size:.95rem;border-radius:10px;}
+
+/* AUTH */
+.auth-box{display:flex;flex-direction:column;align-items:center;padding:40px 20px;text-align:center;}
+.auth-tabs{display:flex;gap:0;margin-bottom:18px;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.auth-tab{flex:1;padding:10px;background:transparent;border:none;color:var(--muted);
+  font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s;}
+.auth-tab.on{background:rgba(201,168,76,.15);color:var(--gold-light);}
+.auth-form{width:100%;max-width:320px;display:flex;flex-direction:column;gap:10px;}
+.err{color:var(--red-light);font-size:.75rem;margin-top:2px;min-height:16px;}
+
+/* EMOJI PICKER */
+.emoji-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:10px 0;}
+.emoji-btn{background:var(--surface2);border:2px solid transparent;border-radius:8px;
+  font-size:1.4rem;padding:6px 0;cursor:pointer;transition:all .15s;text-align:center;}
+.emoji-btn:hover{border-color:var(--gold);transform:scale(1.1);}
+.emoji-btn.on{border-color:var(--gold-light);background:rgba(201,168,76,.15);}
+
+/* MY CHIP CARD */
+.my-card{background:linear-gradient(135deg,#111,#1a1a0d);border:1px solid var(--gold);
+  border-radius:16px;padding:20px;margin-bottom:12px;position:relative;overflow:hidden;
+  display:flex;align-items:center;gap:16px;}
+.my-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-light),transparent);}
+.my-avatar{font-size:2.6rem;width:56px;height:56px;display:flex;align-items:center;justify-content:center;
+  background:rgba(201,168,76,.1);border:2px solid var(--border);border-radius:50%;flex-shrink:0;}
+.my-info{flex:1;}
+.my-name-lbl{font-size:.7rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;}
+.my-name-val{font-weight:700;font-size:1rem;margin-top:2px;}
+.my-chips-lbl{font-size:.7rem;color:var(--muted);margin-top:8px;}
+.my-chips-val{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--gold-light);line-height:1.1;}
+.my-chips-val.bump{animation:chipBump .4s ease;}
+
+/* INVESTMENT CARD */
+.invest-card{background:linear-gradient(135deg,#0a1a0a,#111);border:1px solid rgba(39,174,96,.3);
+  border-radius:12px;padding:16px;margin-bottom:14px;position:relative;overflow:hidden;}
+.invest-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--green-light),transparent);opacity:.4;}
+.invest-status{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.invest-label{font-size:.75rem;letter-spacing:.1em;color:#2ecc71;text-transform:uppercase;}
+.invest-badge{background:rgba(39,174,96,.15);border:1px solid rgba(39,174,96,.4);
+  border-radius:20px;padding:3px 12px;font-size:.75rem;color:var(--green-light);font-weight:700;}
+.invest-badge.off{background:rgba(201,168,76,.1);border-color:var(--border);color:var(--muted);}
+.invest-num{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--green-light);}
+.invest-unit{font-size:.78rem;color:var(--muted);margin-top:2px;}
+.next-timer{font-size:.75rem;color:var(--muted);margin-top:6px;}
+.next-timer span{color:var(--gold);}
+.invest-controls{display:flex;gap:8px;margin-top:10px;}
+.invest-controls .btn{flex:1;font-size:.82rem;padding:8px 10px;}
+
+/* RANKING */
+.rank-list{display:flex;flex-direction:column;gap:8px;}
+.rank-item{display:flex;align-items:center;gap:12px;background:var(--surface);
+  border:1px solid var(--border);border-radius:12px;padding:12px 14px;
+  position:relative;overflow:hidden;transition:all .3s;}
+.rank-item.animate{animation:rankIn .5s ease;}
+.rank-item::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-light),transparent);opacity:.15;}
+.rank-item.rank-gold{border-color:var(--gold);box-shadow:0 0 20px rgba(201,168,76,.15);}
+.rank-item.rank-silver{border-color:#aaa;}
+.rank-item.rank-bronze{border-color:#cd7f32;}
+.rank-num{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900;
+  width:28px;text-align:center;flex-shrink:0;}
+.rank-gold .rank-num{color:var(--gold-light);}
+.rank-silver .rank-num{color:#ccc;}
+.rank-bronze .rank-num{color:#cd7f32;}
+.rank-emoji{font-size:1.6rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.05);border-radius:50%;flex-shrink:0;}
+.rank-info{flex:1;min-width:0;}
+.rank-name{font-weight:700;font-size:.92rem;}
+.rank-sub{font-size:.72rem;color:var(--muted);margin-top:1px;}
+.rank-chips{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--gold-light);}
+.rank-me{font-size:.68rem;background:rgba(26,188,156,.15);color:#1abc9c;
+  border:1px solid #16a085;border-radius:10px;padding:2px 6px;margin-left:6px;vertical-align:middle;}
+.rank-invest{font-size:.7rem;color:var(--green-light);margin-top:1px;}
+
+/* PLAYER ROW (transfer) */
+.prow{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.cicon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:1.4rem;flex-shrink:0;
+  background:rgba(255,255,255,.05);border:2px solid var(--border);}
+
+/* QUICK */
+.quicks{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.qbtn{background:var(--surface2);border:1px solid var(--border);border-radius:6px;
+  color:var(--muted);font-family:'Noto Sans JP',sans-serif;font-size:.8rem;
+  font-weight:700;padding:6px 10px;cursor:pointer;transition:all .15s;}
+.qbtn:hover{border-color:var(--gold);color:var(--gold);}
+.qbtn.on{background:rgba(201,168,76,.15);border-color:var(--gold);color:var(--gold-light);}
+
+/* LOG */
+.loglist{list-style:none;display:flex;flex-direction:column;gap:7px;max-height:260px;overflow-y:auto;padding-right:4px;}
+.loglist::-webkit-scrollbar{width:3px;}
+.loglist::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.logitem{background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  padding:9px 12px;font-size:.8rem;display:flex;align-items:center;gap:9px;animation:slideIn .3s ease;}
+.logitem .li{font-size:.95rem;flex-shrink:0;}
+.logitem .lt{flex:1;line-height:1.4;}
+.logitem .lt b{color:var(--gold-light);}
+.logitem .la{color:var(--gold);font-family:'Playfair Display',serif;font-weight:700;font-size:.9rem;flex-shrink:0;}
+.logitem .ltime{color:var(--muted);font-size:.68rem;flex-shrink:0;}
+
+/* ADMIN CONTROLS */
+.citem{display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  padding:10px 14px;margin-bottom:8px;}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0;}
+.toggle-lbl{font-size:.85rem;}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;
+  background:var(--surface2);border:1px solid var(--border);border-radius:24px;transition:.3s;}
+.slider:before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;
+  background:var(--muted);border-radius:50%;transition:.3s;}
+input:checked + .slider{background:rgba(39,174,96,.3);border-color:var(--green-light);}
+input:checked + .slider:before{transform:translateX(20px);background:var(--green-light);}
+
+/* TICKET */
+.ticket-val{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold-light);}
+
+/* QUIZ */
+.quiz-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;position:relative;overflow:hidden;}
+.quiz-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-light),transparent);opacity:.3;}
+.quiz-q{font-size:1rem;font-weight:700;margin-bottom:14px;line-height:1.5;}
+.quiz-opts{display:flex;gap:10px;margin-bottom:10px;}
+.quiz-opt{flex:1;background:var(--surface2);border:2px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s;font-family:'Noto Sans JP',sans-serif;font-size:.88rem;font-weight:700;}
+.quiz-opt:hover{border-color:var(--gold);}
+.quiz-opt.selected{border-color:var(--gold-light);background:rgba(201,168,76,.15);color:var(--gold-light);}
+.quiz-opt.correct{border-color:var(--green-light);background:rgba(39,174,96,.15);color:var(--green-light);}
+.quiz-opt.wrong{border-color:var(--red-light);background:rgba(192,57,43,.15);color:var(--red-light);}
+.quiz-status{display:inline-block;border-radius:20px;padding:3px 12px;font-size:.72rem;font-weight:700;margin-bottom:10px;}
+.quiz-status.open{background:rgba(39,174,96,.15);border:1px solid rgba(39,174,96,.4);color:var(--green-light);}
+.quiz-status.closed{background:rgba(201,168,76,.1);border:1px solid var(--border);color:var(--muted);}
+.quiz-hist-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px;font-size:.82rem;}
+.quiz-hist-q{font-weight:700;margin-bottom:6px;}
+.quiz-hist-ans{font-size:.75rem;color:var(--muted);}
+.quiz-hist-result{font-size:.78rem;margin-top:4px;}
+
+/* DEBT */
+.debt-badge{display:inline-block;background:rgba(192,57,43,.2);border:1px solid rgba(192,57,43,.5);
+  border-radius:10px;padding:2px 8px;font-size:.7rem;color:var(--red-light);font-weight:700;margin-left:6px;vertical-align:middle;}
+.debt-val{color:var(--red-light)!important;}
+.debt-card{background:linear-gradient(135deg,#1a0a0a,#111);border:1px solid rgba(192,57,43,.4);
+  border-radius:12px;padding:14px;margin-bottom:10px;}
+.debt-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--red-light),transparent);opacity:.4;}
+
+/* MISC */
+.divider{height:1px;background:var(--border);margin:16px 0;}
+.empty{text-align:center;color:var(--muted);font-size:.82rem;padding:18px 0;}
+.center{text-align:center;}
+.screen{animation:fadeIn .3s ease;}
+.loading{display:flex;align-items:center;justify-content:center;padding:60px 0;flex-direction:column;gap:14px;}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);
+  border-radius:50%;animation:spin .8s linear infinite;}
+.badge{display:inline-block;background:rgba(201,168,76,.1);border:1px solid var(--border);
+  border-radius:4px;font-size:.7rem;color:var(--gold);padding:2px 8px;}
+
+#toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:#0a0a0a;
+  font-weight:700;font-size:.85rem;padding:12px 24px;border-radius:30px;z-index:999;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;
+  box-shadow:0 8px 30px rgba(201,168,76,.4);}
+#toast.show{transform:translateX(-50%) translateY(0);}
+
+/* INVEST RESULT POPUP */
+#invest-popup{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;
+  display:none;align-items:center;justify-content:center;}
+#invest-popup.show{display:flex;}
+.popup-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  padding:32px 24px;text-align:center;max-width:300px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+.popup-emoji{font-size:3rem;margin-bottom:12px;}
+.popup-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold);margin-bottom:8px;}
+.popup-result{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;margin:10px 0;}
+.popup-desc{font-size:.82rem;color:var(--muted);line-height:1.6;}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+@keyframes chipBump{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
+@keyframes rankIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">Private Casino</div>
+    <div class="logo-sub">身内専用 チップ管理</div>
+    <button id="pwa-install-btn" onclick="installPWA()" style="display:none;margin-top:8px;background:rgba(201,168,76,.15);border:1px solid var(--gold);border-radius:20px;color:var(--gold);font-size:.72rem;padding:5px 14px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;">
+      📲 ホーム画面に追加
+    </button>
+  </header>
+
+  <!-- TABS -->
+  <div class="tabs" id="tabs" style="display:none;">
+    <button class="tab on" id="t0" onclick="switchTab(0)">🃏 ホーム</button>
+    <button class="tab" id="t1" onclick="switchTab(1)">🏆 ランキング</button>
+    <button class="tab" id="t3" onclick="switchTab(3)">❓ クイズ</button>
+    <button class="tab" id="t2" onclick="switchTab(2)">👑 管理者</button>
+  </div>
+
+  <!-- LOADING -->
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    <span style="color:var(--muted);font-size:.82rem;">接続中...</span>
+  </div>
+
+  <!-- AUTH SCREEN -->
+  <div id="auth" style="display:none;" class="screen">
+    <div class="auth-box">
+      <div style="font-size:3rem;margin-bottom:12px;">🎰</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold);margin-bottom:8px;">Private Casino</div>
+      <div style="font-size:.82rem;color:var(--muted);margin-bottom:20px;">アカウントを作って参加しよう</div>
+      <div class="auth-tabs">
+        <button class="auth-tab on" id="at0" onclick="switchAuth('login')">ログイン</button>
+        <button class="auth-tab" id="at1" onclick="switchAuth('reg')">新規登録</button>
+      </div>
+      <div class="auth-form">
+        <div id="reg-fields" style="display:none;flex-direction:column;gap:10px;">
+          <div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">アイコンを選んでください</div>
+            <div class="emoji-grid" id="emoji-grid"></div>
+          </div>
+          <input type="text" id="auth-name" placeholder="表示名（例：たろう）" maxlength="10"/>
+        </div>
+        <input type="email" id="auth-email" placeholder="メールアドレス"/>
+        <input type="password" id="auth-pass" placeholder="パスワード（6文字以上）" onkeydown="if(event.key==='Enter')doAuth()"/>
+        <div class="err" id="auth-err"></div>
+        <button class="btn btn-g btn-full" onclick="doAuth()" id="auth-btn">ログイン</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN LOCK -->
+  <div id="lock" style="display:none;" class="screen">
+    <div class="auth-box">
+      <div style="font-size:3rem;margin-bottom:12px;">🔐</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--gold);margin-bottom:8px;">管理者認証</div>
+      <div style="font-size:.82rem;color:var(--muted);margin-bottom:20px;">管理者専用PINを入力してください</div>
+      <div class="auth-form">
+        <input type="password" id="pin-in" placeholder="••••" maxlength="4" style="text-align:center;font-size:1.2rem;" onkeydown="if(event.key==='Enter')checkPin()"/>
+        <div class="err" id="pin-err"></div>
+        <button class="btn btn-g btn-full" onclick="checkPin()">ロック解除</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOME SCREEN -->
+  <div id="s0" style="display:none;" class="screen">
+    <br>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <div id="user-badge" style="font-size:.78rem;color:var(--muted);">— — —</div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-o" style="font-size:.72rem;padding:6px 10px;" onclick="showProfile()">✏️ プロフィール</button>
+        <button class="btn btn-o" style="font-size:.72rem;padding:6px 10px;" onclick="doSignOut()">ログアウト</button>
+      </div>
+    </div>
+
+    <!-- MY CHIP -->
+    <div class="my-card" id="my-card">
+      <div class="my-avatar" id="my-avatar">🃏</div>
+      <div class="my-info">
+        <div class="my-name-lbl">プレイヤー</div>
+        <div class="my-name-val" id="my-name">—</div>
+        <!-- 手元チップ＋投資チップ 横並び -->
+        <div style="display:flex;gap:16px;margin-top:10px;align-items:flex-end;">
+          <div>
+            <div class="my-chips-lbl">🤲 手元</div>
+            <div class="my-chips-val" id="my-chips">—</div>
+          </div>
+          <div style="width:1px;background:var(--border);align-self:stretch;margin-bottom:2px;"></div>
+          <div>
+            <div class="my-chips-lbl" style="color:var(--green-light);">📈 投資中</div>
+            <div class="my-chips-val" id="my-invested-val" style="color:var(--green-light);font-size:1.6rem;">0</div>
+          </div>
+          <div style="width:1px;background:var(--border);align-self:stretch;margin-bottom:2px;"></div>
+          <div>
+            <div class="my-chips-lbl">💰 合計</div>
+            <div class="my-chips-val" id="my-total-val" style="color:#f0e6c8;font-size:1.6rem;">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEBT -->
+    <div id="debt-block" style="position:relative;">
+      <div class="debt-card">
+        <div id="debt-header-row" style="display:none;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="font-size:.78rem;letter-spacing:.1em;color:var(--red-light);text-transform:uppercase;">💸 借金</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--red-light);" id="debt-val-display">0</div>
+        </div>
+        <div id="debt-base-row" style="display:none;font-size:.72rem;color:var(--muted);margin-bottom:12px;">元本: <span id="debt-base-display" style="color:var(--red-light);">0</span>枚　※投資判定ごとに元本分の利子が発生します</div>
+        <!-- 借りる -->
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:6px;">借りる</div>
+        <div class="quicks" id="borrow-quicks">
+          <button class="qbtn" onclick="setBorrowAmt(1)">1</button>
+          <button class="qbtn" onclick="setBorrowAmt(3)">3</button>
+          <button class="qbtn" onclick="setBorrowAmt(5)">5</button>
+          <button class="qbtn" onclick="setBorrowAmt(10)">10</button>
+        </div>
+        <div class="row" style="margin-bottom:12px;">
+          <input type="number" id="borrow-amt" placeholder="借りる枚数" min="1"/>
+          <button class="btn btn-d" onclick="doBorrow()">借りる</button>
+        </div>
+        <!-- 返済 -->
+        <div id="debt-repay-section" style="display:none;border-top:1px solid rgba(255,255,255,.06);padding-top:12px;">
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:6px;" id="repay-label">返済する</div>
+          <div class="row" style="margin-bottom:0;">
+            <input type="number" id="debt-repay-amt" placeholder="返済枚数" min="1"/>
+            <button class="btn btn-o" style="border-color:var(--red-light);color:var(--red-light);" onclick="repayDebt()">返済する</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVESTMENT -->
+    <p class="sec">📈 投資</p>
+    <div class="invest-card" id="invest-card">
+      <div class="invest-status">
+        <div class="invest-label">投資ステータス</div>
+        <div class="invest-badge off" id="invest-badge">停止中</div>
+      </div>
+      <!-- 投資枠プログレス -->
+      <div style="display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:4px;">
+        <span style="color:var(--muted);">投資中</span>
+        <span style="color:var(--green-light);" id="invest-limit-label">枠: 2枚</span>
+      </div>
+      <div style="background:var(--surface2);border-radius:20px;height:8px;overflow:hidden;margin-bottom:10px;">
+        <div id="invest-bar" style="height:100%;background:linear-gradient(90deg,var(--green),var(--green-light));border-radius:20px;transition:width .4s;width:0%;"></div>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px;">
+        <div class="invest-num" id="invest-num">0</div>
+        <div class="invest-unit" id="invest-unit">枚投資中（枠: 2枚）</div>
+      </div>
+      <div class="next-timer" id="next-timer">次の判定まで —</div>
+      <div class="invest-controls">
+        <button class="btn btn-gr" onclick="addInvest()" id="btn-invest-add">＋1枚 投資する</button>
+      </div>
+      <!-- 引き出し -->
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06);">
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">引き出す枚数（切り上げ）</div>
+        <div class="quicks" id="pull-quicks">
+          <button class="qbtn" onclick="setPullAmt(0.5)">0.5</button>
+          <button class="qbtn" onclick="setPullAmt(1)">1</button>
+          <button class="qbtn" onclick="setPullAmt(1.5)">1.5</button>
+          <button class="qbtn" onclick="setPullAmt(2)">2</button>
+        </div>
+        <div class="row" style="margin-bottom:0;">
+          <input type="number" id="pull-amt" placeholder="枚数を入力" min="1" step="1" style="font-size:.9rem;"/>
+          <button class="btn btn-o" style="white-space:nowrap;" onclick="pullInvest()">引き出す</button>
+          <button class="btn btn-o" style="white-space:nowrap;border-color:var(--green-light);color:var(--green-light);" onclick="pullAllInvest()" id="btn-invest-pull">全部</button>
+        </div>
+      </div>
+      <div style="font-size:.72rem;color:var(--muted);margin-top:8px;">
+        ※20分ごとに自動判定（×0.5 / ×0.75 / ×1.5 / ×2）<br>
+        ※投資枠: 初期2枚・時間報酬精算ごとに+2枚　※引き出しは切り上げ
+      </div>
+    </div>
+
+    <!-- TICKET -->
+    <p class="sec">🎟️ 抽選券</p>
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div>
+          <div style="font-size:.7rem;color:var(--muted);letter-spacing:.1em;">所持抽選券</div>
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold-light);" id="my-tickets">0</div>
+        </div>
+        <div style="text-align:right;font-size:.72rem;color:var(--muted);line-height:1.8;" id="ticket-rate-disp">
+          レート読み込み中...
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <!-- チップ→抽選券 -->
+        <div style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;">
+          <div style="font-size:.72rem;color:var(--muted);margin-bottom:6px;">チップ → 抽選券</div>
+          <div class="quicks" id="tq-buy" style="margin-bottom:6px;">
+            <button class="qbtn" onclick="tqBuy(1)">1枚</button>
+            <button class="qbtn" onclick="tqBuy(3)">3枚</button>
+            <button class="qbtn" onclick="tqBuy(5)">5枚</button>
+          </div>
+          <div class="row" style="margin-bottom:0;">
+            <input type="number" id="ticket-buy-amt" placeholder="枚数" min="1"/>
+            <button class="btn btn-g" style="white-space:nowrap;" onclick="buyTicket()">交換</button>
+          </div>
+        </div>
+        <!-- 抽選券→チップ -->
+        <div style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;">
+          <div style="font-size:.72rem;color:var(--muted);margin-bottom:6px;">抽選券 → チップ</div>
+          <div class="quicks" id="tq-sell" style="margin-bottom:6px;">
+            <button class="qbtn" onclick="tqSell(1)">1枚</button>
+            <button class="qbtn" onclick="tqSell(3)">3枚</button>
+            <button class="qbtn" onclick="tqSell(5)">5枚</button>
+          </div>
+          <div class="row" style="margin-bottom:0;">
+            <input type="number" id="ticket-sell-amt" placeholder="枚数" min="1"/>
+            <button class="btn btn-o" style="white-space:nowrap;border-color:var(--gold);color:var(--gold);" onclick="sellTicket()">換金</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEND -->
+    <p class="sec">💸 チップを送る</p>
+    <div class="card">
+      <div class="row">
+        <select class="sel" id="p-to"><option value="">送る相手を選ぶ</option></select>
+      </div>
+      <div class="quicks" id="pquicks">
+        <button class="qbtn" onclick="pq(1)">1</button>
+        <button class="qbtn" onclick="pq(2)">2</button>
+        <button class="qbtn" onclick="pq(3)">3</button>
+        <button class="qbtn" onclick="pq(5)">5</button>
+        <button class="qbtn" onclick="pq(10)">10</button>
+      </div>
+      <div class="row" style="margin-bottom:0;">
+        <input type="number" id="pamt" placeholder="枚数を入力" min="1"/>
+        <button class="btn btn-g" onclick="doSend()">送る</button>
+      </div>
+    </div>
+
+    <!-- LOG -->
+    <p class="sec">📋 履歴</p>
+    <div class="card" style="padding:14px;">
+      <ul class="loglist" id="plog"><li class="empty">まだ取引がありません</li></ul>
+    </div>
+  </div>
+
+  <!-- RANKING SCREEN -->
+  <div id="s1" style="display:none;" class="screen">
+    <br>
+    <p class="sec">🏆 ランキング</p>
+    <div id="rank-list" class="rank-list"></div>
+  </div>
+
+  <!-- QUIZ SCREEN (player) -->
+  <div id="s3" style="display:none;" class="screen">
+    <br>
+    <p class="sec">❓ クイズ</p>
+    <!-- 受付中クイズ -->
+    <div id="quiz-active-block"></div>
+    <!-- 履歴 -->
+    <p class="sec" style="margin-top:8px;">📋 クイズ履歴</p>
+    <div id="quiz-history-block"><div class="empty">まだクイズがありません</div></div>
+  </div>
+
+  <!-- ADMIN SCREEN -->
+  <div id="s2" style="display:none;" class="screen">
+    <br>
+    <p class="sec">プレイヤー管理</p>
+    <div class="card">
+      <div id="amlist"><div class="empty">プレイヤーなし</div></div>
+    </div>
+
+    <p class="sec">💸 借金を課す</p>
+    <div class="card">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">
+        特定のプレイヤーに借金を追加します
+      </div>
+      <div class="row" style="margin-bottom:10px;">
+        <select class="sel" id="debtplayer"><option value="">プレイヤーを選択</option></select>
+      </div>
+      <div class="quicks" id="dquicks">
+        <button class="qbtn" onclick="dq(1)">1</button>
+        <button class="qbtn" onclick="dq(3)">3</button>
+        <button class="qbtn" onclick="dq(5)">5</button>
+        <button class="qbtn" onclick="dq(10)">10</button>
+      </div>
+      <div class="row" style="margin-bottom:0;">
+        <input type="number" id="debtamt" placeholder="借金額" min="1"/>
+        <button class="btn btn-d" onclick="doAddDebt()">借金を課す</button>
+      </div>
+    </div>
+
+    <p class="sec">💰 チップ一斉回収</p>
+    <div class="card">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">
+        払えないプレイヤーはチップをそのまま残して回収額まるまる借金になります
+      </div>
+      <div class="quicks" id="cquicks">
+        <button class="qbtn" onclick="cq(1)">1</button>
+        <button class="qbtn" onclick="cq(3)">3</button>
+        <button class="qbtn" onclick="cq(5)">5</button>
+        <button class="qbtn" onclick="cq(10)">10</button>
+      </div>
+      <div class="row" style="margin-bottom:0;">
+        <input type="number" id="collectamt" placeholder="全員から回収する枚数" min="1"/>
+        <button class="btn btn-d" onclick="doCollect()">一斉回収</button>
+      </div>
+    </div>
+
+    <p class="sec">チップ調整</p>
+    <div class="card">
+      <div class="row" style="margin-bottom:10px;">
+        <select class="sel" id="adjp"><option value="">プレイヤーを選択</option></select>
+      </div>
+      <div class="quicks" id="aquicks">
+        <button class="qbtn" onclick="aq(1)">+1</button>
+        <button class="qbtn" onclick="aq(3)">+3</button>
+        <button class="qbtn" onclick="aq(5)">+5</button>
+        <button class="qbtn" onclick="aq(-1)">-1</button>
+        <button class="qbtn" onclick="aq(-3)">-3</button>
+        <button class="qbtn" onclick="aq(-5)">-5</button>
+      </div>
+      <div class="row" style="margin-bottom:0;">
+        <input type="number" id="adjamt" placeholder="枚数（マイナス可）"/>
+        <button class="btn btn-g" onclick="doAdj()">適用</button>
+      </div>
+    </div>
+
+    <p class="sec">🎟️ 抽選券レート設定</p>
+    <div class="card">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">
+        チップ → 抽選券（何チップで1枚？）
+      </div>
+      <div class="row" style="margin-bottom:12px;">
+        <input type="number" id="rate-chip-to-ticket" placeholder="例: 5（5チップ=抽選券1枚）" min="1" style="flex:1;"/>
+        <button class="btn btn-g" onclick="saveTicketRate()">設定</button>
+      </div>
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">
+        抽選券 → チップ（1枚で何チップ？）
+      </div>
+      <div class="row" style="margin-bottom:8px;">
+        <input type="number" id="rate-ticket-to-chip" placeholder="例: 3（抽選券1枚=3チップ）" min="1" style="flex:1;"/>
+        <button class="btn btn-g" onclick="saveTicketRate()">設定</button>
+      </div>
+      <div style="font-size:.72rem;color:var(--gold);margin-top:4px;" id="ticket-rate-info">現在のレート: 未設定</div>
+    </div>
+
+    <p class="sec">📈 投資設定</p>
+    <div class="card">
+      <div class="toggle-row" style="margin-bottom:12px;">
+        <span class="toggle-lbl">投資機能を有効にする</span>
+        <label class="toggle">
+          <input type="checkbox" id="invest-toggle" onchange="toggleInvest()"/>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:8px;">
+        ゲーム開始日時（投資枠カウント基準）
+      </div>
+      <div class="row" style="margin-bottom:8px;">
+        <input type="datetime-local" id="game-start-time" style="flex:1;"/>
+        <button class="btn btn-g" onclick="saveGameStartTime()">設定</button>
+      </div>
+      <div style="font-size:.72rem;color:var(--green-light);margin-bottom:10px;" id="invest-limit-info">
+        現在の投資枠: 計算中...
+      </div>
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">
+        投資受付の開始時刻（毎日この時刻から受付開始）
+      </div>
+      <div class="row" style="margin-bottom:8px;">
+        <input type="time" id="invest-time" style="flex:1;"/>
+        <button class="btn btn-g" onclick="saveInvestTime()">設定</button>
+      </div>
+      <div style="font-size:.72rem;color:var(--muted);">
+        ・投資枠: 初期2枚、時間報酬精算ごとに+2枚（上限なし）<br>
+        ・20分ごとに投資判定（×0.5 / ×0.75 / ×1.5 / ×2）<br>
+        ・1時間ごとに全員に −1 / +1 / +2 枚のランダム増減
+      </div>
+      <div style="margin-top:10px;">
+        <button class="btn btn-d" style="font-size:.78rem;padding:6px 14px;width:100%;" onclick="triggerInvestNow()">🎲 今すぐ投資判定を実行</button>
+      </div>
+      <div style="margin-top:8px;">
+        <button class="btn btn-o" style="font-size:.78rem;padding:6px 14px;width:100%;" onclick="triggerHourlyNow()">⏱ 今すぐ時間報酬を配布</button>
+      </div>
+    </div>
+
+    <p class="sec">❓ クイズ管理</p>
+    <div class="card">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">新しいクイズを作成</div>
+      <input type="text" id="quiz-q" placeholder="問題文" style="margin-bottom:8px;"/>
+      <div class="row" style="margin-bottom:8px;">
+        <input type="text" id="quiz-a" placeholder="選択肢A"/>
+        <input type="text" id="quiz-b" placeholder="選択肢B"/>
+      </div>
+      <div style="font-size:.78rem;color:var(--muted);margin-bottom:6px;">正解はどちら？</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <button class="btn btn-o" id="quiz-ans-a" onclick="selectQuizAns('A')" style="flex:1;">A</button>
+        <button class="btn btn-o" id="quiz-ans-b" onclick="selectQuizAns('B')" style="flex:1;">B</button>
+      </div>
+      <button class="btn btn-g btn-full" onclick="createQuiz()">📢 受付開始</button>
+    </div>
+
+    <!-- 受付中クイズの管理 -->
+    <div id="admin-quiz-active"></div>
+
+    <p class="sec">全員の状況</p>
+    <div id="aview"></div>
+
+    <p class="sec">全履歴</p>
+    <div class="card" style="padding:14px;">
+      <ul class="loglist" id="alog"><li class="empty">まだ取引がありません</li></ul>
+      <div style="text-align:right;margin-top:10px;">
+        <button class="btn btn-d" style="font-size:.75rem;padding:6px 12px;" onclick="clearLog()">履歴を全削除</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="center">
+      <button class="btn btn-d" onclick="doReset()">🔄 全員チップを20枚にリセット</button>
+    </div>
+    <div class="center" style="margin-top:10px;">
+      <button class="btn btn-o" style="font-size:.78rem;" onclick="lockAdmin()">🔒 管理者をロック</button>
+    </div><br>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div id="profile-modal" style="position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:center;justify-content:center;">
+  <div class="popup-box" style="max-width:340px;">
+    <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold);margin-bottom:16px;">✏️ プロフィール編集</div>
+    <div class="emoji-grid" id="profile-emoji-grid"></div>
+    <div style="margin-top:12px;">
+      <input type="text" id="profile-name" placeholder="表示名" maxlength="10"/>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn btn-o btn-full" onclick="closeProfile()">キャンセル</button>
+      <button class="btn btn-g btn-full" onclick="saveProfile()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- INVEST RESULT POPUP -->
+<div id="invest-popup">
+  <div class="popup-box">
+    <div class="popup-emoji" id="popup-emoji">🎲</div>
+    <div class="popup-title" id="popup-title">投資結果</div>
+    <div class="popup-result" id="popup-result">—</div>
+    <div class="popup-desc" id="popup-desc"></div>
+    <button class="btn btn-g" style="margin-top:16px;width:100%;" onclick="closePopup()">OK</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  signOut, onAuthStateChanged, updateProfile }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getDatabase, ref, set, get, update, onValue, push, remove, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAWfQ-q8Ke4vNUirWesASdMfPcykKYQXpk",
+  authDomain: "otokokai-ccde1.firebaseapp.com",
+  databaseURL: "https://otokokai-ccde1-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "otokokai-ccde1",
+  storageBucket: "otokokai-ccde1.firebasestorage.app",
+  messagingSenderId: "4652357387",
+  appId: "1:4652357387:web:4b74cb660250568887b40e"
+};
+
+const ADMIN_PIN = "7131";
+const INIT_CHIPS = 20;
+const EMOJIS = ['🐶','🐱','🦊','🐼','🐨','🦁','🐯','🐸','🐙','🦋','🌸','🔥','⭐','🎭','🍀','👑','💎','🎯','🚀','🎪','🌈','🎸','🎲','🃏','🎰'];
+const INVEST_MULTIPLIERS = [0.5, 0.75, 1.5, 2.0];
+const HOURLY_REWARDS = [-1, 1, 2];
+
+const fbApp = initializeApp(firebaseConfig);
+const auth = getAuth(fbApp);
+const db = getDatabase(fbApp);
+
+let currentUser = null;
+let adminUnlocked = false;
+let players = {};
+let logsData = {};
+let quizData = {};
+let settings = { investEnabled: false, investTime: '18:00', gameStartTime: null, hourlyCount: 0, chipToTicket: 5, ticketToChip: 3 };
+let selectedQuizAns = null;
+let authMode = 'login';
+let selectedEmoji = '🃏';
+let profileEmoji = '🃏';
+let currentTab = 0;
+let investTimerInterval = null;
+
+// ── Init emoji grids ──────────────────────────────────────
+function initEmojiGrids() {
+  ['emoji-grid','profile-emoji-grid'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = EMOJIS.map(e => `
+      <button class="emoji-btn ${e === selectedEmoji ? 'on' : ''}"
+        onclick="selectEmoji('${e}','${id}')">${e}</button>`).join('');
+  });
+}
+window.selectEmoji = (e, gridId) => {
+  if (gridId === 'emoji-grid') selectedEmoji = e;
+  else profileEmoji = e;
+  document.querySelectorAll(`#${gridId} .emoji-btn`).forEach(b => {
+    b.classList.toggle('on', b.textContent === e);
+  });
+};
+
+// ── Auth ─────────────────────────────────────────────────
+onAuthStateChanged(auth, async user => {
+  hide('loading');
+  if (user) {
+    currentUser = user;
+    const snap = await get(ref(db, `players/${user.uid}`));
+    if (!snap.exists()) {
+      await set(ref(db, `players/${user.uid}`), {
+        name: user.displayName || 'ゲスト',
+        emoji: selectedEmoji,
+        chips: INIT_CHIPS,
+        invested: 0,
+        uid: user.uid
+      });
+    }
+    hide('auth');
+    show('tabs');
+    switchTab(0);
+    listenAll();
+    startInvestTimer();
+  } else {
+    currentUser = null;
+    hide('tabs'); hide('s0'); hide('s1'); hide('s2'); hide('lock');
+    show('auth');
+    initEmojiGrids();
+  }
+});
+
+window.switchAuth = (mode) => {
+  authMode = mode;
+  document.getElementById('at0').classList.toggle('on', mode === 'login');
+  document.getElementById('at1').classList.toggle('on', mode === 'reg');
+  const rf = document.getElementById('reg-fields');
+  rf.style.display = mode === 'reg' ? 'flex' : 'none';
+  document.getElementById('auth-btn').textContent = mode === 'login' ? 'ログイン' : '登録する';
+  document.getElementById('auth-err').textContent = '';
+  if (mode === 'reg') initEmojiGrids();
+};
+
+window.doAuth = async () => {
+  const email = document.getElementById('auth-email').value.trim();
+  const pass  = document.getElementById('auth-pass').value;
+  const name  = document.getElementById('auth-name').value.trim();
+  const errEl = document.getElementById('auth-err');
+  errEl.textContent = '';
+  if (!email || !pass) { errEl.textContent = 'メールとパスワードを入力してください'; return; }
+  try {
+    if (authMode === 'reg') {
+      if (!name) { errEl.textContent = '表示名を入力してください'; return; }
+      const cred = await createUserWithEmailAndPassword(auth, email, pass);
+      await updateProfile(cred.user, { displayName: name });
+    } else {
+      await signInWithEmailAndPassword(auth, email, pass);
+    }
+  } catch(e) {
+    const msgs = {
+      'auth/email-already-in-use':'このメールはすでに登録済みです',
+      'auth/invalid-email':'メールアドレスの形式が正しくありません',
+      'auth/wrong-password':'パスワードが違います',
+      'auth/user-not-found':'アカウントが見つかりません',
+      'auth/invalid-credential':'メールまたはパスワードが違います',
+      'auth/weak-password':'パスワードは6文字以上にしてください',
+    };
+    errEl.textContent = msgs[e.code] || e.message;
+  }
+};
+
+window.doSignOut = async () => {
+  adminUnlocked = false;
+  if (investTimerInterval) clearInterval(investTimerInterval);
+  await signOut(auth);
+  toast('ログアウトしました');
+};
+
+// ── Listen ────────────────────────────────────────────────
+function listenAll() {
+  onValue(ref(db, 'players'), snap => {
+    players = snap.val() || {};
+    renderHome(); renderRanking(); renderAdmin();
+  });
+  onValue(ref(db, 'logs'), snap => {
+    logsData = snap.val() || {};
+    renderLogs();
+  });
+  onValue(ref(db, 'quizzes'), snap => {
+    quizData = snap.val() || {};
+    renderQuiz();
+    renderAdminQuiz();
+  });
+  onValue(ref(db, 'settings'), snap => {
+    if (snap.val()) {
+      settings = { ...settings, ...snap.val() };
+      if (document.getElementById('invest-toggle'))
+        document.getElementById('invest-toggle').checked = settings.investEnabled;
+      if (document.getElementById('invest-time'))
+        document.getElementById('invest-time').value = settings.investTime || '18:00';
+      // 枠情報を再描画
+      renderHome();
+      renderAdmin();
+    }
+  });
+}
+
+// ── TAB ───────────────────────────────────────────────────
+window.switchTab = (i) => {
+  currentTab = i;
+  [0,1,2,3].forEach(j => {
+    const t = document.getElementById(`t${j}`);
+    if (t) t.classList.toggle('on', j === i);
+    hide(`s${j}`);
+  });
+  if (i === 2) {
+    if (!adminUnlocked) { showLock(); return; }
+  }
+  show(`s${i}`);
+  if (i === 1) renderRanking(true);
+};
+
+function showLock() {
+  hide('s2');
+  show('lock');
+  document.getElementById('pin-in').value = '';
+  document.getElementById('pin-err').textContent = '';
+}
+window.lockAdmin = () => {
+  adminUnlocked = false;
+  switchTab(0);
+  toast('管理者をロックしました');
+};
+window.checkPin = () => {
+  if (document.getElementById('pin-in').value === ADMIN_PIN) {
+    adminUnlocked = true;
+    hide('lock');
+    show('s2');
+    renderAdmin();
+  } else {
+    document.getElementById('pin-err').textContent = 'PINが違います';
+    document.getElementById('pin-in').value = '';
+  }
+};
+
+// ── HOME ──────────────────────────────────────────────────
+function renderHome() {
+  if (!currentUser) return;
+  const me = players[currentUser.uid];
+  if (!me) return;
+
+  document.getElementById('user-badge').textContent = `${me.emoji || '🃏'} ${me.name}`;
+  document.getElementById('my-avatar').textContent = me.emoji || '🃏';
+  document.getElementById('my-name').textContent = me.name;
+  const cv = document.getElementById('my-chips');
+  cv.textContent = me.chips;
+  bump('my-chips');
+
+  // invest
+  const invested   = parseFloat(me.invested || 0);
+  const totalUsed  = parseFloat(me.investedTotal || 0);
+  const limit      = calcInvestLimit();
+  const remaining  = Math.max(0, limit - totalUsed);
+  document.getElementById('invest-num').textContent = invested.toFixed(2);
+  document.getElementById('my-invested-val').textContent = invested.toFixed(2);
+  document.getElementById('my-total-val').textContent = (me.chips + invested).toFixed(2);
+  const badge = document.getElementById('invest-badge');
+  badge.textContent = settings.investEnabled ? '受付中' : '停止中';
+  badge.className = 'invest-badge' + (settings.investEnabled ? '' : ' off');
+  document.getElementById('btn-invest-add').disabled = !settings.investEnabled || remaining <= 0 || me.chips <= 0;
+  document.getElementById('btn-invest-pull').disabled = invested <= 0;
+  // 引き出しクイックボタンを投資残高に合わせて更新
+  const pullQuicks = document.getElementById('pull-quicks');
+  if (pullQuicks) {
+    const maxPull = Math.ceil(invested);
+    const steps = Array.from({ length: maxPull }, (_, i) => i + 1); // [1, 2, ..., maxPull]
+    pullQuicks.innerHTML = steps.map(v =>
+      `<button class="qbtn" onclick="setPullAmt(${v})">${v}</button>`
+    ).join('');
+  }
+  // 枠表示
+  const unitEl = document.getElementById('invest-unit');
+  if (unitEl) unitEl.textContent = `枚投資中（残り枠: ${remaining}枚）`;
+  const limitLbl = document.getElementById('invest-limit-label');
+  if (limitLbl) limitLbl.textContent = `累計枠: ${limit}枚 / 使用済: ${totalUsed}枚`;
+  // プログレスバー（使用済/累計枠）
+  const bar = document.getElementById('invest-bar');
+  if (bar) bar.style.width = limit > 0 ? `${Math.min(100, (totalUsed / limit) * 100)}%` : '0%';
+
+  // debt
+  const debt = parseFloat(me.debt || 0);
+  const debtBase = parseFloat(me.debtBase || 0);
+  const debtDisp = document.getElementById('debt-val-display');
+  if (debtDisp) debtDisp.textContent = debt + '枚';
+  const debtBaseDisp = document.getElementById('debt-base-display');
+  if (debtBaseDisp) debtBaseDisp.textContent = debtBase;
+  const debtHeader = document.getElementById('debt-header-row');
+  if (debtHeader) debtHeader.style.display = debt > 0 ? 'flex' : 'none';
+  const debtBaseRow = document.getElementById('debt-base-row');
+  if (debtBaseRow) debtBaseRow.style.display = debt > 0 ? 'block' : 'none';
+  const repaySection = document.getElementById('debt-repay-section');
+  if (repaySection) repaySection.style.display = debt > 0 ? 'block' : 'none';
+
+  // tickets
+  const tickets = me.tickets || 0;
+  const ticketEl = document.getElementById('my-tickets');
+  if (ticketEl) ticketEl.textContent = tickets;
+  const c2t = settings.chipToTicket || 5;
+  const t2c = settings.ticketToChip || 3;
+  const rateDisp = document.getElementById('ticket-rate-disp');
+  if (rateDisp) rateDisp.innerHTML = `🎟→チップ: 1枚 = ${t2c}チップ<br>チップ→🎟: ${c2t}チップ = 1枚`;
+
+  // to select
+  const ts = document.getElementById('p-to');
+  const tv = ts.value;
+  ts.innerHTML = '<option value="">送る相手を選ぶ</option>' +
+    Object.values(players).filter(p => p.uid !== currentUser.uid)
+      .map(p => `<option value="${p.uid}">${p.emoji || '🃏'} ${p.name}</option>`).join('');
+  if (tv) ts.value = tv;
+}
+
+// ── RANKING ───────────────────────────────────────────────
+function renderRanking(animate = false) {
+  const sorted = Object.values(players).sort((a,b) => (b.chips + (b.invested||0)) - (a.chips + (a.invested||0)));
+  const el = document.getElementById('rank-list');
+  if (!sorted.length) { el.innerHTML = '<div class="empty">プレイヤーなし</div>'; return; }
+  const cls = ['rank-gold','rank-silver','rank-bronze'];
+  el.innerHTML = sorted.map((p, i) => `
+    <div class="rank-item ${cls[i] || ''} ${animate ? 'animate' : ''}" style="${animate ? `animation-delay:${i*0.08}s` : ''}">
+      <div class="rank-num">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i+1}</div>
+      <div class="rank-emoji">${p.emoji || '🃏'}</div>
+      <div class="rank-info">
+        <div class="rank-name">${p.name}${currentUser && p.uid === currentUser.uid ? '<span class="rank-me">自分</span>' : ''}</div>
+        <div class="rank-sub">所持チップ</div>
+        ${(p.invested||0) > 0 ? `<div class="rank-invest">📈 ${p.invested}枚 投資中</div>` : ''}
+        ${(p.debt||0) > 0 ? `<div style="font-size:.7rem;color:var(--red-light);margin-top:1px;">💸 借金 ${p.debt}枚</div>` : ''}
+      </div>
+      <div class="rank-chips">${p.chips}<span style="font-size:.8rem;color:var(--muted);"> 枚</span></div>
+    </div>`).join('');
+}
+
+// ── SEND ──────────────────────────────────────────────────
+window.pq = (v) => {
+  document.getElementById('pamt').value = v;
+  document.querySelectorAll('#pquicks .qbtn').forEach(b =>
+    b.classList.toggle('on', parseInt(b.textContent) === v));
+};
+
+window.doSend = async () => {
+  const toUid = document.getElementById('p-to').value;
+  const amt   = parseInt(document.getElementById('pamt').value);
+  if (!toUid) { toast('送る相手を選んでください'); return; }
+  if (!amt || amt <= 0) { toast('枚数を入力してください'); return; }
+  const me = players[currentUser.uid];
+  const to = players[toUid];
+  if (!me || !to) return;
+  if (me.chips < amt) { toast(`チップが足りません（${me.chips}枚)`); return; }
+  await update(ref(db, 'players'), {
+    [`${currentUser.uid}/chips`]: me.chips - amt,
+    [`${toUid}/chips`]: to.chips + amt
+  });
+  await pushLog('t', me.name, to.name, amt);
+  document.getElementById('pamt').value = '';
+  document.querySelectorAll('#pquicks .qbtn').forEach(b => b.classList.remove('on'));
+  toast(`${to.name} に ${amt}枚 送りました！`);
+};
+
+// ── INVEST ────────────────────────────────────────────────
+// 投資枠 = 時間報酬精算回数 × 2 + 2（上限なし・累計）
+// investedTotal = ゲーム開始から今まで投資した累計枚数（判定後もリセットしない）
+function calcInvestLimit() {
+  return 2 + (settings.hourlyCount || 0) * 2;
+}
+
+window.addInvest = async () => {
+  const me = players[currentUser.uid];
+  if (!me || !settings.investEnabled) return;
+  const invested   = parseFloat(me.invested || 0);
+  const totalUsed  = parseFloat(me.investedTotal || 0); // 累計投資済み枚数
+  const limit      = calcInvestLimit();
+
+  if (totalUsed >= limit) {
+    toast('投資枠上限です。次の時間報酬精算後に枠が追加されます');
+    return;
+  }
+  if (me.chips <= 0) { toast('チップが足りません'); return; }
+
+  await update(ref(db, `players/${currentUser.uid}`), {
+    chips:         me.chips - 1,
+    invested:      parseFloat((invested + 1).toFixed(2)),
+    investedTotal: parseFloat((totalUsed + 1).toFixed(2))  // 累計も+1
+  });
+  await pushLog('inv', me.name, '投資', 1, '投資開始');
+  toast('1枚投資しました！');
+};
+
+window.setPullAmt = (v) => {
+  document.getElementById('pull-amt').value = v;
+  document.querySelectorAll('#pull-quicks .qbtn').forEach(b =>
+    b.classList.toggle('on', parseFloat(b.textContent) === v));
+};
+
+window.pullInvest = async () => {
+  const me = players[currentUser.uid];
+  if (!me) return;
+  const invested = parseFloat(me.invested || 0);
+  if (invested <= 0) { toast('投資中のチップがありません'); return; }
+  const inputVal = Math.floor(parseFloat(document.getElementById('pull-amt').value));
+  if (!inputVal || inputVal <= 0) { toast('引き出す枚数を入力してください'); return; }
+  const maxPull = Math.ceil(invested);
+  if (inputVal > maxPull) { toast(`引き出せるのは最大 ${maxPull}枚です（切り上げ上限）`); return; }
+  const returned = inputVal; // 入力値がそのまま手元へ（切り上げ分は端数を補填）
+  // inputValがinvestedを超えた分（端数補填）は残高0に
+  const remaining = inputVal >= maxPull ? 0 : parseFloat((invested - inputVal).toFixed(2));
+  await update(ref(db, `players/${currentUser.uid}`), {
+    chips:    me.chips + returned,
+    invested: remaining
+  });
+  await pushLog('inv', me.name, '投資', returned, `引き出し（残高${invested.toFixed(2)}→${remaining.toFixed(2)}枚）`);
+  document.getElementById('pull-amt').value = '';
+  document.querySelectorAll('#pull-quicks .qbtn').forEach(b => b.classList.remove('on'));
+  toast(`${returned}枚引き出しました`);
+};
+
+window.pullAllInvest = async () => {
+  const me = players[currentUser.uid];
+  if (!me) return;
+  const invested = parseFloat(me.invested || 0);
+  if (invested <= 0) { toast('投資中のチップがありません'); return; }
+  const returned = Math.ceil(invested);
+  await update(ref(db, `players/${currentUser.uid}`), {
+    chips:    me.chips + returned,
+    invested: 0
+  });
+  await pushLog('inv', me.name, '投資', returned, `全額引き出し（${invested.toFixed(2)}→切上${returned}枚）`);
+  document.getElementById('pull-amt').value = '';
+  document.querySelectorAll('#pull-quicks .qbtn').forEach(b => b.classList.remove('on'));
+  toast(`全額 ${returned}枚引き出しました（${invested.toFixed(2)}枚を切り上げ）`);
+};
+
+// ── Investment timer（カウントダウン表示のみ） ────────────
+function startInvestTimer() {
+  if (investTimerInterval) clearInterval(investTimerInterval);
+  const tick = () => {
+    const now = new Date();
+    const sec = now.getSeconds() + now.getMinutes() * 60 + now.getHours() * 3600;
+    const nextInvest = (Math.ceil(sec / 1200) * 1200) % 86400;
+    const diffInv = ((nextInvest - sec) + 86400) % 86400;
+    const m = Math.floor(diffInv / 60), s = diffInv % 60;
+
+    const el = document.getElementById('next-timer');
+    if (el) el.innerHTML =
+      `次の判定目安まで <span>${m}分${s.toString().padStart(2,'0')}秒</span>`;
+
+    // renderHomeの枠表示も毎秒更新（枠が増えるタイミングに対応）
+    if (currentUser && players[currentUser.uid]) renderHome();
+  };
+  tick();
+  investTimerInterval = setInterval(tick, 1000);
+}
+
+async function runInvestResolution() {
+  const multipliers = INVEST_MULTIPLIERS;
+  const upd = {};
+  const entries = [];
+  Object.values(players).forEach(p => {
+    const hasInvest = (p.invested || 0) > 0;
+    const hasDebt   = (p.debt || 0) > 0;
+    if (!hasInvest && !hasDebt) return;
+
+    if (hasInvest) {
+      const mult = multipliers[Math.floor(Math.random() * multipliers.length)];
+      const result = parseFloat((p.invested * mult).toFixed(2));
+      const diff = parseFloat((result - p.invested).toFixed(2));
+      upd[`${p.uid}/chips`]   = p.chips || 0;
+      upd[`${p.uid}/invested`] = result;
+      entries.push({ name: p.name, uid: p.uid, invested: p.invested, result, mult, diff, type: 'invest' });
+    }
+
+    if (hasDebt) {
+      const prevDebt = parseFloat(p.debt);
+      const base     = parseFloat(p.debtBase || prevDebt); // 元本（なければ現在額を元本とする）
+      const newDebt  = parseFloat((prevDebt + base).toFixed(2));
+      upd[`${p.uid}/debt`] = newDebt;
+      entries.push({ name: p.name, uid: p.uid, prevDebt, newDebt, base, type: 'debt' });
+    }
+  });
+  if (Object.keys(upd).length === 0) { toast('投資中・借金のプレイヤーがいません'); return; }
+  await update(ref(db, 'players'), upd);
+  for (const e of entries) {
+    if (e.type === 'invest') {
+      const s = e.diff >= 0 ? '+' : '';
+      await pushLog('inv-res', '投資判定', e.name, e.diff,
+        `×${e.mult} (${e.invested}枚→${e.result}枚)`);
+    } else {
+      await pushLog('debt', '利子発生', e.name, e.newDebt - e.prevDebt,
+        `借金 ${e.prevDebt}枚 → ${e.newDebt}枚（+${e.base}枚）`);
+    }
+  }
+  if (currentUser) {
+    const me = entries.find(e => e.uid === currentUser.uid && e.type === 'invest');
+    if (me) showInvestPopup(me);
+  }
+}
+
+async function runHourlyReward() {
+  const upd = {};
+  const entries = [];
+  Object.values(players).forEach(p => {
+    if ((p.invested || 0) <= 0) return; // 投資中0枚はスキップ
+    const reward = HOURLY_REWARDS[Math.floor(Math.random() * HOURLY_REWARDS.length)];
+    const newInvested = parseFloat(Math.max(0, (p.invested || 0) + reward).toFixed(2));
+    upd[`${p.uid}/invested`] = newInvested;
+    entries.push({ name: p.name, reward });
+  });
+  if (Object.keys(upd).length === 0) {
+    // 投資中プレイヤーがいなくても枠だけ広げる
+    const newCount = (settings.hourlyCount || 0) + 1;
+    await update(ref(db, 'settings'), { hourlyCount: newCount });
+    toast('⏱ 時間報酬（投資中なし）投資枠+2枚解放');
+    return;
+  }
+  await update(ref(db, 'players'), upd);
+  // 精算回数をインクリメント → 投資枠が+2枚解放される
+  const newCount = (settings.hourlyCount || 0) + 1;
+  await update(ref(db, 'settings'), { hourlyCount: newCount });
+  for (const e of entries) {
+    const s = e.reward >= 0 ? '+' : '';
+    await pushLog('hourly', '時間報酬', e.name, e.reward, `${s}${e.reward}枚（投資残高に加算）`);
+  }
+  toast('⏱ 時間報酬を配布しました（投資枠+2枚解放）');
+}
+
+function showInvestPopup(result) {
+  const win = result.diff > 0;
+  const even = result.diff === 0;
+  document.getElementById('popup-emoji').textContent = win ? '🎉' : even ? '😐' : '😢';
+  document.getElementById('popup-title').textContent = win ? '投資成功！' : even ? '変化なし' : '投資損失...';
+  const s = result.diff >= 0 ? '+' : '';
+  document.getElementById('popup-result').textContent = `${s}${result.diff.toFixed(2)}枚`;
+  document.getElementById('popup-result').style.color = win ? 'var(--green-light)' : result.diff < 0 ? 'var(--red-light)' : 'var(--muted)';
+  document.getElementById('popup-desc').textContent =
+    `${result.invested.toFixed(2)}枚投資 → ×${result.mult} → ${result.result.toFixed(2)}枚\n（引き出し時は切り上げ）`;
+  document.getElementById('invest-popup').classList.add('show');
+}
+window.closePopup = () => document.getElementById('invest-popup').classList.remove('show');
+
+// ── ADMIN ─────────────────────────────────────────────────
+function renderAdmin() {
+  if (!adminUnlocked) return;
+  const sorted = Object.values(players).sort((a,b) => b.chips - a.chips);
+
+  document.getElementById('amlist').innerHTML = sorted.map(p => `
+    <div class="citem">
+      <div><span style="font-size:1.1rem;">${p.emoji||'🃏'}</span>
+        <span style="font-weight:700;margin-left:8px;">${p.name}</span>
+        <span style="color:var(--muted);font-size:.75rem;margin-left:8px;">${p.chips}枚${p.invested?` (投資中:${p.invested}枚)`:''})</span>
+      </div>
+      <button class="btn btn-d" style="padding:4px 10px;font-size:.72rem;" onclick="aRmP('${p.uid}','${p.name}')">削除</button>
+    </div>`).join('') || '<div class="empty">プレイヤーなし</div>';
+
+  const as = document.getElementById('adjp');
+  const av = as.value;
+  as.innerHTML = '<option value="">プレイヤーを選択</option>' +
+    sorted.map(p => `<option value="${p.uid}">${p.name}</option>`).join('');
+  if (av) as.value = av;
+
+  const ds = document.getElementById('debtplayer');
+  const dv = ds.value;
+  ds.innerHTML = '<option value="">プレイヤーを選択</option>' +
+    sorted.map(p => `<option value="${p.uid}">${p.name}${(p.debt||0)>0?` (借金${p.debt}枚)`:''}</option>`).join('');
+  if (dv) ds.value = dv;
+
+  document.getElementById('aview').innerHTML = sorted.map((p, i) => `
+    <div class="prow">
+      <div class="cicon">${p.emoji||'🃏'}</div>
+      <div style="flex:1;">
+        <div style="font-weight:700;">${p.name}
+          ${i===0?'<span style="font-size:.7rem;background:rgba(240,208,128,.2);color:var(--gold-light);border:1px solid var(--gold);border-radius:10px;padding:2px 8px;margin-left:6px;">👑 1位</span>':''}
+        </div>
+        <div style="font-size:.72rem;color:var(--muted);">所持 ${p.chips}枚${p.invested?` / 投資中 ${p.invested}枚`:''}${p.debt?` / <span style="color:var(--red-light)">借金 ${p.debt}枚</span>`:''}</div>
+      </div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold-light);">${p.chips}</div>
+    </div>`).join('');
+
+  document.getElementById('invest-toggle').checked = settings.investEnabled;
+  document.getElementById('invest-time').value = settings.investTime || '18:00';
+  // ゲーム開始日時
+  if (settings.gameStartTime) {
+    const d = new Date(settings.gameStartTime);
+    const pad = n => n.toString().padStart(2,'0');
+    const localStr = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    document.getElementById('game-start-time').value = localStr;
+  }
+  const limit = calcInvestLimit();
+  const infoEl = document.getElementById('invest-limit-info');
+  if (infoEl) {
+    const count = settings.hourlyCount || 0;
+    infoEl.textContent = `現在の投資枠: ${limit}枚（時間報酬精算 ${count}回実施済み）`;
+  }
+  // ticket rate
+  const c2t = settings.chipToTicket || 5;
+  const t2c = settings.ticketToChip || 3;
+  const rateInfo = document.getElementById('ticket-rate-info');
+  if (rateInfo) rateInfo.textContent = `現在のレート — チップ→抽選券: ${c2t}チップ=1枚 / 抽選券→チップ: 1枚=${t2c}チップ`;
+  const c2tEl = document.getElementById('rate-chip-to-ticket');
+  const t2cEl = document.getElementById('rate-ticket-to-chip');
+  if (c2tEl && !c2tEl.value) c2tEl.placeholder = `現在: ${c2t}チップ=1枚`;
+  if (t2cEl && !t2cEl.value) t2cEl.placeholder = `現在: 1枚=${t2c}チップ`;
+}
+
+window.aq = (v) => {
+  document.getElementById('adjamt').value = v;
+  document.querySelectorAll('#aquicks .qbtn').forEach(b =>
+    b.classList.toggle('on', parseInt(b.textContent) === v));
+};
+
+window.doAdj = async () => {
+  const uid = document.getElementById('adjp').value;
+  const amt = parseInt(document.getElementById('adjamt').value);
+  if (!uid) { toast('プレイヤーを選んでください'); return; }
+  if (!amt || amt === 0) { toast('枚数を入力してください'); return; }
+  const p = players[uid];
+  if (p.chips + amt < 0) { toast('チップがマイナスになります'); return; }
+  await update(ref(db, `players/${uid}`), { chips: p.chips + amt });
+  await pushLog('adj', '管理者', p.name, amt);
+  document.getElementById('adjamt').value = '';
+  document.querySelectorAll('#aquicks .qbtn').forEach(b => b.classList.remove('on'));
+  const s = amt > 0 ? '+' : '';
+  toast(`${p.name} に ${s}${amt}枚 調整`);
+};
+
+window.aRmP = async (uid, name) => {
+  if (!confirm(`${name} を削除しますか？`)) return;
+  await remove(ref(db, `players/${uid}`));
+  await pushLog('sys', 'システム', name, 0, '退場');
+  toast(`${name} を削除しました`);
+};
+
+window.toggleInvest = async () => {
+  const val = document.getElementById('invest-toggle').checked;
+  await update(ref(db, 'settings'), { investEnabled: val });
+  toast(val ? '投資機能を有効にしました' : '投資機能を停止しました');
+};
+
+window.saveGameStartTime = async () => {
+  const val = document.getElementById('game-start-time').value;
+  if (!val) { toast('開始日時を選択してください'); return; }
+  const ts = new Date(val).getTime();
+  await update(ref(db, 'settings'), { gameStartTime: ts });
+  toast('ゲーム開始日時を設定しました');
+};
+
+window.saveInvestTime = async () => {
+  const t = document.getElementById('invest-time').value;
+  if (!t) { toast('時刻を入力してください'); return; }
+  await update(ref(db, 'settings'), { investTime: t });
+  toast(`投資開始時刻を ${t} に設定しました`);
+};
+
+window.triggerInvestNow = async () => {
+  if (!confirm('今すぐ投資判定を実行しますか？')) return;
+  await runInvestResolution();
+  toast('投資判定を実行しました');
+};
+
+window.triggerHourlyNow = async () => {
+  if (!confirm('今すぐ時間報酬を配布しますか？')) return;
+  await runHourlyReward();
+};
+
+window.clearLog = async () => {
+  if (!confirm('履歴を全削除しますか？')) return;
+  await remove(ref(db, 'logs'));
+  toast('履歴を削除しました');
+};
+
+window.dq = (v) => {
+  document.getElementById('debtamt').value = v;
+  document.querySelectorAll('#dquicks .qbtn').forEach(b =>
+    b.classList.toggle('on', parseInt(b.textContent) === v));
+};
+
+window.doAddDebt = async () => {
+  const uid = document.getElementById('debtplayer').value;
+  const amt = parseFloat(document.getElementById('debtamt').value);
+  if (!uid) { toast('プレイヤーを選んでください'); return; }
+  if (!amt || amt <= 0) { toast('借金額を入力してください'); return; }
+  const p = players[uid];
+  const newDebt = parseFloat(((p.debt || 0) + amt).toFixed(2));
+  const newBase = parseFloat(((p.debtBase || 0) + amt).toFixed(2));
+  await update(ref(db, `players/${uid}`), { debt: newDebt, debtBase: newBase });
+  await pushLog('debt', '管理者', p.name, amt, `借金追加 ${amt}枚`);
+  document.getElementById('debtamt').value = '';
+  document.querySelectorAll('#dquicks .qbtn').forEach(b => b.classList.remove('on'));
+  toast(`${p.name} に借金 ${amt}枚 を課しました`);
+};
+
+window.cq = (v) => {
+  document.getElementById('collectamt').value = v;
+  document.querySelectorAll('#cquicks .qbtn').forEach(b =>
+    b.classList.toggle('on', parseInt(b.textContent) === v));
+};
+
+window.doCollect = async () => {
+  const amt = parseInt(document.getElementById('collectamt').value);
+  if (!amt || amt <= 0) { toast('回収枚数を入力してください'); return; }
+  if (!confirm(`全員から ${amt}枚 回収しますか？\n払えない人はチップをそのまま残して借金になります。`)) return;
+  const upd = {};
+  let debtCount = 0;
+  Object.values(players).forEach(p => {
+    if (p.chips >= amt) {
+      upd[`${p.uid}/chips`] = p.chips - amt;
+    } else {
+      // 払えない → チップはそのまま・回収額まるまる借金（元本も加算）
+      upd[`${p.uid}/debt`]     = parseFloat(((p.debt || 0) + amt).toFixed(2));
+      upd[`${p.uid}/debtBase`] = parseFloat(((p.debtBase || 0) + amt).toFixed(2));
+      debtCount++;
+    }
+  });
+  await update(ref(db, 'players'), upd);
+  for (const p of Object.values(players)) {
+    if ((upd[`${p.uid}/debt`] || 0) > (p.debt || 0)) {
+      await pushLog('debt', '管理者', p.name, amt, `回収不足→借金 ${amt}枚`);
+    } else {
+      await pushLog('adj', '管理者', p.name, -amt);
+    }
+  }
+  document.getElementById('collectamt').value = '';
+  document.querySelectorAll('#cquicks .qbtn').forEach(b => b.classList.remove('on'));
+  toast(`${amt}枚 一斉回収しました${debtCount > 0 ? `（${debtCount}人が借金）` : ''}`);
+};
+
+window.setBorrowAmt = (v) => {
+  document.getElementById('borrow-amt').value = v;
+  document.querySelectorAll('#borrow-quicks .qbtn').forEach(b =>
+    b.classList.toggle('on', parseInt(b.textContent) === v));
+};
+
+window.doBorrow = async () => {
+  const me = players[currentUser.uid];
+  if (!me) return;
+  const amt = parseFloat(document.getElementById('borrow-amt').value);
+  if (!amt || amt <= 0) { toast('借りる枚数を入力してください'); return; }
+  const newChips = me.chips + amt;
+  const newDebt  = parseFloat(((me.debt || 0) + amt).toFixed(2));
+  const newBase  = parseFloat(((me.debtBase || 0) + amt).toFixed(2));
+  await update(ref(db, `players/${currentUser.uid}`), {
+    chips:    newChips,
+    debt:     newDebt,
+    debtBase: newBase
+  });
+  await pushLog('debt', me.name, me.name, amt, `借金 ${amt}枚（チップに加算）`);
+  document.getElementById('borrow-amt').value = '';
+  document.querySelectorAll('#borrow-quicks .qbtn').forEach(b => b.classList.remove('on'));
+  toast(`${amt}枚借りました（借金: ${newDebt}枚）`);
+};
+
+window.repayDebt = async () => {
+  const me = players[currentUser.uid];
+  if (!me) return;
+  const debt = parseFloat(me.debt || 0);
+  if (debt <= 0) { toast('借金はありません'); return; }
+  const amt = parseInt(document.getElementById('debt-repay-amt').value);
+  if (!amt || amt <= 0) { toast('返済枚数を入力してください'); return; }
+  if (me.chips < amt) { toast(`チップが足りません（${me.chips}枚）`); return; }
+  // 切り捨てた借金額以下を返済したら完済扱い
+  const floorDebt = Math.floor(debt);
+  const isFullRepay = amt >= floorDebt && floorDebt >= 0;
+  const repay   = isFullRepay ? floorDebt : amt;
+  const newDebt = isFullRepay ? 0 : parseFloat((debt - repay).toFixed(2));
+  // 返済比率に応じて元本も減らす（完済時は0）
+  const oldBase = parseFloat(me.debtBase || debt);
+  const newBase = newDebt <= 0 ? 0 : parseFloat((oldBase * (newDebt / debt)).toFixed(2));
+  await update(ref(db, `players/${currentUser.uid}`), {
+    chips:    me.chips - repay,
+    debt:     newDebt,
+    debtBase: newBase
+  });
+  await pushLog('debt', me.name, '返済', repay, `借金 ${debt}枚 → ${newDebt}枚`);
+  document.getElementById('debt-repay-amt').value = '';
+  toast(newDebt <= 0 ? `完済しました！（${repay}枚返済）` : `${repay}枚返済しました（残借金: ${newDebt}枚）`);
+};
+
+window.doReset = async () => {
+  if (!confirm('全員のチップを20枚にリセットしますか？')) return;
+  const upd = {};
+  Object.keys(players).forEach(uid => {
+    upd[`${uid}/chips`] = INIT_CHIPS;
+    upd[`${uid}/invested`] = 0;
+    upd[`${uid}/investedTotal`] = 0;
+    upd[`${uid}/debt`] = 0;
+    upd[`${uid}/debtBase`] = 0;
+    upd[`${uid}/tickets`] = 0;
+  });
+  await update(ref(db, 'players'), upd);
+  await update(ref(db, 'settings'), { hourlyCount: 0 });
+  await pushLog('sys', 'システム', '全員', INIT_CHIPS, 'リセット');
+  toast('全員のチップを20枚にリセットしました');
+};
+
+// ── PROFILE ───────────────────────────────────────────────
+window.showProfile = () => {
+  const me = players[currentUser.uid];
+  if (!me) return;
+  profileEmoji = me.emoji || '🃏';
+  document.getElementById('profile-name').value = me.name;
+  const grid = document.getElementById('profile-emoji-grid');
+  grid.innerHTML = EMOJIS.map(e => `
+    <button class="emoji-btn ${e === profileEmoji ? 'on' : ''}"
+      onclick="selectEmoji('${e}','profile-emoji-grid')">${e}</button>`).join('');
+  document.getElementById('profile-modal').style.display = 'flex';
+};
+window.closeProfile = () => {
+  document.getElementById('profile-modal').style.display = 'none';
+};
+window.saveProfile = async () => {
+  const name = document.getElementById('profile-name').value.trim();
+  if (!name) { toast('名前を入力してください'); return; }
+  await update(ref(db, `players/${currentUser.uid}`), { name, emoji: profileEmoji });
+  await updateProfile(currentUser, { displayName: name });
+  closeProfile();
+  toast('プロフィールを更新しました');
+};
+
+// ── TICKET ────────────────────────────────────────────────
+window.tqBuy = (v) => {
+  document.getElementById('ticket-buy-amt').value = v;
+  document.querySelectorAll('#tq-buy .qbtn').forEach(b =>
+    b.classList.toggle('on', parseInt(b.textContent) === v));
+};
+window.tqSell = (v) => {
+  document.getElementById('ticket-sell-amt').value = v;
+  document.querySelectorAll('#tq-sell .qbtn').forEach(b =>
+    b.classList.toggle('on', parseInt(b.textContent) === v));
+};
+
+window.buyTicket = async () => {
+  const me = players[currentUser.uid];
+  if (!me) return;
+  const ticketAmt = parseInt(document.getElementById('ticket-buy-amt').value);
+  if (!ticketAmt || ticketAmt <= 0) { toast('枚数を入力してください'); return; }
+  const rate = settings.chipToTicket || 5;
+  const chipCost = ticketAmt * rate;
+  if (me.chips < chipCost) { toast(`チップが足りません（必要: ${chipCost}枚）`); return; }
+  await update(ref(db, `players/${currentUser.uid}`), {
+    chips:   me.chips - chipCost,
+    tickets: (me.tickets || 0) + ticketAmt
+  });
+  await pushLog('ticket', me.name, me.name, ticketAmt, `チップ${chipCost}枚→抽選券${ticketAmt}枚`);
+  document.getElementById('ticket-buy-amt').value = '';
+  document.querySelectorAll('#tq-buy .qbtn').forEach(b => b.classList.remove('on'));
+  toast(`抽選券 ${ticketAmt}枚と交換しました（-${chipCost}チップ）`);
+};
+
+window.sellTicket = async () => {
+  const me = players[currentUser.uid];
+  if (!me) return;
+  const ticketAmt = parseInt(document.getElementById('ticket-sell-amt').value);
+  if (!ticketAmt || ticketAmt <= 0) { toast('枚数を入力してください'); return; }
+  const tickets = me.tickets || 0;
+  if (tickets < ticketAmt) { toast(`抽選券が足りません（所持: ${tickets}枚）`); return; }
+  const rate = settings.ticketToChip || 3;
+  const chipGain = ticketAmt * rate;
+  await update(ref(db, `players/${currentUser.uid}`), {
+    chips:   me.chips + chipGain,
+    tickets: tickets - ticketAmt
+  });
+  await pushLog('ticket', me.name, me.name, chipGain, `抽選券${ticketAmt}枚→チップ${chipGain}枚`);
+  document.getElementById('ticket-sell-amt').value = '';
+  document.querySelectorAll('#tq-sell .qbtn').forEach(b => b.classList.remove('on'));
+  toast(`抽選券 ${ticketAmt}枚を換金しました（+${chipGain}チップ）`);
+};
+
+window.saveTicketRate = async () => {
+  const c2t = parseInt(document.getElementById('rate-chip-to-ticket').value);
+  const t2c = parseInt(document.getElementById('rate-ticket-to-chip').value);
+  const upd = {};
+  if (c2t && c2t > 0) upd.chipToTicket = c2t;
+  if (t2c && t2c > 0) upd.ticketToChip = t2c;
+  if (Object.keys(upd).length === 0) { toast('レートを入力してください'); return; }
+  await update(ref(db, 'settings'), upd);
+  document.getElementById('rate-chip-to-ticket').value = '';
+  document.getElementById('rate-ticket-to-chip').value = '';
+  toast('レートを設定しました');
+};
+
+// ── QUIZ ──────────────────────────────────────────────────
+window.selectQuizAns = (ans) => {
+  selectedQuizAns = ans;
+  document.getElementById('quiz-ans-a').className = 'btn ' + (ans === 'A' ? 'btn-g' : 'btn-o');
+  document.getElementById('quiz-ans-b').className = 'btn ' + (ans === 'B' ? 'btn-g' : 'btn-o');
+};
+
+window.createQuiz = async () => {
+  const q  = document.getElementById('quiz-q').value.trim();
+  const a  = document.getElementById('quiz-a').value.trim();
+  const b  = document.getElementById('quiz-b').value.trim();
+  if (!q) { toast('問題文を入力してください'); return; }
+  if (!a || !b) { toast('選択肢A・Bを入力してください'); return; }
+  if (!selectedQuizAns) { toast('正解を選んでください'); return; }
+  // 既に受付中のクイズがあれば弾く
+  const active = Object.values(quizData).find(qz => qz.status === 'open');
+  if (active) { toast('受付中のクイズが既にあります'); return; }
+  await push(ref(db, 'quizzes'), {
+    q, a, b,
+    answer: selectedQuizAns,
+    status: 'open',
+    votes: {},
+    createdAt: serverTimestamp()
+  });
+  document.getElementById('quiz-q').value = '';
+  document.getElementById('quiz-a').value = '';
+  document.getElementById('quiz-b').value = '';
+  selectedQuizAns = null;
+  document.getElementById('quiz-ans-a').className = 'btn btn-o';
+  document.getElementById('quiz-ans-b').className = 'btn btn-o';
+  toast('クイズを出題しました！');
+};
+
+window.closeQuiz = async (qid) => {
+  if (!confirm('正解を発表してチップを配布しますか？')) return;
+  const qz = quizData[qid];
+  if (!qz) return;
+  const votes = qz.votes || {};
+  const upd = {};
+  const winners = [];
+  // 正解者にチップ×2を配布
+  Object.entries(votes).forEach(([uid, v]) => {
+    const p = players[uid];
+    if (!p) return;
+    if (v.choice === qz.answer) {
+      upd[`${uid}/chips`] = (p.chips || 0) + v.amt * 2;
+      winners.push({ name: p.name, gain: v.amt * 2 });
+    }
+  });
+  if (Object.keys(upd).length > 0) await update(ref(db, 'players'), upd);
+  await update(ref(db, `quizzes/${qid}`), { status: 'closed' });
+  for (const w of winners) {
+    await pushLog('quiz', 'クイズ正解', w.name, w.gain, `正解！ +${w.gain}枚`);
+  }
+  toast(`正解発表！ ${winners.length}人が正解しました`);
+};
+
+window.voteQuiz = async (qid) => {
+  const qz = quizData[qid];
+  if (!qz || qz.status !== 'open') { toast('受付が終了しています'); return; }
+  const votes = qz.votes || {};
+  if (votes[currentUser.uid]) { toast('すでに投票済みです'); return; }
+  const choice = document.querySelector(`[data-quiz="${qid}"].selected`)?.dataset.choice;
+  if (!choice) { toast('選択肢を選んでください'); return; }
+  const amt = parseInt(document.getElementById(`quiz-bet-${qid}`).value);
+  if (!amt || amt <= 0) { toast('枚数を入力してください'); return; }
+  const me = players[currentUser.uid];
+  if (me.chips < amt) { toast(`チップが足りません（${me.chips}枚）`); return; }
+  await update(ref(db, `players/${currentUser.uid}`), { chips: me.chips - amt });
+  await update(ref(db, `quizzes/${qid}/votes/${currentUser.uid}`), { choice, amt });
+  await pushLog('quiz', me.name, 'クイズ投票', amt, `選択肢${choice}に${amt}枚`);
+  toast(`選択肢${choice}に${amt}枚を賭けました！`);
+};
+
+window.selectVote = (qid, choice) => {
+  document.querySelectorAll(`[data-quiz="${qid}"]`).forEach(el => {
+    el.classList.toggle('selected', el.dataset.choice === choice);
+  });
+};
+
+function renderQuiz() {
+  if (!currentUser) return;
+  const all = Object.entries(quizData).sort((a,b) => (b[1].createdAt||0) - (a[1].createdAt||0));
+  const active = all.filter(([,qz]) => qz.status === 'open');
+  const closed = all.filter(([,qz]) => qz.status === 'closed');
+
+  // 受付中
+  const ab = document.getElementById('quiz-active-block');
+  if (!ab) return;
+  if (active.length === 0) {
+    ab.innerHTML = '<div class="card"><div class="empty">現在受付中のクイズはありません</div></div>';
+  } else {
+    ab.innerHTML = active.map(([qid, qz]) => {
+      const myVote = (qz.votes || {})[currentUser.uid];
+      const totalA = Object.values(qz.votes||{}).filter(v=>v.choice==='A').reduce((s,v)=>s+v.amt,0);
+      const totalB = Object.values(qz.votes||{}).filter(v=>v.choice==='B').reduce((s,v)=>s+v.amt,0);
+      return `<div class="quiz-card">
+        <div class="quiz-status open">受付中</div>
+        <div class="quiz-q">${qz.q}</div>
+        <div class="quiz-opts">
+          <div class="quiz-opt${myVote?.choice==='A'?' selected':''}" data-quiz="${qid}" data-choice="A"
+            onclick="${myVote ? '' : `selectVote('${qid}','A')`}">
+            <div>A</div><div style="font-size:.82rem;margin-top:4px;">${qz.a}</div>
+            <div style="font-size:.7rem;color:var(--muted);margin-top:4px;">${totalA}枚</div>
+          </div>
+          <div class="quiz-opt${myVote?.choice==='B'?' selected':''}" data-quiz="${qid}" data-choice="B"
+            onclick="${myVote ? '' : `selectVote('${qid}','B')`}">
+            <div>B</div><div style="font-size:.82rem;margin-top:4px;">${qz.b}</div>
+            <div style="font-size:.7rem;color:var(--muted);margin-top:4px;">${totalB}枚</div>
+          </div>
+        </div>
+        ${myVote
+          ? `<div style="font-size:.8rem;color:var(--gold);text-align:center;padding:6px 0;">✅ 選択肢${myVote.choice}に${myVote.amt}枚を投票済み</div>`
+          : `<div class="row" style="margin-bottom:0;">
+              <input type="number" id="quiz-bet-${qid}" placeholder="賭ける枚数" min="1" style="font-size:.88rem;"/>
+              <button class="btn btn-g" onclick="voteQuiz('${qid}')">投票</button>
+            </div>`
+        }
+      </div>`;
+    }).join('');
+  }
+
+  // 履歴
+  const hb = document.getElementById('quiz-history-block');
+  if (!hb) return;
+  if (closed.length === 0) {
+    hb.innerHTML = '<div class="empty">まだ終了したクイズはありません</div>';
+  } else {
+    hb.innerHTML = closed.map(([qid, qz]) => {
+      const myVote = (qz.votes||{})[currentUser.uid];
+      const won = myVote && myVote.choice === qz.answer;
+      const totalA = Object.values(qz.votes||{}).filter(v=>v.choice==='A').reduce((s,v)=>s+v.amt,0);
+      const totalB = Object.values(qz.votes||{}).filter(v=>v.choice==='B').reduce((s,v)=>s+v.amt,0);
+      return `<div class="quiz-hist-item">
+        <div class="quiz-hist-q">${qz.q}</div>
+        <div class="quiz-hist-ans">
+          <span class="${qz.answer==='A'?'':''}">A: ${qz.a}（${totalA}枚）</span>　
+          <span>B: ${qz.b}（${totalB}枚）</span>
+        </div>
+        <div style="font-size:.75rem;color:var(--gold-light);margin-top:4px;">正解: ${qz.answer}（${qz.answer==='A'?qz.a:qz.b}）</div>
+        ${myVote
+          ? `<div class="quiz-hist-result" style="color:${won?'var(--green-light)':'var(--red-light)'};">
+              ${won ? `✅ 正解！ +${myVote.amt*2}枚` : `❌ 不正解（${myVote.amt}枚損失）`}
+            </div>`
+          : `<div class="quiz-hist-result" style="color:var(--muted);">未投票</div>`
+        }
+      </div>`;
+    }).join('');
+  }
+}
+
+function renderAdminQuiz() {
+  const el = document.getElementById('admin-quiz-active');
+  if (!el) return;
+  const active = Object.entries(quizData).filter(([,qz]) => qz.status === 'open');
+  if (active.length === 0) { el.innerHTML = ''; return; }
+  el.innerHTML = active.map(([qid, qz]) => {
+    const votes = qz.votes || {};
+    const totalA = Object.values(votes).filter(v=>v.choice==='A').reduce((s,v)=>s+v.amt,0);
+    const totalB = Object.values(votes).filter(v=>v.choice==='B').reduce((s,v)=>s+v.amt,0);
+    const count  = Object.keys(votes).length;
+    return `<div class="card" style="border-color:var(--green-light);">
+      <div style="font-size:.7rem;color:var(--green-light);margin-bottom:6px;">📢 受付中</div>
+      <div style="font-weight:700;margin-bottom:8px;">${qz.q}</div>
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:4px;">
+        A: ${qz.a}（${totalA}枚）　B: ${qz.b}（${totalB}枚）　投票者: ${count}人
+      </div>
+      <div style="font-size:.75rem;color:var(--gold);margin-bottom:10px;">正解: ${qz.answer}（${qz.answer==='A'?qz.a:qz.b}）</div>
+      <button class="btn btn-g btn-full" onclick="closeQuiz('${qid}')">🎉 正解発表してチップ配布</button>
+    </div>`;
+  }).join('');
+}
+
+// ── LOGS ──────────────────────────────────────────────────
+async function pushLog(type, from, to, amt, note) {
+  const now = new Date();
+  const time = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+  await push(ref(db, 'logs'), { type, from, to, amt: amt||0, time, note: note||null, ts: serverTimestamp() });
+}
+
+function renderLogs() {
+  const entries = Object.values(logsData)
+    .sort((a,b) => (b.ts||0) - (a.ts||0)).slice(0, 50);
+  ['plog','alog'].forEach(id => {
+    const el = document.getElementById(id); if (!el) return;
+    if (!entries.length) { el.innerHTML = '<li class="empty">まだ取引がありません</li>'; return; }
+    el.innerHTML = entries.map(l => {
+      let ic, tx, am;
+      if (l.type === 't') {
+        ic = '💸'; tx = `<b>${l.from}</b> → <b>${l.to}</b>`; am = `${l.amt}枚`;
+      } else if (l.type === 'adj') {
+        const s = l.amt > 0 ? '+' : '';
+        ic = l.amt > 0 ? '➕' : '➖'; tx = `<b>${l.to}</b> 調整`; am = `${s}${l.amt}枚`;
+      } else if (l.type === 'inv') {
+        ic = '📈'; tx = `<b>${l.from}</b> ${l.note}`; am = l.note === '引き出し' ? `${l.amt}枚` : `-${l.amt}枚`;
+      } else if (l.type === 'inv-res') {
+        const s = l.amt >= 0 ? '+' : '';
+        ic = l.amt > 0 ? '💰' : l.amt < 0 ? '📉' : '➡️';
+        tx = `<b>${l.to}</b> 投資判定 ${l.note||''}`; am = `${s}${l.amt}枚`;
+      } else if (l.type === 'ticket') {
+        ic = '🎟️'; tx = `<b>${l.from}</b> ${l.note||'抽選券交換'}`; am = `${l.amt}`;
+      } else if (l.type === 'quiz') {
+        ic = l.amt > 0 ? '🎉' : '🎲';
+        tx = `<b>${l.to}</b> ${l.note||'クイズ'}`;
+        am = l.amt > 0 ? `+${l.amt}枚` : `${l.amt}枚`;
+      } else if (l.type === 'debt') {
+        const s = l.amt >= 0 ? '+' : '';
+        ic = '💸'; tx = `<b>${l.to}</b> ${l.note||'借金'}`; am = `${s}${l.amt}枚`;
+      } else if (l.type === 'hourly') {
+        const s = l.amt >= 0 ? '+' : '';
+        ic = '⏱'; tx = `<b>${l.to}</b> 時間報酬`; am = `${s}${l.amt}枚`;
+      } else {
+        ic = l.note === '参加' ? '🟢' : l.note === 'リセット' ? '🔄' : '🔴';
+        tx = `<b>${l.to}</b> ${l.note||''}`; am = '';
+      }
+      return `<li class="logitem">
+        <span class="li">${ic}</span>
+        <span class="lt">${tx}</span>
+        <span class="la">${am}</span>
+        <span class="ltime">${l.time}</span>
+      </li>`;
+    }).join('');
+  });
+}
+
+// ── UTILS ─────────────────────────────────────────────────
+function bump(id) {
+  const e = document.getElementById(id); if (!e) return;
+  e.classList.remove('bump'); void e.offsetWidth; e.classList.add('bump');
+}
+function show(id) { document.getElementById(id).style.display = 'block'; }
+function hide(id) { document.getElementById(id).style.display = 'none'; }
+let tt;
+window.toast = (msg) => {
+  const e = document.getElementById('toast');
+  e.textContent = msg; e.classList.add('show');
+  clearTimeout(tt); tt = setTimeout(() => e.classList.remove('show'), 2500);
+};
+</script>
+<script>
+// Service Worker 登録
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+
+// インストールバナー（Android Chrome）
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.getElementById('pwa-install-btn');
+  if (btn) btn.style.display = 'block';
+});
+window.installPWA = async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  const btn = document.getElementById('pwa-install-btn');
+  if (btn) btn.style.display = 'none';
+};
+</script>
+</body>
+</html>
