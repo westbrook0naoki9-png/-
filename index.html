@@ -2,555 +2,286 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Private Casino</title>
-
-<!-- PWA -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Casino">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#080c14">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
-<link rel="icon" type="image/png" href="icon-192.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎰 Private Casino</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0b2016;
-  --bg2:#0d2a1c;
-  --navy:#0f3020;
-  --brass:#c9a84c;
-  --brass-light:#f0d080;
-  --brass-pale:#faf0c8;
-  --brass-dark:#7a5f1a;
-  --crimson:#8b1a2a;
-  --crimson-light:#d04458;
-  --emerald:#0d4a2e;
-  --emerald-light:#2ab06a;
-  --surface:#0d2a1a;
-  --surface2:#123320;
-  --surface3:#183d28;
-  --border:rgba(201,168,76,.28);
-  --border2:rgba(201,168,76,.12);
-  --text:#f0e6cc;
-  --text2:#c8b880;
-  --muted:#5a7a58;
-  --glow:rgba(201,168,76,.15);
+  --bg:#0a0a0a;--gold:#c9a84c;--gold-light:#f0d080;--gold-dark:#7a5f1a;
+  --red:#c0392b;--red-light:#e74c3c;--green:#27ae60;--green-light:#2ecc71;
+  --surface:#111;--surface2:#1a1a1a;--border:rgba(201,168,76,.25);
+  --text:#f0e6c8;--muted:#7a6a4a;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;}
-
-body{
-  background:#091c12;
-  color:var(--text);
-  font-family:'Noto Sans JP',sans-serif;
-  font-weight:300;
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-/* ポーカーマット背景 */
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:
-    radial-gradient(ellipse 140% 70% at 50% 50%, #14381f 0%, #0b2414 40%, #071610 70%, #040e08 100%),
-    repeating-linear-gradient(0deg,   transparent, transparent 80px, rgba(201,168,76,.01) 80px, rgba(201,168,76,.01) 81px),
-    repeating-linear-gradient(90deg,  transparent, transparent 80px, rgba(201,168,76,.01) 80px, rgba(201,168,76,.01) 81px),
-    repeating-linear-gradient(45deg,  transparent, transparent 20px, rgba(0,0,0,.04) 20px, rgba(0,0,0,.04) 21px);
-}
-
-/* 上部トリプルライン */
-body::after{
-  content:'';position:fixed;top:0;left:0;right:0;height:3px;z-index:200;
-  background:linear-gradient(90deg,
-    transparent 0%,var(--brass-dark) 10%,var(--brass) 25%,
-    var(--brass-light) 42%,var(--brass-pale) 50%,
-    var(--brass-light) 58%,var(--brass) 75%,var(--brass-dark) 90%,transparent 100%);
-  box-shadow:0 0 20px rgba(201,168,76,.5),0 0 60px rgba(201,168,76,.2);
-}
-
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(13,40,24,.5) 0%,transparent 60%),
+  repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(255,255,255,.004) 2px,rgba(255,255,255,.004) 4px);
+  pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent);z-index:100;}
 .wrap{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 16px 100px;}
 
-/* ── HEADER ── */
-header{
-  text-align:center;
-  padding:36px 0 24px;
-  border-bottom:1px solid var(--border);
-  position:relative;
-}
-header::before{
-  content:'';position:absolute;bottom:-1px;left:5%;right:5%;height:1px;
-  background:linear-gradient(90deg,transparent,var(--brass-dark),var(--brass-light),var(--brass-pale),var(--brass-light),var(--brass-dark),transparent);
-  opacity:.7;
-}
-header::after{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 80% 100% at 50% 0%,rgba(201,168,76,.07) 0%,transparent 70%);
-}
-.logo{
-  font-family:'Cinzel',serif;
-  font-size:1.75rem;
-  font-weight:700;
-  letter-spacing:.3em;
-  text-transform:uppercase;
-  background:linear-gradient(160deg,var(--brass-dark) 0%,var(--brass) 20%,var(--brass-pale) 45%,var(--brass-light) 55%,var(--brass) 80%,var(--brass-dark) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  filter:drop-shadow(0 0 18px rgba(201,168,76,.35));
-  position:relative;z-index:1;
-}
-.logo::before,.logo::after{
-  content:'  ✦  ';
-  font-size:.55em;
-  opacity:.7;
-  filter:drop-shadow(0 0 4px rgba(201,168,76,.6));
-}
+/* HEADER */
+header{text-align:center;padding:24px 0 14px;border-bottom:1px solid var(--border);}
+.logo{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;letter-spacing:.1em;
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold-light),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;}
+.logo-sub{font-size:.65rem;letter-spacing:.35em;color:var(--muted);text-transform:uppercase;margin-top:3px;}
 
-/* ── NAV TABS ── */
-.tabs{
-  display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
-  border-bottom:1px solid var(--border2);
-  position:sticky;top:0;z-index:50;
-  background:rgba(4,12,7,.97);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  box-shadow:0 1px 0 rgba(201,168,76,.1),0 4px 24px rgba(0,0,0,.6);
-}
-.tab{
-  padding:15px 0;
-  font-family:'Cinzel',serif;font-size:.65rem;font-weight:400;
-  letter-spacing:.15em;border:none;background:transparent;
-  color:var(--muted);cursor:pointer;transition:all .3s;position:relative;
-}
-.tab.on{color:var(--brass-light);text-shadow:0 0 12px rgba(201,168,76,.4);}
-.tab.on::before{
-  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
-  background:linear-gradient(180deg,rgba(201,168,76,.06) 0%,transparent 100%);
-}
-.tab.on::after{
-  content:'';position:absolute;bottom:0;left:10%;right:10%;height:2px;
-  background:linear-gradient(90deg,transparent,var(--brass-light),var(--brass-pale),var(--brass-light),transparent);
-  box-shadow:0 0 8px rgba(201,168,76,.5);
-}
+/* NAV TABS */
+.tabs{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:50;background:var(--bg);}
+.tab{padding:13px 0;font-family:'Noto Sans JP',sans-serif;font-size:.82rem;font-weight:700;
+  letter-spacing:.05em;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;position:relative;}
+.tab.on{color:var(--gold-light);}
+.tab.on::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold-light),transparent);border-radius:2px;}
 
-/* ── SECTION TITLE ── */
-.sec{
-  font-family:'Cinzel',serif;font-size:.68rem;font-weight:600;
-  color:var(--brass-light);letter-spacing:.25em;text-transform:uppercase;
-  margin-bottom:16px;display:flex;align-items:center;gap:14px;
-  text-shadow:0 0 10px rgba(201,168,76,.3);
-}
-.sec::before{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--brass-dark),var(--border));}
-.sec::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),var(--brass-dark),transparent);}
+/* SECTION TITLE */
+.sec{font-family:'Playfair Display',serif;font-size:.9rem;color:var(--gold);
+  letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;}
+.sec::after{content:'';flex:1;height:1px;background:var(--border);}
 
-/* ── CARD ── */
-.card{
-  background:linear-gradient(160deg,#0d2a1a 0%,#133520 60%,#0d2a1a 100%);
-  border:1px solid var(--border2);
-  border-radius:2px;
-  padding:20px;margin-bottom:16px;
-  position:relative;overflow:hidden;
-  box-shadow:0 4px 32px rgba(0,0,0,.5),inset 0 1px 0 rgba(201,168,76,.08);
-}
-.card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent 5%,var(--brass-dark) 20%,var(--brass-light) 50%,var(--brass-dark) 80%,transparent 95%);
-  opacity:.4;
-}
-/* カード四隅の装飾 */
-.card::after{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(circle at 0% 0%,rgba(201,168,76,.04) 0%,transparent 40%),
-    radial-gradient(circle at 100% 100%,rgba(201,168,76,.03) 0%,transparent 40%);
-}
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:16px;margin-bottom:14px;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-light),transparent);opacity:.3;}
 
-/* ── INPUTS ── */
-input,select.sel{
-  background:rgba(3,10,6,.75);
-  border:1px solid var(--border);
-  border-radius:3px;
-  color:var(--text);
-  font-family:'Noto Sans JP',sans-serif;font-weight:300;font-size:.88rem;
-  padding:11px 14px;outline:none;transition:all .2s;width:100%;
-}
-input:focus,select.sel:focus{
-  border-color:var(--brass);
-  box-shadow:0 0 0 3px rgba(184,146,42,.08);
-}
+/* INPUTS */
+input,select.sel{background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:.9rem;
+  padding:10px 14px;outline:none;transition:border-color .2s;width:100%;}
+input:focus,select.sel:focus{border-color:var(--gold);}
 input::placeholder{color:var(--muted);}
 input[type="password"]{letter-spacing:.3em;}
 .row{display:flex;gap:10px;margin-bottom:12px;align-items:center;}
 
-/* ── BUTTONS ── */
-.btn{
-  font-family:'Noto Sans JP',sans-serif;font-weight:400;font-size:.82rem;
-  padding:10px 18px;border-radius:3px;border:none;cursor:pointer;
-  transition:all .2s;white-space:nowrap;letter-spacing:.05em;
-}
-.btn-g{
-  background:linear-gradient(135deg,var(--brass-dark) 0%,var(--brass) 30%,var(--brass-light) 50%,var(--brass-pale) 60%,var(--brass) 80%,var(--brass-dark) 100%);
-  color:#080800;font-weight:500;
-  box-shadow:0 2px 16px rgba(201,168,76,.3),0 0 0 1px rgba(201,168,76,.1);
-}
-.btn-g:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 6px 24px rgba(201,168,76,.4),0 0 0 1px rgba(201,168,76,.2);}
-.btn-o{background:transparent;border:1px solid var(--border);color:var(--text2);}
-.btn-o:hover{border-color:var(--brass);color:var(--brass-light);}
-.btn-d{background:rgba(139,26,42,.15);border:1px solid rgba(139,26,42,.4);color:var(--crimson-light);}
-.btn-d:hover{background:rgba(139,26,42,.28);}
-.btn-gr{background:rgba(13,74,46,.2);border:1px solid rgba(26,122,74,.4);color:var(--emerald-light);}
-.btn-gr:hover{background:rgba(13,74,46,.35);}
-.btn-full{width:100%;padding:13px;font-size:.9rem;border-radius:3px;}
+/* BUTTONS */
+.btn{font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:.85rem;
+  padding:10px 18px;border-radius:8px;border:none;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.btn-g{background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));color:#0a0a0a;}
+.btn-g:hover{filter:brightness(1.15);transform:translateY(-1px);}
+.btn-o{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.btn-o:hover{border-color:var(--gold);color:var(--gold);}
+.btn-d{background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.4);color:var(--red-light);}
+.btn-d:hover{background:rgba(192,57,43,.3);}
+.btn-gr{background:rgba(39,174,96,.15);border:1px solid rgba(39,174,96,.4);color:var(--green-light);}
+.btn-gr:hover{background:rgba(39,174,96,.3);}
+.btn-full{width:100%;padding:13px;font-size:.95rem;border-radius:10px;}
 
-/* ── AUTH ── */
-.auth-box{display:flex;flex-direction:column;align-items:center;padding:48px 20px;text-align:center;}
-.auth-box-crest{font-size:2.4rem;margin-bottom:6px;opacity:.85;}
-.auth-box-title{
-  font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;
-  letter-spacing:.2em;color:var(--brass-light);margin-bottom:4px;
-}
-.auth-box-sub{font-size:.72rem;letter-spacing:.2em;color:var(--muted);margin-bottom:28px;text-transform:uppercase;}
-.auth-tabs{
-  display:flex;margin-bottom:20px;
-  border:1px solid var(--border);border-radius:3px;overflow:hidden;
-}
-.auth-tab{
-  flex:1;padding:10px;background:transparent;border:none;color:var(--muted);
-  font-family:'Noto Sans JP',sans-serif;font-weight:400;font-size:.82rem;
-  cursor:pointer;transition:all .2s;letter-spacing:.05em;
-}
-.auth-tab.on{background:rgba(184,146,42,.12);color:var(--brass-light);}
+/* AUTH */
+.auth-box{display:flex;flex-direction:column;align-items:center;padding:40px 20px;text-align:center;}
+.auth-tabs{display:flex;gap:0;margin-bottom:18px;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.auth-tab{flex:1;padding:10px;background:transparent;border:none;color:var(--muted);
+  font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s;}
+.auth-tab.on{background:rgba(201,168,76,.15);color:var(--gold-light);}
 .auth-form{width:100%;max-width:320px;display:flex;flex-direction:column;gap:10px;}
-.err{color:var(--crimson-light);font-size:.75rem;margin-top:2px;min-height:16px;}
+.err{color:var(--red-light);font-size:.75rem;margin-top:2px;min-height:16px;}
 
-/* ── EMOJI PICKER ── */
-.emoji-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin:10px 0;max-height:180px;overflow-y:auto;padding-right:2px;}
-.emoji-grid::-webkit-scrollbar{width:3px;}
-.emoji-grid::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
-.emoji-btn{
-  background:rgba(8,12,20,.5);border:1px solid var(--border2);
-  border-radius:3px;font-size:1.3rem;padding:6px 0;
-  cursor:pointer;transition:all .15s;text-align:center;
-}
-.emoji-btn:hover{border-color:var(--brass);transform:scale(1.08);}
-.emoji-btn.on{border-color:var(--brass-light);background:rgba(184,146,42,.12);}
+/* EMOJI PICKER */
+.emoji-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:10px 0;}
+.emoji-btn{background:var(--surface2);border:2px solid transparent;border-radius:8px;
+  font-size:1.4rem;padding:6px 0;cursor:pointer;transition:all .15s;text-align:center;}
+.emoji-btn:hover{border-color:var(--gold);transform:scale(1.1);}
+.emoji-btn.on{border-color:var(--gold-light);background:rgba(201,168,76,.15);}
 
-/* ── MY CHIP CARD ── */
-.my-card{
-  background:linear-gradient(135deg,#071810 0%,#0d2818 40%,#09200e 70%,#071810 100%);
-  border:1px solid rgba(201,168,76,.4);
-  border-radius:2px;padding:24px;margin-bottom:16px;
-  position:relative;overflow:hidden;
-  display:flex;align-items:center;gap:18px;
-  box-shadow:0 0 40px rgba(201,168,76,.08),0 8px 40px rgba(0,0,0,.6),inset 0 1px 0 rgba(201,168,76,.15);
-}
-.my-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent 5%,var(--brass-dark) 20%,var(--brass-pale) 50%,var(--brass-dark) 80%,transparent 95%);
-  box-shadow:0 0 8px rgba(201,168,76,.3);
-}
-.my-card::after{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse at 80% 50%,rgba(201,168,76,.06) 0%,transparent 55%),
-    radial-gradient(ellipse at 0% 100%,rgba(10,61,38,.15) 0%,transparent 40%);
-}
-.my-avatar{
-  font-size:2.4rem;width:60px;height:60px;
-  display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,rgba(201,168,76,.1) 0%,rgba(201,168,76,.05) 100%);
-  border:1px solid rgba(201,168,76,.4);border-radius:50%;flex-shrink:0;
-  box-shadow:0 0 16px rgba(201,168,76,.15),inset 0 1px 0 rgba(201,168,76,.2);
-}
+/* MY CHIP CARD */
+.my-card{background:linear-gradient(135deg,#111,#1a1a0d);border:1px solid var(--gold);
+  border-radius:16px;padding:20px;margin-bottom:12px;position:relative;overflow:hidden;
+  display:flex;align-items:center;gap:16px;}
+.my-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-light),transparent);}
+.my-avatar{font-size:2.6rem;width:56px;height:56px;display:flex;align-items:center;justify-content:center;
+  background:rgba(201,168,76,.1);border:2px solid var(--border);border-radius:50%;flex-shrink:0;}
 .my-info{flex:1;}
-.my-name-lbl{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;}
-.my-name-val{font-size:.95rem;font-weight:400;margin-top:3px;color:var(--text);}
-.my-chips-lbl{font-size:.65rem;color:var(--muted);margin-top:10px;letter-spacing:.1em;}
-.my-chips-val{
-  font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;
-  color:var(--brass-light);line-height:1.1;
-  text-shadow:0 0 20px rgba(201,168,76,.4);
-}
+.my-name-lbl{font-size:.7rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;}
+.my-name-val{font-weight:700;font-size:1rem;margin-top:2px;}
+.my-chips-lbl{font-size:.7rem;color:var(--muted);margin-top:8px;}
+.my-chips-val{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--gold-light);line-height:1.1;}
 .my-chips-val.bump{animation:chipBump .4s ease;}
 
-/* ── INVESTMENT CARD ── */
-.invest-card{
-  background:linear-gradient(135deg,#041008 0%,#0a2010 40%,#0d2816 100%);
-  border:1px solid rgba(30,144,88,.3);
-  border-radius:2px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden;
-  box-shadow:0 4px 32px rgba(0,0,0,.5),inset 0 1px 0 rgba(30,144,88,.1);
-}
-.invest-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--emerald-light),transparent);opacity:.3;
-}
+/* INVESTMENT CARD */
+.invest-card{background:linear-gradient(135deg,#0a1a0a,#111);border:1px solid rgba(39,174,96,.3);
+  border-radius:12px;padding:16px;margin-bottom:14px;position:relative;overflow:hidden;}
+.invest-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--green-light),transparent);opacity:.4;}
 .invest-status{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.invest-label{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.15em;color:var(--emerald-light);}
-.invest-badge{
-  border-radius:2px;padding:4px 14px;font-size:.68rem;font-weight:400;letter-spacing:.1em;
-  background:rgba(30,144,88,.12);border:1px solid rgba(30,144,88,.4);color:var(--emerald-light);
-  font-family:'Cinzel',serif;
-}
-.invest-badge.off{background:rgba(184,146,42,.08);border-color:var(--border);color:var(--muted);}
-.invest-num{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--emerald-light);}
-.invest-unit{font-size:.72rem;color:var(--muted);margin-top:2px;}
-.next-timer{font-size:.7rem;color:var(--muted);margin-top:6px;letter-spacing:.05em;}
-.next-timer span{color:var(--brass);}
+.invest-label{font-size:.75rem;letter-spacing:.1em;color:#2ecc71;text-transform:uppercase;}
+.invest-badge{background:rgba(39,174,96,.15);border:1px solid rgba(39,174,96,.4);
+  border-radius:20px;padding:3px 12px;font-size:.75rem;color:var(--green-light);font-weight:700;}
+.invest-badge.off{background:rgba(201,168,76,.1);border-color:var(--border);color:var(--muted);}
+.invest-num{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--green-light);}
+.invest-unit{font-size:.78rem;color:var(--muted);margin-top:2px;}
+.next-timer{font-size:.75rem;color:var(--muted);margin-top:6px;}
+.next-timer span{color:var(--gold);}
 .invest-controls{display:flex;gap:8px;margin-top:10px;}
-.invest-controls .btn{flex:1;font-size:.78rem;padding:8px 10px;}
+.invest-controls .btn{flex:1;font-size:.82rem;padding:8px 10px;}
 
-/* ── RANKING ── */
+/* RANKING */
 .rank-list{display:flex;flex-direction:column;gap:8px;}
-.rank-item{
-  display:flex;align-items:center;gap:12px;
-  background:linear-gradient(135deg,#0d2a18 0%,#11321e 60%,#0d2a18 100%);
-  border:1px solid var(--border2);border-radius:2px;
-  padding:14px 16px;position:relative;overflow:hidden;transition:all .3s;
-  box-shadow:0 2px 16px rgba(0,0,0,.4);
-}
+.rank-item{display:flex;align-items:center;gap:12px;background:var(--surface);
+  border:1px solid var(--border);border-radius:12px;padding:12px 14px;
+  position:relative;overflow:hidden;transition:all .3s;}
 .rank-item.animate{animation:rankIn .5s ease;}
-.rank-item::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--brass-light),transparent);opacity:.12;
-}
-.rank-item.rank-gold{
-  border-color:rgba(201,168,76,.6);
-  box-shadow:0 0 30px rgba(201,168,76,.12),0 4px 20px rgba(0,0,0,.5),inset 0 1px 0 rgba(201,168,76,.15);
-  background:linear-gradient(135deg,#0a2212 0%,#112c16 50%,#092010 100%);
-}
-.rank-item.rank-silver{border-color:rgba(180,180,190,.3);}
-.rank-item.rank-bronze{border-color:rgba(180,100,40,.3);}
-.rank-num{
-  font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;
-  width:28px;text-align:center;flex-shrink:0;
-}
-.rank-gold .rank-num{color:var(--brass-light);}
-.rank-silver .rank-num{color:#c8c8d0;}
-.rank-bronze .rank-num{color:#c87840;}
-.rank-emoji{
-  font-size:1.5rem;width:40px;height:40px;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:50%;flex-shrink:0;
-}
+.rank-item::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-light),transparent);opacity:.15;}
+.rank-item.rank-gold{border-color:var(--gold);box-shadow:0 0 20px rgba(201,168,76,.15);}
+.rank-item.rank-silver{border-color:#aaa;}
+.rank-item.rank-bronze{border-color:#cd7f32;}
+.rank-num{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900;
+  width:28px;text-align:center;flex-shrink:0;}
+.rank-gold .rank-num{color:var(--gold-light);}
+.rank-silver .rank-num{color:#ccc;}
+.rank-bronze .rank-num{color:#cd7f32;}
+.rank-emoji{font-size:1.6rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.05);border-radius:50%;flex-shrink:0;}
 .rank-info{flex:1;min-width:0;}
-.rank-name{font-weight:400;font-size:.9rem;letter-spacing:.03em;}
-.rank-sub{font-family:'Cinzel',serif;font-size:.58rem;color:var(--muted);margin-top:2px;letter-spacing:.1em;text-transform:uppercase;}
-.rank-chips{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--brass-light);text-shadow:0 0 12px rgba(201,168,76,.3);}
-.rank-me{
-  font-size:.62rem;
-  background:rgba(26,122,74,.15);color:var(--emerald-light);
-  border:1px solid rgba(26,122,74,.35);border-radius:2px;
-  padding:2px 7px;margin-left:6px;vertical-align:middle;letter-spacing:.05em;
-}
-.rank-invest{font-size:.68rem;color:var(--emerald-light);margin-top:2px;}
+.rank-name{font-weight:700;font-size:.92rem;}
+.rank-sub{font-size:.72rem;color:var(--muted);margin-top:1px;}
+.rank-chips{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--gold-light);}
+.rank-me{font-size:.68rem;background:rgba(26,188,156,.15);color:#1abc9c;
+  border:1px solid #16a085;border-radius:10px;padding:2px 6px;margin-left:6px;vertical-align:middle;}
+.rank-invest{font-size:.7rem;color:var(--green-light);margin-top:1px;}
 
-/* ── PLAYER ROW ── */
-.prow{
-  background:linear-gradient(135deg,#0d2218 0%,#112a1e 100%);
-  border:1px solid var(--border2);border-radius:4px;
-  padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;
-}
-.cicon{
-  width:36px;height:36px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;
-  background:rgba(255,255,255,.04);border:1px solid var(--border2);
-}
+/* PLAYER ROW (transfer) */
+.prow{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.cicon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:1.4rem;flex-shrink:0;
+  background:rgba(255,255,255,.05);border:2px solid var(--border);}
 
-/* ── QUICK BUTTONS ── */
+/* QUICK */
 .quicks{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
-.qbtn{
-  background:rgba(3,10,6,.75);border:1px solid var(--border);border-radius:2px;
-  color:var(--muted);font-family:'Noto Sans JP',sans-serif;font-size:.75rem;
-  font-weight:300;padding:6px 11px;cursor:pointer;transition:all .15s;letter-spacing:.05em;
-}
-.qbtn:hover{border-color:var(--brass);color:var(--brass-light);}
-.qbtn.on{background:rgba(184,146,42,.12);border-color:var(--brass);color:var(--brass-light);}
+.qbtn{background:var(--surface2);border:1px solid var(--border);border-radius:6px;
+  color:var(--muted);font-family:'Noto Sans JP',sans-serif;font-size:.8rem;
+  font-weight:700;padding:6px 10px;cursor:pointer;transition:all .15s;}
+.qbtn:hover{border-color:var(--gold);color:var(--gold);}
+.qbtn.on{background:rgba(201,168,76,.15);border-color:var(--gold);color:var(--gold-light);}
 
-/* ── LOG ── */
-.loglist{list-style:none;display:flex;flex-direction:column;gap:6px;max-height:260px;overflow-y:auto;padding-right:4px;}
-.loglist::-webkit-scrollbar{width:2px;}
+/* LOG */
+.loglist{list-style:none;display:flex;flex-direction:column;gap:7px;max-height:260px;overflow-y:auto;padding-right:4px;}
+.loglist::-webkit-scrollbar{width:3px;}
 .loglist::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
-.logitem{
-  background:rgba(8,12,20,.5);border:1px solid var(--border2);border-radius:3px;
-  padding:9px 12px;font-size:.78rem;display:flex;align-items:center;gap:9px;
-  animation:slideIn .3s ease;
-}
-.logitem .li{font-size:.9rem;flex-shrink:0;}
-.logitem .lt{flex:1;line-height:1.5;}
-.logitem .lt b{color:var(--brass-light);font-weight:400;}
-.logitem .la{color:var(--brass);font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:600;flex-shrink:0;}
-.logitem .ltime{color:var(--muted);font-size:.65rem;flex-shrink:0;letter-spacing:.05em;}
+.logitem{background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  padding:9px 12px;font-size:.8rem;display:flex;align-items:center;gap:9px;animation:slideIn .3s ease;}
+.logitem .li{font-size:.95rem;flex-shrink:0;}
+.logitem .lt{flex:1;line-height:1.4;}
+.logitem .lt b{color:var(--gold-light);}
+.logitem .la{color:var(--gold);font-family:'Playfair Display',serif;font-weight:700;font-size:.9rem;flex-shrink:0;}
+.logitem .ltime{color:var(--muted);font-size:.68rem;flex-shrink:0;}
 
-/* ── ADMIN CONTROLS ── */
-.citem{
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(8,12,20,.4);border:1px solid var(--border2);border-radius:3px;
-  padding:10px 14px;margin-bottom:8px;
-}
+/* ADMIN CONTROLS */
+.citem{display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  padding:10px 14px;margin-bottom:8px;}
 .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0;}
-.toggle-lbl{font-size:.82rem;font-weight:300;letter-spacing:.03em;}
+.toggle-lbl{font-size:.85rem;}
 .toggle{position:relative;width:44px;height:24px;flex-shrink:0;}
 .toggle input{opacity:0;width:0;height:0;}
-.slider{
-  position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;
-  background:rgba(3,10,6,.75);border:1px solid var(--border);border-radius:24px;transition:.3s;
-}
-.slider:before{
-  content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;
-  background:var(--muted);border-radius:50%;transition:.3s;
-}
-input:checked + .slider{background:rgba(13,74,46,.4);border-color:var(--emerald-light);}
-input:checked + .slider:before{transform:translateX(20px);background:var(--emerald-light);}
+.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;
+  background:var(--surface2);border:1px solid var(--border);border-radius:24px;transition:.3s;}
+.slider:before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;
+  background:var(--muted);border-radius:50%;transition:.3s;}
+input:checked + .slider{background:rgba(39,174,96,.3);border-color:var(--green-light);}
+input:checked + .slider:before{transform:translateX(20px);background:var(--green-light);}
 
-/* ── TICKET ── */
-.ticket-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--brass-light);}
+/* TICKET */
+.ticket-val{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold-light);}
 
-/* ── QUIZ ── */
-.quiz-card{
-  background:linear-gradient(160deg,var(--surface) 0%,var(--surface2) 100%);
-  border:1px solid var(--border2);border-radius:4px;
-  padding:18px;margin-bottom:16px;position:relative;overflow:hidden;
-}
-.quiz-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--brass-light),transparent);opacity:.25;
-}
-.quiz-q{
-  font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;
-  margin-bottom:16px;line-height:1.6;color:var(--text);
-}
-.quiz-opts{display:flex;gap:10px;margin-bottom:12px;}
-.quiz-opt{
-  flex:1;background:rgba(8,12,20,.5);border:1px solid var(--border);
-  border-radius:3px;padding:14px 8px;text-align:center;cursor:pointer;
-  transition:all .2s;font-family:'Noto Sans JP',sans-serif;font-size:.82rem;
-}
-.quiz-opt:hover{border-color:var(--brass);}
-.quiz-opt.selected{border-color:var(--brass-light);background:rgba(184,146,42,.1);color:var(--brass-light);}
-.quiz-opt.correct{border-color:var(--emerald-light);background:rgba(13,74,46,.2);color:var(--emerald-light);}
-.quiz-opt.wrong{border-color:var(--crimson-light);background:rgba(139,26,42,.15);color:var(--crimson-light);}
-.quiz-status{
-  display:inline-block;border-radius:2px;padding:3px 12px;
-  font-family:'Cinzel',serif;font-size:.62rem;font-weight:600;letter-spacing:.12em;margin-bottom:12px;
-}
-.quiz-status.open{background:rgba(13,74,46,.15);border:1px solid rgba(26,122,74,.35);color:var(--emerald-light);}
-.quiz-status.closed{background:rgba(184,146,42,.08);border:1px solid var(--border);color:var(--muted);}
-.quiz-hist-item{
-  background:rgba(8,12,20,.4);border:1px solid var(--border2);
-  border-radius:3px;padding:14px;margin-bottom:8px;font-size:.8rem;
-}
-.quiz-hist-q{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:600;margin-bottom:6px;}
-.quiz-hist-ans{font-size:.72rem;color:var(--muted);}
-.quiz-hist-result{font-size:.75rem;margin-top:5px;}
+/* QUIZ */
+.quiz-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;position:relative;overflow:hidden;}
+.quiz-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-light),transparent);opacity:.3;}
+.quiz-q{font-size:1rem;font-weight:700;margin-bottom:14px;line-height:1.5;}
+.quiz-opts{display:flex;gap:10px;margin-bottom:10px;}
+.quiz-opt{flex:1;background:var(--surface2);border:2px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s;font-family:'Noto Sans JP',sans-serif;font-size:.88rem;font-weight:700;}
+.quiz-opt:hover{border-color:var(--gold);}
+.quiz-opt.selected{border-color:var(--gold-light);background:rgba(201,168,76,.15);color:var(--gold-light);}
+.quiz-opt.correct{border-color:var(--green-light);background:rgba(39,174,96,.15);color:var(--green-light);}
+.quiz-opt.wrong{border-color:var(--red-light);background:rgba(192,57,43,.15);color:var(--red-light);}
+.quiz-status{display:inline-block;border-radius:20px;padding:3px 12px;font-size:.72rem;font-weight:700;margin-bottom:10px;}
+.quiz-status.open{background:rgba(39,174,96,.15);border:1px solid rgba(39,174,96,.4);color:var(--green-light);}
+.quiz-status.closed{background:rgba(201,168,76,.1);border:1px solid var(--border);color:var(--muted);}
+.quiz-hist-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px;font-size:.82rem;}
+.quiz-hist-q{font-weight:700;margin-bottom:6px;}
+.quiz-hist-ans{font-size:.75rem;color:var(--muted);}
+.quiz-hist-result{font-size:.78rem;margin-top:4px;}
 
-/* ── DEBT ── */
-.debt-badge{
-  display:inline-block;background:rgba(139,26,42,.2);border:1px solid rgba(139,26,42,.4);
-  border-radius:2px;padding:2px 8px;font-size:.68rem;color:var(--crimson-light);
-  font-weight:400;margin-left:6px;vertical-align:middle;letter-spacing:.05em;
-}
-.debt-card{
-  background:linear-gradient(135deg,#150508 0%,#1e0a0e 40%,#0e2016 100%);
-  border:1px solid rgba(208,68,88,.25);
-  border-radius:2px;padding:18px;margin-bottom:12px;position:relative;overflow:hidden;
-  box-shadow:0 4px 24px rgba(0,0,0,.5),inset 0 1px 0 rgba(208,68,88,.08);
-}
-.debt-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--crimson-light),transparent);opacity:.3;
-}
+/* DEBT */
+.debt-badge{display:inline-block;background:rgba(192,57,43,.2);border:1px solid rgba(192,57,43,.5);
+  border-radius:10px;padding:2px 8px;font-size:.7rem;color:var(--red-light);font-weight:700;margin-left:6px;vertical-align:middle;}
+.debt-val{color:var(--red-light)!important;}
+.debt-card{background:linear-gradient(135deg,#1a0a0a,#111);border:1px solid rgba(192,57,43,.4);
+  border-radius:12px;padding:14px;margin-bottom:10px;}
+.debt-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--red-light),transparent);opacity:.4;}
 
-/* ── MISC ── */
-.divider{height:1px;background:var(--border2);margin:18px 0;}
-.empty{
-  text-align:center;color:var(--muted);font-size:.78rem;
-  padding:20px 0;letter-spacing:.08em;font-family:'Cinzel',serif;
-}
+/* MISC */
+.divider{height:1px;background:var(--border);margin:16px 0;}
+.empty{text-align:center;color:var(--muted);font-size:.82rem;padding:18px 0;}
 .center{text-align:center;}
-.screen{animation:fadeIn .35s ease;}
-.loading{display:flex;align-items:center;justify-content:center;padding:80px 0;flex-direction:column;gap:16px;}
-.spinner{
-  width:36px;height:36px;
-  border:2px solid var(--border2);border-top-color:var(--brass-light);
-  border-radius:50%;animation:spin .9s linear infinite;
-  box-shadow:0 0 12px rgba(201,168,76,.2);
-}
-.badge{
-  display:inline-block;background:rgba(184,146,42,.08);border:1px solid var(--border);
-  border-radius:2px;font-size:.68rem;color:var(--brass);padding:2px 8px;letter-spacing:.08em;
-}
+.screen{animation:fadeIn .3s ease;}
+.loading{display:flex;align-items:center;justify-content:center;padding:60px 0;flex-direction:column;gap:14px;}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);
+  border-radius:50%;animation:spin .8s linear infinite;}
+.badge{display:inline-block;background:rgba(201,168,76,.1);border:1px solid var(--border);
+  border-radius:4px;font-size:.7rem;color:var(--gold);padding:2px 8px;}
 
-/* ── TOAST ── */
-#toast{
-  position:fixed;bottom:32px;left:50%;
-  transform:translateX(-50%) translateY(80px);
-  background:linear-gradient(135deg,var(--brass-dark) 0%,var(--brass) 40%,var(--brass-light) 100%);
-  color:#06060a;font-weight:500;font-size:.82rem;
-  padding:12px 28px;border-radius:2px;z-index:999;
-  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
-  white-space:nowrap;
-  box-shadow:0 8px 40px rgba(201,168,76,.4),0 0 0 1px rgba(201,168,76,.2);
-  letter-spacing:.06em;
-}
+#toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:#0a0a0a;
+  font-weight:700;font-size:.85rem;padding:12px 24px;border-radius:30px;z-index:999;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;
+  box-shadow:0 8px 30px rgba(201,168,76,.4);}
 #toast.show{transform:translateX(-50%) translateY(0);}
 
-/* ── INVEST POPUP ── */
-#invest-popup{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:center;justify-content:center;}
+/* INVEST RESULT POPUP */
+#invest-popup{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;
+  display:none;align-items:center;justify-content:center;}
 #invest-popup.show{display:flex;}
-.popup-box{
-  background:linear-gradient(160deg,#071810 0%,#0d2a18 50%,#071810 100%);
-  border:1px solid rgba(201,168,76,.4);border-radius:2px;
-  padding:40px 32px;text-align:center;max-width:320px;width:90%;
-  animation:popIn .4s cubic-bezier(.34,1.56,.64,1);
-  position:relative;
-  box-shadow:0 0 60px rgba(201,168,76,.1),0 20px 60px rgba(0,0,0,.8);
-}
-.popup-box::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent 5%,var(--brass-dark) 20%,var(--brass-pale) 50%,var(--brass-dark) 80%,transparent 95%);
-  box-shadow:0 0 8px rgba(201,168,76,.3);
-}
-.popup-emoji{font-size:2.8rem;margin-bottom:14px;}
-.popup-title{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;color:var(--brass-light);margin-bottom:10px;letter-spacing:.1em;text-shadow:0 0 12px rgba(201,168,76,.4);}
-.popup-result{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:600;margin:14px 0;text-shadow:0 0 24px currentColor;}
-.popup-desc{font-size:.78rem;color:var(--muted);line-height:1.7;letter-spacing:.03em;}
+.popup-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  padding:32px 24px;text-align:center;max-width:300px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+.popup-emoji{font-size:3rem;margin-bottom:12px;}
+.popup-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold);margin-bottom:8px;}
+.popup-result{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;margin:10px 0;}
+.popup-desc{font-size:.82rem;color:var(--muted);line-height:1.6;}
 
-/* ── ANIMATIONS ── */
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slideIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
-@keyframes chipBump{0%{transform:scale(1)}40%{transform:scale(1.2)}100%{transform:scale(1)}}
-@keyframes rankIn{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
-@keyframes popIn{from{opacity:0;transform:scale(.75)}to{opacity:1;transform:scale(1)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+@keyframes chipBump{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
+@keyframes rankIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="logo">Private Casino</div>
-    <button id="pwa-install-btn" onclick="installPWA()" style="display:none;margin-top:10px;background:rgba(184,146,42,.1);border:1px solid var(--border);border-radius:2px;color:var(--brass);font-size:.65rem;padding:5px 16px;cursor:pointer;font-family:'Cinzel',serif;letter-spacing:.12em;">+ ホーム画面に追加</button>
+    <div class="logo-sub">身内専用 チップ管理</div>
   </header>
 
   <!-- TABS -->
   <div class="tabs" id="tabs" style="display:none;">
-    <button class="tab on" id="t0" onclick="switchTab(0)">ホーム</button>
-    <button class="tab" id="t1" onclick="switchTab(1)">ランキング</button>
-    <button class="tab" id="t3" onclick="switchTab(3)">クイズ</button>
-    <button class="tab" id="t2" onclick="switchTab(2)">管理者</button>
+    <button class="tab on" id="t0" onclick="switchTab(0)">🃏 ホーム</button>
+    <button class="tab" id="t1" onclick="switchTab(1)">🏆 ランキング</button>
+    <button class="tab" id="t3" onclick="switchTab(3)">❓ クイズ</button>
+    <button class="tab" id="t2" onclick="switchTab(2)">👑 管理者</button>
   </div>
 
   <!-- LOADING -->
   <div id="loading" class="loading">
     <div class="spinner"></div>
-    <span style="color:var(--muted);font-size:.72rem;letter-spacing:.2em;font-family:'Cinzel',serif;">接続中...</span>
+    <span style="color:var(--muted);font-size:.82rem;">接続中...</span>
   </div>
 
   <!-- AUTH SCREEN -->
   <div id="auth" style="display:none;" class="screen">
     <div class="auth-box">
-      <div class="auth-box-crest">♠</div>
-      <div class="auth-box-title">Private Casino</div>
-      <div class="auth-box-sub">アカウントでログイン</div>
+      <div style="font-size:3rem;margin-bottom:12px;">🎰</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold);margin-bottom:8px;">Private Casino</div>
+      <div style="font-size:.82rem;color:var(--muted);margin-bottom:20px;">アカウントを作って参加しよう</div>
       <div class="auth-tabs">
         <button class="auth-tab on" id="at0" onclick="switchAuth('login')">ログイン</button>
         <button class="auth-tab" id="at1" onclick="switchAuth('reg')">新規登録</button>
@@ -558,7 +289,7 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
       <div class="auth-form">
         <div id="reg-fields" style="display:none;flex-direction:column;gap:10px;">
           <div>
-            <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);margin-bottom:8px;">アイコンを選んでください</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">アイコンを選んでください</div>
             <div class="emoji-grid" id="emoji-grid"></div>
           </div>
           <input type="text" id="auth-name" placeholder="表示名（例：たろう）" maxlength="10"/>
@@ -574,11 +305,11 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
   <!-- ADMIN LOCK -->
   <div id="lock" style="display:none;" class="screen">
     <div class="auth-box">
-      <div class="auth-box-crest">🔐</div>
-      <div class="auth-box-title">管理者認証</div>
-      <div class="auth-box-sub">管理者専用PINを入力してください</div>
+      <div style="font-size:3rem;margin-bottom:12px;">🔐</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--gold);margin-bottom:8px;">管理者認証</div>
+      <div style="font-size:.82rem;color:var(--muted);margin-bottom:20px;">管理者専用PINを入力してください</div>
       <div class="auth-form">
-        <input type="password" id="pin-in" placeholder="••••" maxlength="4" style="text-align:center;font-size:1.4rem;letter-spacing:.5em;" onkeydown="if(event.key==='Enter')checkPin()"/>
+        <input type="password" id="pin-in" placeholder="••••" maxlength="4" style="text-align:center;font-size:1.2rem;" onkeydown="if(event.key==='Enter')checkPin()"/>
         <div class="err" id="pin-err"></div>
         <button class="btn btn-g btn-full" onclick="checkPin()">ロック解除</button>
       </div>
@@ -600,22 +331,22 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
     <div class="my-card" id="my-card">
       <div class="my-avatar" id="my-avatar">🃏</div>
       <div class="my-info">
-      <div class="my-name-lbl">プレイヤー</div>
+        <div class="my-name-lbl">プレイヤー</div>
         <div class="my-name-val" id="my-name">—</div>
         <!-- 手元チップ＋投資チップ 横並び -->
         <div style="display:flex;gap:16px;margin-top:10px;align-items:flex-end;">
           <div>
-            <div class="my-chips-lbl">手元</div>
+            <div class="my-chips-lbl">🤲 手元</div>
             <div class="my-chips-val" id="my-chips">—</div>
           </div>
           <div style="width:1px;background:var(--border);align-self:stretch;margin-bottom:2px;"></div>
           <div>
-            <div class="my-chips-lbl" style="color:var(--emerald-light);">投資中</div>
-            <div class="my-chips-val" id="my-invested-val" style="color:var(--emerald-light);font-size:1.6rem;">0</div>
+            <div class="my-chips-lbl" style="color:var(--green-light);">📈 投資中</div>
+            <div class="my-chips-val" id="my-invested-val" style="color:var(--green-light);font-size:1.6rem;">0</div>
           </div>
           <div style="width:1px;background:var(--border);align-self:stretch;margin-bottom:2px;"></div>
           <div>
-            <div class="my-chips-lbl">合計</div>
+            <div class="my-chips-lbl">💰 合計</div>
             <div class="my-chips-val" id="my-total-val" style="color:#f0e6c8;font-size:1.6rem;">—</div>
           </div>
         </div>
@@ -626,12 +357,12 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
     <div id="debt-block" style="position:relative;">
       <div class="debt-card">
         <div id="debt-header-row" style="display:none;align-items:center;justify-content:space-between;margin-bottom:10px;">
-          <div style="font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.15em;color:var(--crimson-light);text-transform:uppercase;">借金</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:900;color:var(--crimson-light);" id="debt-val-display">0</div>
+          <div style="font-size:.78rem;letter-spacing:.1em;color:var(--red-light);text-transform:uppercase;">💸 借金</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--red-light);" id="debt-val-display">0</div>
         </div>
-        <div id="debt-base-row" style="display:none;font-size:.72rem;color:var(--muted);margin-bottom:12px;">元本: <span id="debt-base-display" style="color:var(--crimson-light);">0</span> chips &nbsp;·&nbsp; Interest accrues each round</div>
+        <div id="debt-base-row" style="display:none;font-size:.72rem;color:var(--muted);margin-bottom:12px;">元本: <span id="debt-base-display" style="color:var(--red-light);">0</span>枚　※投資判定ごとに元本分の利子が発生します</div>
         <!-- 借りる -->
-        <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);margin-bottom:6px;">借りる</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:6px;">借りる</div>
         <div class="quicks" id="borrow-quicks">
           <button class="qbtn" onclick="setBorrowAmt(1)">1</button>
           <button class="qbtn" onclick="setBorrowAmt(3)">3</button>
@@ -639,44 +370,46 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
           <button class="qbtn" onclick="setBorrowAmt(10)">10</button>
         </div>
         <div class="row" style="margin-bottom:12px;">
-          <input type="number" id="borrow-amt" placeholder="枚数" min="1"/>
+          <input type="number" id="borrow-amt" placeholder="借りる枚数" min="1"/>
           <button class="btn btn-d" onclick="doBorrow()">借りる</button>
         </div>
         <!-- 返済 -->
         <div id="debt-repay-section" style="display:none;border-top:1px solid rgba(255,255,255,.06);padding-top:12px;">
-          <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);margin-bottom:6px;" id="repay-label">返済する</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:6px;" id="repay-label">返済する</div>
           <div class="row" style="margin-bottom:0;">
-            <input type="number" id="debt-repay-amt" placeholder="枚数" min="1"/>
-            <button class="btn btn-o" style="border-color:var(--crimson-light);color:var(--crimson-light);" onclick="repayDebt()">返済する</button>
+            <input type="number" id="debt-repay-amt" placeholder="返済枚数" min="1"/>
+            <button class="btn btn-o" style="border-color:var(--red-light);color:var(--red-light);" onclick="repayDebt()">返済する</button>
           </div>
         </div>
       </div>
     </div>
 
     <!-- INVESTMENT -->
-    <p class="sec">投資</p>
+    <p class="sec">📈 投資</p>
     <div class="invest-card" id="invest-card">
       <div class="invest-status">
         <div class="invest-label">投資ステータス</div>
         <div class="invest-badge off" id="invest-badge">停止中</div>
       </div>
-      <div style="display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:4px;">
+      <!-- 投資枠プログレス -->
+      <div style="display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:4px;">
         <span style="color:var(--muted);">投資中</span>
-        <span style="color:var(--emerald-light);" id="invest-limit-label">枠: 2枚</span>
+        <span style="color:var(--green-light);" id="invest-limit-label">枠: 2枚</span>
       </div>
-      <div style="background:rgba(3,10,6,.75);border-radius:2px;height:6px;overflow:hidden;margin-bottom:10px;">
-        <div id="invest-bar" style="height:100%;background:linear-gradient(90deg,var(--emerald),var(--emerald-light));border-radius:2px;transition:width .4s;width:0%;"></div>
+      <div style="background:var(--surface2);border-radius:20px;height:8px;overflow:hidden;margin-bottom:10px;">
+        <div id="invest-bar" style="height:100%;background:linear-gradient(90deg,var(--green),var(--green-light));border-radius:20px;transition:width .4s;width:0%;"></div>
       </div>
       <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px;">
         <div class="invest-num" id="invest-num">0</div>
-        <div class="invest-unit" id="invest-unit">枚投資中</div>
+        <div class="invest-unit" id="invest-unit">枚投資中（枠: 2枚）</div>
       </div>
       <div class="next-timer" id="next-timer">次の判定まで —</div>
       <div class="invest-controls">
         <button class="btn btn-gr" onclick="addInvest()" id="btn-invest-add">＋1枚 投資する</button>
       </div>
-      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border2);">
-        <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);margin-bottom:8px;">引き出す枚数（切り上げ）</div>
+      <!-- 引き出し -->
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06);">
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">引き出す枚数（切り上げ）</div>
         <div class="quicks" id="pull-quicks">
           <button class="qbtn" onclick="setPullAmt(0.5)">0.5</button>
           <button class="qbtn" onclick="setPullAmt(1)">1</button>
@@ -684,57 +417,61 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
           <button class="qbtn" onclick="setPullAmt(2)">2</button>
         </div>
         <div class="row" style="margin-bottom:0;">
-          <input type="number" id="pull-amt" placeholder="枚数" min="1" step="1" style="font-size:.88rem;"/>
+          <input type="number" id="pull-amt" placeholder="枚数を入力" min="1" step="1" style="font-size:.9rem;"/>
           <button class="btn btn-o" style="white-space:nowrap;" onclick="pullInvest()">引き出す</button>
-          <button class="btn btn-o" style="white-space:nowrap;border-color:var(--emerald-light);color:var(--emerald-light);" onclick="pullAllInvest()" id="btn-invest-pull">全部</button>
+          <button class="btn btn-o" style="white-space:nowrap;border-color:var(--green-light);color:var(--green-light);" onclick="pullAllInvest()" id="btn-invest-pull">全部</button>
         </div>
       </div>
-      <div style="font-size:.68rem;color:var(--muted);margin-top:10px;letter-spacing:.03em;line-height:1.8;">
+      <div style="font-size:.72rem;color:var(--muted);margin-top:8px;">
         ※20分ごとに自動判定（×0.5 / ×0.75 / ×1.5 / ×2）<br>
         ※投資枠: 初期2枚・時間報酬精算ごとに+2枚　※引き出しは切り上げ
       </div>
     </div>
 
-    <p class="sec">抽選券</p>
+    <!-- TICKET -->
+    <p class="sec">🎟️ 抽選券</p>
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
         <div>
-          <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);">所持抽選券</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--brass-light);" id="my-tickets">0</div>
+          <div style="font-size:.7rem;color:var(--muted);letter-spacing:.1em;">所持抽選券</div>
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold-light);" id="my-tickets">0</div>
         </div>
-        <div style="text-align:right;font-size:.7rem;color:var(--muted);line-height:2;" id="ticket-rate-disp">
+        <div style="text-align:right;font-size:.72rem;color:var(--muted);line-height:1.8;" id="ticket-rate-disp">
           レート読み込み中...
         </div>
       </div>
       <div style="display:flex;gap:8px;">
-        <div style="flex:1;background:rgba(8,12,20,.4);border:1px solid var(--border2);border-radius:3px;padding:12px;">
-          <div style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.12em;color:var(--muted);margin-bottom:6px;">チップ → 抽選券</div>
+        <!-- チップ→抽選券 -->
+        <div style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;">
+          <div style="font-size:.72rem;color:var(--muted);margin-bottom:6px;">チップ → 抽選券</div>
           <div class="quicks" id="tq-buy" style="margin-bottom:6px;">
-            <button class="qbtn" onclick="tqBuy(1)">1</button>
-            <button class="qbtn" onclick="tqBuy(3)">3</button>
-            <button class="qbtn" onclick="tqBuy(5)">5</button>
+            <button class="qbtn" onclick="tqBuy(1)">1枚</button>
+            <button class="qbtn" onclick="tqBuy(3)">3枚</button>
+            <button class="qbtn" onclick="tqBuy(5)">5枚</button>
           </div>
           <div class="row" style="margin-bottom:0;">
-            <input type="number" id="ticket-buy-amt" placeholder="Qty" min="1"/>
+            <input type="number" id="ticket-buy-amt" placeholder="枚数" min="1"/>
             <button class="btn btn-g" style="white-space:nowrap;" onclick="buyTicket()">交換</button>
           </div>
         </div>
-        <div style="flex:1;background:rgba(8,12,20,.4);border:1px solid var(--border2);border-radius:3px;padding:12px;">
-          <div style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.12em;color:var(--muted);margin-bottom:6px;">抽選券 → チップ</div>
+        <!-- 抽選券→チップ -->
+        <div style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;">
+          <div style="font-size:.72rem;color:var(--muted);margin-bottom:6px;">抽選券 → チップ</div>
           <div class="quicks" id="tq-sell" style="margin-bottom:6px;">
-            <button class="qbtn" onclick="tqSell(1)">1</button>
-            <button class="qbtn" onclick="tqSell(3)">3</button>
-            <button class="qbtn" onclick="tqSell(5)">5</button>
+            <button class="qbtn" onclick="tqSell(1)">1枚</button>
+            <button class="qbtn" onclick="tqSell(3)">3枚</button>
+            <button class="qbtn" onclick="tqSell(5)">5枚</button>
           </div>
           <div class="row" style="margin-bottom:0;">
-            <input type="number" id="ticket-sell-amt" placeholder="Qty" min="1"/>
-            <button class="btn btn-o" style="white-space:nowrap;border-color:var(--brass);color:var(--brass);" onclick="sellTicket()">換金</button>
+            <input type="number" id="ticket-sell-amt" placeholder="枚数" min="1"/>
+            <button class="btn btn-o" style="white-space:nowrap;border-color:var(--gold);color:var(--gold);" onclick="sellTicket()">換金</button>
           </div>
         </div>
       </div>
     </div>
 
-    <p class="sec">チップを送る</p>
+    <!-- SEND -->
+    <p class="sec">💸 チップを送る</p>
     <div class="card">
       <div class="row">
         <select class="sel" id="p-to"><option value="">送る相手を選ぶ</option></select>
@@ -747,12 +484,13 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
         <button class="qbtn" onclick="pq(10)">10</button>
       </div>
       <div class="row" style="margin-bottom:0;">
-        <input type="number" id="pamt" placeholder="枚数" min="1"/>
+        <input type="number" id="pamt" placeholder="枚数を入力" min="1"/>
         <button class="btn btn-g" onclick="doSend()">送る</button>
       </div>
     </div>
 
-    <p class="sec">取引履歴</p>
+    <!-- LOG -->
+    <p class="sec">📋 履歴</p>
     <div class="card" style="padding:14px;">
       <ul class="loglist" id="plog"><li class="empty">まだ取引がありません</li></ul>
     </div>
@@ -761,16 +499,18 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
   <!-- RANKING SCREEN -->
   <div id="s1" style="display:none;" class="screen">
     <br>
-    <p class="sec">ランキング</p>
+    <p class="sec">🏆 ランキング</p>
     <div id="rank-list" class="rank-list"></div>
   </div>
 
   <!-- QUIZ SCREEN (player) -->
   <div id="s3" style="display:none;" class="screen">
     <br>
-    <p class="sec">受付中のクイズ</p>
+    <p class="sec">❓ クイズ</p>
+    <!-- 受付中クイズ -->
     <div id="quiz-active-block"></div>
-    <p class="sec" style="margin-top:8px;">クイズ履歴</p>
+    <!-- 履歴 -->
+    <p class="sec" style="margin-top:8px;">📋 クイズ履歴</p>
     <div id="quiz-history-block"><div class="empty">まだクイズがありません</div></div>
   </div>
 
@@ -782,9 +522,9 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
       <div id="amlist"><div class="empty">プレイヤーなし</div></div>
     </div>
 
-    <p class="sec">借金を課す</p>
+    <p class="sec">💸 借金を課す</p>
     <div class="card">
-      <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px;letter-spacing:.03em;">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">
         特定のプレイヤーに借金を追加します
       </div>
       <div class="row" style="margin-bottom:10px;">
@@ -797,14 +537,14 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
         <button class="qbtn" onclick="dq(10)">10</button>
       </div>
       <div class="row" style="margin-bottom:0;">
-        <input type="number" id="debtamt" placeholder="枚数" min="1"/>
+        <input type="number" id="debtamt" placeholder="借金額" min="1"/>
         <button class="btn btn-d" onclick="doAddDebt()">借金を課す</button>
       </div>
     </div>
 
-    <p class="sec">チップ一斉回収</p>
+    <p class="sec">💰 チップ一斉回収</p>
     <div class="card">
-      <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px;letter-spacing:.03em;">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">
         払えないプレイヤーはチップをそのまま残して回収額まるまる借金になります
       </div>
       <div class="quicks" id="cquicks">
@@ -814,7 +554,7 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
         <button class="qbtn" onclick="cq(10)">10</button>
       </div>
       <div class="row" style="margin-bottom:0;">
-        <input type="number" id="collectamt" placeholder="枚数 per member" min="1"/>
+        <input type="number" id="collectamt" placeholder="全員から回収する枚数" min="1"/>
         <button class="btn btn-d" onclick="doCollect()">一斉回収</button>
       </div>
     </div>
@@ -828,36 +568,36 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
         <button class="qbtn" onclick="aq(1)">+1</button>
         <button class="qbtn" onclick="aq(3)">+3</button>
         <button class="qbtn" onclick="aq(5)">+5</button>
-        <button class="qbtn" onclick="aq(-1)">−1</button>
-        <button class="qbtn" onclick="aq(-3)">−3</button>
-        <button class="qbtn" onclick="aq(-5)">−5</button>
+        <button class="qbtn" onclick="aq(-1)">-1</button>
+        <button class="qbtn" onclick="aq(-3)">-3</button>
+        <button class="qbtn" onclick="aq(-5)">-5</button>
       </div>
       <div class="row" style="margin-bottom:0;">
-        <input type="number" id="adjamt" placeholder="枚数 (negative allowed)"/>
+        <input type="number" id="adjamt" placeholder="枚数（マイナス可）"/>
         <button class="btn btn-g" onclick="doAdj()">適用</button>
       </div>
     </div>
 
-    <p class="sec">抽選券レート設定</p>
+    <p class="sec">🎟️ 抽選券レート設定</p>
     <div class="card">
-      <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px;letter-spacing:.03em;">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">
         チップ → 抽選券（何チップで1枚？）
       </div>
       <div class="row" style="margin-bottom:12px;">
         <input type="number" id="rate-chip-to-ticket" placeholder="例: 5（5チップ=抽選券1枚）" min="1" style="flex:1;"/>
-        <button class="btn btn-g" onclick="saveTicketRate()">保存</button>
+        <button class="btn btn-g" onclick="saveTicketRate()">設定</button>
       </div>
-      <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px;letter-spacing:.03em;">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">
         抽選券 → チップ（1枚で何チップ？）
       </div>
       <div class="row" style="margin-bottom:8px;">
         <input type="number" id="rate-ticket-to-chip" placeholder="例: 3（抽選券1枚=3チップ）" min="1" style="flex:1;"/>
-        <button class="btn btn-g" onclick="saveTicketRate()">保存</button>
+        <button class="btn btn-g" onclick="saveTicketRate()">設定</button>
       </div>
-      <div style="font-size:.7rem;color:var(--brass);margin-top:4px;letter-spacing:.05em;" id="ticket-rate-info">現在のレート: 未設定</div>
+      <div style="font-size:.72rem;color:var(--gold);margin-top:4px;" id="ticket-rate-info">現在のレート: 未設定</div>
     </div>
 
-    <p class="sec">投資設定</p>
+    <p class="sec">📈 投資設定</p>
     <div class="card">
       <div class="toggle-row" style="margin-bottom:12px;">
         <span class="toggle-lbl">投資機能を有効にする</span>
@@ -866,45 +606,45 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
           <span class="slider"></span>
         </label>
       </div>
-      <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;letter-spacing:.03em;">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:8px;">
         ゲーム開始日時（投資枠カウント基準）
       </div>
       <div class="row" style="margin-bottom:8px;">
         <input type="datetime-local" id="game-start-time" style="flex:1;"/>
         <button class="btn btn-g" onclick="saveGameStartTime()">設定</button>
       </div>
-      <div style="font-size:.7rem;color:var(--emerald-light);margin-bottom:10px;letter-spacing:.05em;" id="invest-limit-info">
+      <div style="font-size:.72rem;color:var(--green-light);margin-bottom:10px;" id="invest-limit-info">
         現在の投資枠: 計算中...
       </div>
-      <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px;letter-spacing:.03em;">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">
         投資受付の開始時刻（毎日この時刻から受付開始）
       </div>
       <div class="row" style="margin-bottom:8px;">
         <input type="time" id="invest-time" style="flex:1;"/>
         <button class="btn btn-g" onclick="saveInvestTime()">設定</button>
       </div>
-      <div style="font-size:.68rem;color:var(--muted);line-height:1.9;letter-spacing:.03em;">
-        · 枠: 2枚 chips initially, +2 per hourly reward · No upper limit<br>
+      <div style="font-size:.72rem;color:var(--muted);">
+        ・投資枠: 初期2枚、時間報酬精算ごとに+2枚（上限なし）<br>
         ・20分ごとに投資判定（×0.5 / ×0.75 / ×1.5 / ×2）<br>
         ・1時間ごとに全員に −1 / +1 / +2 枚のランダム増減
       </div>
-      <div style="margin-top:12px;">
-        <button class="btn btn-d" style="font-size:.75rem;padding:7px 14px;width:100%;" onclick="triggerInvestNow()">🎲 今すぐ投資判定を実行</button>
+      <div style="margin-top:10px;">
+        <button class="btn btn-d" style="font-size:.78rem;padding:6px 14px;width:100%;" onclick="triggerInvestNow()">🎲 今すぐ投資判定を実行</button>
       </div>
       <div style="margin-top:8px;">
-        <button class="btn btn-o" style="font-size:.75rem;padding:7px 14px;width:100%;" onclick="triggerHourlyNow()">⏱ 今すぐ時間報酬を配布</button>
+        <button class="btn btn-o" style="font-size:.78rem;padding:6px 14px;width:100%;" onclick="triggerHourlyNow()">⏱ 今すぐ時間報酬を配布</button>
       </div>
     </div>
 
-    <p class="sec">クイズ管理</p>
+    <p class="sec">❓ クイズ管理</p>
     <div class="card">
-      <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px;letter-spacing:.03em;">新しいクイズを作成</div>
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">新しいクイズを作成</div>
       <input type="text" id="quiz-q" placeholder="問題文" style="margin-bottom:8px;"/>
       <div class="row" style="margin-bottom:8px;">
         <input type="text" id="quiz-a" placeholder="選択肢A"/>
         <input type="text" id="quiz-b" placeholder="選択肢B"/>
       </div>
-      <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);margin-bottom:8px;">正解はどちら？</div>
+      <div style="font-size:.78rem;color:var(--muted);margin-bottom:6px;">正解はどちら？</div>
       <div style="display:flex;gap:8px;margin-bottom:12px;">
         <button class="btn btn-o" id="quiz-ans-a" onclick="selectQuizAns('A')" style="flex:1;">A</button>
         <button class="btn btn-o" id="quiz-ans-b" onclick="selectQuizAns('B')" style="flex:1;">B</button>
@@ -912,16 +652,17 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
       <button class="btn btn-g btn-full" onclick="createQuiz()">📢 受付開始</button>
     </div>
 
+    <!-- 受付中クイズの管理 -->
     <div id="admin-quiz-active"></div>
 
     <p class="sec">全員の状況</p>
     <div id="aview"></div>
 
-    <p class="sec">全取引履歴</p>
+    <p class="sec">全履歴</p>
     <div class="card" style="padding:14px;">
       <ul class="loglist" id="alog"><li class="empty">まだ取引がありません</li></ul>
       <div style="text-align:right;margin-top:10px;">
-        <button class="btn btn-d" style="font-size:.72rem;padding:6px 12px;" onclick="clearLog()">履歴を全削除</button>
+        <button class="btn btn-d" style="font-size:.75rem;padding:6px 12px;" onclick="clearLog()">履歴を全削除</button>
       </div>
     </div>
 
@@ -930,20 +671,20 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
       <button class="btn btn-d" onclick="doReset()">🔄 全員チップを20枚にリセット</button>
     </div>
     <div class="center" style="margin-top:10px;">
-      <button class="btn btn-o" style="font-size:.75rem;" onclick="lockAdmin()">🔒 管理者をロック</button>
+      <button class="btn btn-o" style="font-size:.78rem;" onclick="lockAdmin()">🔒 管理者をロック</button>
     </div><br>
   </div>
 </div>
 
 <!-- PROFILE MODAL -->
-<div id="profile-modal" style="position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;display:none;align-items:center;justify-content:center;">
+<div id="profile-modal" style="position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:center;justify-content:center;">
   <div class="popup-box" style="max-width:340px;">
-    <div style="font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:.15em;color:var(--brass);margin-bottom:16px;">✏️ プロフィール編集</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold);margin-bottom:16px;">✏️ プロフィール編集</div>
     <div class="emoji-grid" id="profile-emoji-grid"></div>
     <div style="margin-top:12px;">
       <input type="text" id="profile-name" placeholder="表示名" maxlength="10"/>
     </div>
-    <div style="display:flex;gap:8px;margin-top:14px;">
+    <div style="display:flex;gap:8px;margin-top:12px;">
       <button class="btn btn-o btn-full" onclick="closeProfile()">キャンセル</button>
       <button class="btn btn-g btn-full" onclick="saveProfile()">保存</button>
     </div>
@@ -957,7 +698,7 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
     <div class="popup-title" id="popup-title">投資結果</div>
     <div class="popup-result" id="popup-result">—</div>
     <div class="popup-desc" id="popup-desc"></div>
-    <button class="btn btn-g" style="margin-top:18px;width:100%;" onclick="closePopup()">OK</button>
+    <button class="btn btn-g" style="margin-top:16px;width:100%;" onclick="closePopup()">OK</button>
   </div>
 </div>
 
@@ -983,18 +724,7 @@ const firebaseConfig = {
 
 const ADMIN_PIN = "7131";
 const INIT_CHIPS = 20;
-const EMOJIS = [
-  // 動物
-  '🐶','🐱','🦊','🐼','🐨','🦁','🐯','🐸','🐙','🦋','🐺','🦝','🐮','🐷','🐧','🦄','🐲','🦅','🐬','🐺',
-  // 食べ物・植物
-  '🌸','🍀','🌈','🌊','🌙','⭐','☀️','🌵','🍄','🌺',
-  // キャラ・人
-  '👑','🎭','🤖','👻','💀','🧙','🥷','🤡','👾','🎅',
-  // スポーツ・趣味
-  '🎯','🚀','🎪','🎸','🎲','🃏','🎰','🏆','⚽','🎮','🎻','🥊','🏹','🎳','🎺',
-  // モノ・シンボル
-  '💎','🔥','💫','⚡','🌀','❄️','💣','🗡️','🛡️','🔮',
-];
+const EMOJIS = ['🐶','🐱','🦊','🐼','🐨','🦁','🐯','🐸','🐙','🦋','🌸','🔥','⭐','🎭','🍀','👑','💎','🎯','🚀','🎪','🌈','🎸','🎲','🃏','🎰'];
 const INVEST_MULTIPLIERS = [0.5, 0.75, 1.5, 2.0];
 const HOURLY_REWARDS = [-1, 1, 2];
 
@@ -1196,7 +926,7 @@ function renderHome() {
   document.getElementById('my-invested-val').textContent = invested.toFixed(2);
   document.getElementById('my-total-val').textContent = (me.chips + invested).toFixed(2);
   const badge = document.getElementById('invest-badge');
-  badge.textContent = settings.investEnabled ? '稼働中' : '停止中';
+  badge.textContent = settings.investEnabled ? '受付中' : '停止中';
   badge.className = 'invest-badge' + (settings.investEnabled ? '' : ' off');
   document.getElementById('btn-invest-add').disabled = !settings.investEnabled || remaining <= 0 || me.chips <= 0;
   document.getElementById('btn-invest-pull').disabled = invested <= 0;
@@ -1264,7 +994,7 @@ function renderRanking(animate = false) {
         <div class="rank-name">${p.name}${currentUser && p.uid === currentUser.uid ? '<span class="rank-me">自分</span>' : ''}</div>
         <div class="rank-sub">所持チップ</div>
         ${(p.invested||0) > 0 ? `<div class="rank-invest">📈 ${p.invested}枚 投資中</div>` : ''}
-        ${(p.debt||0) > 0 ? `<div style="font-size:.7rem;color:var(--crimson-light);margin-top:1px;">💸 借金 ${p.debt}枚</div>` : ''}
+        ${(p.debt||0) > 0 ? `<div style="font-size:.7rem;color:var(--red-light);margin-top:1px;">💸 借金 ${p.debt}枚</div>` : ''}
       </div>
       <div class="rank-chips">${p.chips}<span style="font-size:.8rem;color:var(--muted);"> 枚</span></div>
     </div>`).join('');
@@ -1285,7 +1015,7 @@ window.doSend = async () => {
   const me = players[currentUser.uid];
   const to = players[toUid];
   if (!me || !to) return;
-  if (me.chips < amt) { toast(`チップが足りません（${me.chips}枚）`); return; }
+  if (me.chips < amt) { toast(`チップが足りません（${me.chips}枚)`); return; }
   await update(ref(db, 'players'), {
     [`${currentUser.uid}/chips`]: me.chips - amt,
     [`${toUid}/chips`]: to.chips + amt
@@ -1469,7 +1199,7 @@ function showInvestPopup(result) {
   document.getElementById('popup-title').textContent = win ? '投資成功！' : even ? '変化なし' : '投資損失...';
   const s = result.diff >= 0 ? '+' : '';
   document.getElementById('popup-result').textContent = `${s}${result.diff.toFixed(2)}枚`;
-  document.getElementById('popup-result').style.color = win ? 'var(--emerald-light)' : result.diff < 0 ? 'var(--crimson-light)' : 'var(--muted)';
+  document.getElementById('popup-result').style.color = win ? 'var(--green-light)' : result.diff < 0 ? 'var(--red-light)' : 'var(--muted)';
   document.getElementById('popup-desc').textContent =
     `${result.invested.toFixed(2)}枚投資 → ×${result.mult} → ${result.result.toFixed(2)}枚\n（引き出し時は切り上げ）`;
   document.getElementById('invest-popup').classList.add('show');
@@ -1485,7 +1215,7 @@ function renderAdmin() {
     <div class="citem">
       <div><span style="font-size:1.1rem;">${p.emoji||'🃏'}</span>
         <span style="font-weight:700;margin-left:8px;">${p.name}</span>
-        <span style="color:var(--muted);font-size:.75rem;margin-left:8px;">${p.chips}枚${p.invested?` (投資中:${p.invested}枚)`:''}</span>
+        <span style="color:var(--muted);font-size:.75rem;margin-left:8px;">${p.chips}枚${p.invested?` (投資中:${p.invested}枚)`:''})</span>
       </div>
       <button class="btn btn-d" style="padding:4px 10px;font-size:.72rem;" onclick="aRmP('${p.uid}','${p.name}')">削除</button>
     </div>`).join('') || '<div class="empty">プレイヤーなし</div>';
@@ -1507,11 +1237,11 @@ function renderAdmin() {
       <div class="cicon">${p.emoji||'🃏'}</div>
       <div style="flex:1;">
         <div style="font-weight:700;">${p.name}
-          ${i===0?'<span style="font-size:.7rem;background:rgba(240,208,128,.2);color:var(--brass-light);border:1px solid var(--brass);border-radius:2px;padding:2px 8px;margin-left:6px;">👑 1位</span>':''}
+          ${i===0?'<span style="font-size:.7rem;background:rgba(240,208,128,.2);color:var(--gold-light);border:1px solid var(--gold);border-radius:10px;padding:2px 8px;margin-left:6px;">👑 1位</span>':''}
         </div>
-        <div style="font-size:.72rem;color:var(--muted);">所持 ${p.chips}枚${p.invested?` / 投資中 ${p.invested}枚`:''}${p.debt?` / <span style="color:var(--crimson-light)">借金 ${p.debt}枚</span>`:''}</div>
+        <div style="font-size:.72rem;color:var(--muted);">所持 ${p.chips}枚${p.invested?` / 投資中 ${p.invested}枚`:''}${p.debt?` / <span style="color:var(--red-light)">借金 ${p.debt}枚</span>`:''}</div>
       </div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--brass-light);">${p.chips}</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold-light);">${p.chips}</div>
     </div>`).join('');
 
   document.getElementById('invest-toggle').checked = settings.investEnabled;
@@ -1928,7 +1658,7 @@ function renderQuiz() {
           </div>
         </div>
         ${myVote
-          ? `<div style="font-size:.8rem;color:var(--brass);text-align:center;padding:6px 0;">✅ 選択肢${myVote.choice}に${myVote.amt}枚を投票済み</div>`
+          ? `<div style="font-size:.8rem;color:var(--gold);text-align:center;padding:6px 0;">✅ 選択肢${myVote.choice}に${myVote.amt}枚を投票済み</div>`
           : `<div class="row" style="margin-bottom:0;">
               <input type="number" id="quiz-bet-${qid}" placeholder="賭ける枚数" min="1" style="font-size:.88rem;"/>
               <button class="btn btn-g" onclick="voteQuiz('${qid}')">投票</button>
@@ -1955,9 +1685,9 @@ function renderQuiz() {
           <span class="${qz.answer==='A'?'':''}">A: ${qz.a}（${totalA}枚）</span>　
           <span>B: ${qz.b}（${totalB}枚）</span>
         </div>
-        <div style="font-size:.75rem;color:var(--brass-light);margin-top:4px;">正解: ${qz.answer}（${qz.answer==='A'?qz.a:qz.b}）</div>
+        <div style="font-size:.75rem;color:var(--gold-light);margin-top:4px;">正解: ${qz.answer}（${qz.answer==='A'?qz.a:qz.b}）</div>
         ${myVote
-          ? `<div class="quiz-hist-result" style="color:${won?'var(--emerald-light)':'var(--crimson-light)'};">
+          ? `<div class="quiz-hist-result" style="color:${won?'var(--green-light)':'var(--red-light)'};">
               ${won ? `✅ 正解！ +${myVote.amt*2}枚` : `❌ 不正解（${myVote.amt}枚損失）`}
             </div>`
           : `<div class="quiz-hist-result" style="color:var(--muted);">未投票</div>`
@@ -1977,13 +1707,13 @@ function renderAdminQuiz() {
     const totalA = Object.values(votes).filter(v=>v.choice==='A').reduce((s,v)=>s+v.amt,0);
     const totalB = Object.values(votes).filter(v=>v.choice==='B').reduce((s,v)=>s+v.amt,0);
     const count  = Object.keys(votes).length;
-    return `<div class="card" style="border-color:var(--emerald-light);">
-      <div style="font-size:.7rem;color:var(--emerald-light);margin-bottom:6px;">📢 受付中</div>
+    return `<div class="card" style="border-color:var(--green-light);">
+      <div style="font-size:.7rem;color:var(--green-light);margin-bottom:6px;">📢 受付中</div>
       <div style="font-weight:700;margin-bottom:8px;">${qz.q}</div>
       <div style="font-size:.8rem;color:var(--muted);margin-bottom:4px;">
         A: ${qz.a}（${totalA}枚）　B: ${qz.b}（${totalB}枚）　投票者: ${count}人
       </div>
-      <div style="font-size:.75rem;color:var(--brass);margin-bottom:10px;">正解: ${qz.answer}（${qz.answer==='A'?qz.a:qz.b}）</div>
+      <div style="font-size:.75rem;color:var(--gold);margin-bottom:10px;">正解: ${qz.answer}（${qz.answer==='A'?qz.a:qz.b}）</div>
       <button class="btn btn-g btn-full" onclick="closeQuiz('${qid}')">🎉 正解発表してチップ配布</button>
     </div>`;
   }).join('');
@@ -2053,31 +1783,6 @@ window.toast = (msg) => {
   const e = document.getElementById('toast');
   e.textContent = msg; e.classList.add('show');
   clearTimeout(tt); tt = setTimeout(() => e.classList.remove('show'), 2500);
-};
-</script>
-<script>
-// Service Worker 登録
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  });
-}
-
-// インストールバナー（Android Chrome）
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  const btn = document.getElementById('pwa-install-btn');
-  if (btn) btn.style.display = 'block';
-});
-window.installPWA = async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  const btn = document.getElementById('pwa-install-btn');
-  if (btn) btn.style.display = 'none';
 };
 </script>
 </body>
