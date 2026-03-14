@@ -17,32 +17,36 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0b2016;
-  --bg2:#0d2a1c;
-  --navy:#0f3020;
-  --brass:#c9a84c;
-  --brass-light:#f0d080;
-  --brass-pale:#faf0c8;
-  --brass-dark:#7a5f1a;
-  --crimson:#8b1a2a;
-  --crimson-light:#d04458;
-  --emerald:#0d4a2e;
-  --emerald-light:#2ab06a;
-  --surface:#0d2a1a;
-  --surface2:#123320;
-  --surface3:#183d28;
-  --border:rgba(201,168,76,.28);
-  --border2:rgba(201,168,76,.12);
-  --text:#f0e6cc;
-  --text2:#c8b880;
-  --muted:#5a7a58;
-  --glow:rgba(201,168,76,.15);
+  --bg:#0d2a1c;
+  --bg2:#103220;
+  --navy:#123820;
+  --brass:#d4a84c;
+  --brass-light:#f8d878;
+  --brass-pale:#fff4cc;
+  --brass-dark:#8a6820;
+  --crimson:#a01e30;
+  --crimson-light:#e84860;
+  --emerald:#0e5232;
+  --emerald-light:#30c870;
+  --surface:#0f3020;
+  --surface2:#163c28;
+  --surface3:#1c4830;
+  --border:rgba(212,168,76,.38);
+  --border2:rgba(212,168,76,.18);
+  --text:#f8ecd4;
+  --text2:#d8c080;
+  --muted:#6a9068;
+  --glow:rgba(212,168,76,.2);
+  --pop1:#e85060;   /* ポップ赤 */
+  --pop2:#30c870;   /* ポップ緑 */
+  --pop3:#f8d060;   /* ポップ黄 */
+  --pop4:#5090f0;   /* ポップ青 */
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-  background:#091c12;
+  background:#0c2418;
   color:var(--text);
   font-family:'Noto Sans JP',sans-serif;
   font-weight:300;
@@ -54,10 +58,10 @@ body{
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background:
-    radial-gradient(ellipse 140% 70% at 50% 50%, #14381f 0%, #0b2414 40%, #071610 70%, #040e08 100%),
-    repeating-linear-gradient(0deg,   transparent, transparent 80px, rgba(201,168,76,.01) 80px, rgba(201,168,76,.01) 81px),
-    repeating-linear-gradient(90deg,  transparent, transparent 80px, rgba(201,168,76,.01) 80px, rgba(201,168,76,.01) 81px),
-    repeating-linear-gradient(45deg,  transparent, transparent 20px, rgba(0,0,0,.04) 20px, rgba(0,0,0,.04) 21px);
+    radial-gradient(ellipse 160% 80% at 50% 40%, #1a4a28 0%, #0e3020 35%, #091c12 65%, #060e08 100%),
+    repeating-linear-gradient(0deg,   transparent, transparent 60px, rgba(212,168,76,.025) 60px, rgba(212,168,76,.025) 61px),
+    repeating-linear-gradient(90deg,  transparent, transparent 60px, rgba(212,168,76,.025) 60px, rgba(212,168,76,.025) 61px),
+    repeating-linear-gradient(45deg,  transparent, transparent 14px, rgba(255,255,255,.012) 14px, rgba(255,255,255,.012) 15px);
 }
 
 /* 上部トリプルライン */
@@ -128,9 +132,10 @@ header::after{
   background:linear-gradient(180deg,rgba(201,168,76,.06) 0%,transparent 100%);
 }
 .tab.on::after{
-  content:'';position:absolute;bottom:0;left:10%;right:10%;height:2px;
+  content:'';position:absolute;bottom:0;left:10%;right:10%;height:3px;
   background:linear-gradient(90deg,transparent,var(--brass-light),var(--brass-pale),var(--brass-light),transparent);
-  box-shadow:0 0 8px rgba(201,168,76,.5);
+  box-shadow:0 0 12px rgba(248,216,120,.7),0 0 4px rgba(248,216,120,.5);
+  border-radius:3px 3px 0 0;
 }
 
 /* ── SECTION TITLE ── */
@@ -145,12 +150,12 @@ header::after{
 
 /* ── CARD ── */
 .card{
-  background:linear-gradient(160deg,#0d2a1a 0%,#133520 60%,#0d2a1a 100%);
+  background:linear-gradient(160deg,#102e1c 0%,#163c24 60%,#102e1c 100%);
   border:1px solid var(--border2);
-  border-radius:2px;
+  border-radius:6px;
   padding:20px;margin-bottom:16px;
   position:relative;overflow:hidden;
-  box-shadow:0 4px 32px rgba(0,0,0,.5),inset 0 1px 0 rgba(201,168,76,.08);
+  box-shadow:0 4px 32px rgba(0,0,0,.45),inset 0 1px 0 rgba(212,168,76,.1);
 }
 .card::before{
   content:'';position:absolute;top:0;left:0;right:0;height:1px;
@@ -167,9 +172,9 @@ header::after{
 
 /* ── INPUTS ── */
 input,select.sel{
-  background:rgba(3,10,6,.75);
-  border:1px solid var(--border);
-  border-radius:3px;
+  background:rgba(5,18,10,.8);
+  border:1.5px solid var(--border);
+  border-radius:10px;
   color:var(--text);
   font-family:'Noto Sans JP',sans-serif;font-weight:300;font-size:.88rem;
   padding:11px 14px;outline:none;transition:all .2s;width:100%;
@@ -185,15 +190,16 @@ input[type="password"]{letter-spacing:.3em;}
 /* ── BUTTONS ── */
 .btn{
   font-family:'Noto Sans JP',sans-serif;font-weight:400;font-size:.82rem;
-  padding:10px 18px;border-radius:3px;border:none;cursor:pointer;
+  padding:10px 18px;border-radius:20px;border:none;cursor:pointer;
   transition:all .2s;white-space:nowrap;letter-spacing:.05em;
 }
 .btn-g{
-  background:linear-gradient(135deg,var(--brass-dark) 0%,var(--brass) 30%,var(--brass-light) 50%,var(--brass-pale) 60%,var(--brass) 80%,var(--brass-dark) 100%);
-  color:#080800;font-weight:500;
-  box-shadow:0 2px 16px rgba(201,168,76,.3),0 0 0 1px rgba(201,168,76,.1);
+  background:linear-gradient(135deg,#b07820 0%,#d4a030 25%,#f8d878 50%,#fff4cc 60%,#d4a030 80%,#8a6820 100%);
+  color:#1a0800;font-weight:600;
+  box-shadow:0 3px 18px rgba(212,168,76,.45),0 0 0 1px rgba(212,168,76,.2);
+  text-shadow:0 1px 2px rgba(255,255,255,.2);
 }
-.btn-g:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 6px 24px rgba(201,168,76,.4),0 0 0 1px rgba(201,168,76,.2);}
+.btn-g:hover{filter:brightness(1.12);transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,168,76,.55),0 0 0 1px rgba(212,168,76,.3);}
 .btn-o{background:transparent;border:1px solid var(--border);color:var(--text2);}
 .btn-o:hover{border-color:var(--brass);color:var(--brass-light);}
 .btn-d{background:rgba(139,26,42,.15);border:1px solid rgba(139,26,42,.4);color:var(--crimson-light);}
@@ -228,21 +234,25 @@ input[type="password"]{letter-spacing:.3em;}
 .emoji-grid::-webkit-scrollbar{width:3px;}
 .emoji-grid::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 .emoji-btn{
-  background:rgba(8,12,20,.5);border:1px solid var(--border2);
-  border-radius:3px;font-size:1.3rem;padding:6px 0;
+  background:rgba(10,30,18,.6);border:1.5px solid var(--border2);
+  border-radius:8px;font-size:1.4rem;padding:7px 0;
   cursor:pointer;transition:all .15s;text-align:center;
 }
-.emoji-btn:hover{border-color:var(--brass);transform:scale(1.08);}
-.emoji-btn.on{border-color:var(--brass-light);background:rgba(184,146,42,.12);}
+.emoji-btn:hover{border-color:var(--brass);transform:scale(1.12);background:rgba(212,168,76,.08);}
+.emoji-btn.on{
+  border-color:var(--brass-light);background:rgba(212,168,76,.18);
+  box-shadow:0 0 10px rgba(212,168,76,.3);
+  transform:scale(1.08);
+}
 
 /* ── MY CHIP CARD ── */
 .my-card{
-  background:linear-gradient(135deg,#071810 0%,#0d2818 40%,#09200e 70%,#071810 100%);
-  border:1px solid rgba(201,168,76,.4);
-  border-radius:2px;padding:24px;margin-bottom:16px;
+  background:linear-gradient(135deg,#0d2818 0%,#163a20 40%,#102a14 70%,#0d2818 100%);
+  border:1px solid rgba(212,168,76,.5);
+  border-radius:10px;padding:24px;margin-bottom:16px;
   position:relative;overflow:hidden;
   display:flex;align-items:center;gap:18px;
-  box-shadow:0 0 40px rgba(201,168,76,.08),0 8px 40px rgba(0,0,0,.6),inset 0 1px 0 rgba(201,168,76,.15);
+  box-shadow:0 0 50px rgba(212,168,76,.12),0 8px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(212,168,76,.2);
 }
 .my-card::before{
   content:'';position:absolute;top:0;left:0;right:0;height:1px;
@@ -256,12 +266,14 @@ input[type="password"]{letter-spacing:.3em;}
     radial-gradient(ellipse at 0% 100%,rgba(10,61,38,.15) 0%,transparent 40%);
 }
 .my-avatar{
-  font-size:2.4rem;width:60px;height:60px;
+  font-size:2.6rem;width:64px;height:64px;
   display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,rgba(201,168,76,.1) 0%,rgba(201,168,76,.05) 100%);
-  border:1px solid rgba(201,168,76,.4);border-radius:50%;flex-shrink:0;
-  box-shadow:0 0 16px rgba(201,168,76,.15),inset 0 1px 0 rgba(201,168,76,.2);
+  background:radial-gradient(circle at 40% 35%,rgba(212,168,76,.18) 0%,rgba(212,168,76,.06) 100%);
+  border:2px solid rgba(212,168,76,.55);border-radius:50%;flex-shrink:0;
+  box-shadow:0 0 22px rgba(212,168,76,.22),inset 0 1px 0 rgba(212,168,76,.25);
+  transition:transform .2s;
 }
+.my-avatar:active{transform:scale(.95);}
 .my-info{flex:1;}
 .my-name-lbl{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;}
 .my-name-val{font-size:.95rem;font-weight:400;margin-top:3px;color:var(--text);}
@@ -522,6 +534,86 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
 @keyframes chipBump{0%{transform:scale(1)}40%{transform:scale(1.2)}100%{transform:scale(1)}}
 @keyframes rankIn{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
 @keyframes popIn{from{opacity:0;transform:scale(.75)}to{opacity:1;transform:scale(1)}}
+
+/* ══════════════════════════════════════
+   CASINO CHIP VISUAL SYSTEM
+   ══════════════════════════════════════ */
+.chip-stack-wrap{
+  display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;
+  min-height:110px;padding:8px 4px 12px;
+}
+.chip-col{
+  display:flex;flex-direction:column-reverse;align-items:center;
+  position:relative;cursor:default;
+  transition:transform .2s;
+}
+.chip-col:hover{ transform:translateY(-4px); }
+
+/* ── チップ本体（SVG画像） ── */
+.chip{
+  width:56px;height:36px;
+  position:relative;
+  margin-top:-22px; /* スタックの重なり量 */
+  flex-shrink:0;
+  transition:transform .15s, filter .15s;
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,.7));
+  cursor:grab;
+}
+.chip:active{ cursor:grabbing; }
+.chip:first-child{ margin-top:0; }
+.chip-col:hover .chip{
+  filter:drop-shadow(0 3px 8px rgba(0,0,0,.8)) drop-shadow(0 0 8px rgba(212,168,76,.4));
+}
+.chip img,.chip svg{ width:56px;height:36px;display:block; }
+
+/* スタック下の影 */
+.chip-base{
+  width:52px;height:8px;
+  background:radial-gradient(ellipse 80% 100% at 50% 50%,rgba(0,0,0,.6) 0%,transparent 100%);
+  margin-top:4px;flex-shrink:0;
+}
+.chip-count{
+  font-family:'Cormorant Garamond',serif;font-size:.85rem;font-weight:700;
+  color:var(--brass-light);margin-top:2px;text-align:center;
+  text-shadow:0 0 10px rgba(212,168,76,.6);letter-spacing:.04em;
+}
+
+/* ── チップが飛ぶアニメーション ── */
+@keyframes chipFly{
+  0%  { transform:translate(0,0) scale(1) rotate(0deg); opacity:1; }
+  40% { transform:translate(var(--fx),var(--fy)) scale(.9) rotate(200deg); opacity:.9; }
+  100%{ transform:translate(var(--tx),var(--ty)) scale(.25) rotate(400deg); opacity:0; }
+}
+.chip-fly{
+  position:fixed;z-index:9999;pointer-events:none;
+  width:56px;height:36px;
+  animation:chipFly .65s cubic-bezier(.3,0,.2,1) forwards;
+}
+@keyframes chipBounce{
+  0%,100%{transform:translateY(0);}
+  35%{transform:translateY(-12px);}
+  65%{transform:translateY(-5px);}
+}
+.chip-bounce .chip{ animation:chipBounce .45s ease; }
+
+/* ── ドラッグ中チップ ── */
+.chip-dragging{
+  position:fixed;z-index:9999;pointer-events:none;
+  width:56px;height:36px;
+  filter:drop-shadow(0 8px 20px rgba(0,0,0,.8)) drop-shadow(0 0 16px rgba(212,168,76,.7));
+  transform:scale(1.2) rotate(-8deg);
+  transition:transform .1s;
+}
+/* ドロップゾーン アクティブ時 */
+.drop-zone.dz-over{
+  border-color:rgba(212,168,76,.9) !important;
+  background:rgba(212,168,76,.12) !important;
+  transform:scale(1.04);
+  box-shadow:0 0 20px rgba(212,168,76,.25);
+}
+.drop-zone.dz-over span{ color:var(--brass-light) !important; }
+/* ドラッグ中はゾーンを表示 */
+.dragging-active .drop-zone-wrap{ display:flex !important; }
 </style>
 </head>
 <body>
@@ -598,27 +690,27 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
 
     <!-- MY CHIP -->
     <div class="my-card" id="my-card">
-      <div class="my-avatar" id="my-avatar">🃏</div>
-      <div class="my-info">
-      <div class="my-name-lbl">プレイヤー</div>
-        <div class="my-name-val" id="my-name">—</div>
-        <!-- 手元チップ＋投資チップ 横並び -->
-        <div style="display:flex;gap:16px;margin-top:10px;align-items:flex-end;">
-          <div>
-            <div class="my-chips-lbl">手元</div>
-            <div class="my-chips-val" id="my-chips">—</div>
+      
+        <div class="my-avatar" id="my-avatar">🃏</div>
+        <div class="my-info">
+          <div class="my-name-lbl">プレイヤー</div>
+          <div class="my-name-val" id="my-name">—</div>
+          <div style="display:flex;gap:14px;margin-top:8px;align-items:flex-end;">
+            <div>
+              <div class="my-chips-lbl">手元</div>
+              <div class="my-chips-val" id="my-chips">—</div>
+            </div>
+            <div style="width:1px;background:var(--border);align-self:stretch;margin-bottom:2px;"></div>
+            <div>
+              <div class="my-chips-lbl" style="color:var(--emerald-light);">投資中</div>
+              <div class="my-chips-val" id="my-invested-val" style="color:var(--emerald-light);font-size:1.6rem;">0</div>
+            </div>
+            <div style="width:1px;background:var(--border);align-self:stretch;margin-bottom:2px;"></div>
+            <div>
+              <div class="my-chips-lbl">合計</div>
+              <div class="my-chips-val" id="my-total-val" style="color:#f8ecd4;font-size:1.6rem;">—</div>
+            </div>
           </div>
-          <div style="width:1px;background:var(--border);align-self:stretch;margin-bottom:2px;"></div>
-          <div>
-            <div class="my-chips-lbl" style="color:var(--emerald-light);">投資中</div>
-            <div class="my-chips-val" id="my-invested-val" style="color:var(--emerald-light);font-size:1.6rem;">0</div>
-          </div>
-          <div style="width:1px;background:var(--border);align-self:stretch;margin-bottom:2px;"></div>
-          <div>
-            <div class="my-chips-lbl">合計</div>
-            <div class="my-chips-val" id="my-total-val" style="color:#f0e6c8;font-size:1.6rem;">—</div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -671,9 +763,26 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
         <div class="invest-num" id="invest-num">0</div>
         <div class="invest-unit" id="invest-unit">枚投資中</div>
       </div>
-      <div class="next-timer" id="next-timer">次の判定まで —</div>
       <div class="invest-controls">
         <button class="btn btn-gr" onclick="addInvest()" id="btn-invest-add">＋1枚 投資する</button>
+      </div>
+      <!-- 投入合計 vs 現在枚数 -->
+      <div id="invest-pnl" style="display:none;margin-top:10px;padding:10px 12px;background:rgba(0,0,0,.3);border-radius:6px;border:1px solid var(--border2);">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="text-align:center;flex:1;">
+            <div style="font-size:.58rem;color:var(--muted);letter-spacing:.1em;margin-bottom:2px;">投入合計</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--text2);" id="invest-total-in">0枚</div>
+          </div>
+          <div style="color:var(--muted);font-size:1.2rem;padding:0 8px;">→</div>
+          <div style="text-align:center;flex:1;">
+            <div style="font-size:.58rem;color:var(--muted);letter-spacing:.1em;margin-bottom:2px;">現在</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;" id="invest-total-now">0枚</div>
+          </div>
+          <div style="text-align:center;flex:1;">
+            <div style="font-size:.58rem;color:var(--muted);letter-spacing:.1em;margin-bottom:2px;">損益</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;" id="invest-total-pnl">±0</div>
+          </div>
+        </div>
       </div>
       <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border2);">
         <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);margin-bottom:8px;">引き出す枚数（切り上げ）</div>
@@ -691,6 +800,14 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
       </div>
       <!-- 時間報酬通知 -->
       <div id="hourly-reward-display" style="font-size:.75rem;margin-top:10px;padding:8px 12px;background:rgba(0,0,0,.3);border:1px solid var(--border2);border-radius:2px;opacity:0;transition:opacity 1s;"></div>
+
+      <!-- 直近履歴（投資判定 & 時間報酬） -->
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border2);">
+        <div style="font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.16em;color:var(--muted);margin-bottom:8px;">直近の結果</div>
+        <div id="invest-history" style="display:flex;flex-direction:column;gap:5px;">
+          <div style="font-size:.72rem;color:var(--muted);">—</div>
+        </div>
+      </div>
       <!-- グラフ表示ボタン -->
       <button class="btn btn-o" onclick="toggleInvestGraph()" style="width:100%;margin-top:10px;font-size:.75rem;" id="btn-graph">📈 投資履歴グラフを表示</button>
       <div id="invest-graph-wrap" style="display:none;margin-top:10px;">
@@ -698,7 +815,7 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
         <div style="font-size:.65rem;color:var(--muted);text-align:center;margin-top:4px;">投資中チップ合計の推移（直近30件）</div>
       </div>
       <div style="font-size:.68rem;color:var(--muted);margin-top:10px;letter-spacing:.03em;line-height:1.8;">
-        ※20分ごとに自動判定（×0.25 / ×0.5 / ×0.75 / ×1.5 / ×1.75 / ×2）<br>
+        ※20分ごとに自動判定（×0.25 / ×0.5 / ×0.75 / ×1.5 / ×1.75 / ×2 / ×3）<br>
         ※時間報酬: −2 / −1 / +1 / +2 枚　※枠を使いきれなかった場合は次期枠=使用済+2
       </div>
     </div>
@@ -892,41 +1009,20 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
 
     <p class="sec">投資設定</p>
     <div class="card">
-      <div class="toggle-row" style="margin-bottom:12px;">
+      <div class="toggle-row" style="margin-bottom:16px;">
         <span class="toggle-lbl">投資機能を有効にする</span>
         <label class="toggle">
           <input type="checkbox" id="invest-toggle" onchange="toggleInvest()"/>
           <span class="slider"></span>
         </label>
       </div>
-      <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;letter-spacing:.03em;">
-        ゲーム開始日時（投資枠カウント基準）
+      <div style="font-size:.68rem;color:var(--muted);line-height:1.9;letter-spacing:.03em;margin-bottom:14px;">
+        ・投資判定: ×0.25 / ×0.5 / ×0.75 / ×1.5 / ×1.75 / ×2<br>
+        ・時間報酬: −2 / −1 / +1 / +2 枚（投資中のみ）<br>
+        ・投資枠: 毎期2枚固定（リセット時に初期化）
       </div>
-      <div class="row" style="margin-bottom:8px;">
-        <input type="datetime-local" id="game-start-time" style="flex:1;"/>
-        <button class="btn btn-g" onclick="saveGameStartTime()">設定</button>
-      </div>
-      <div style="font-size:.7rem;color:var(--emerald-light);margin-bottom:10px;letter-spacing:.05em;" id="invest-limit-info">
-        今期の投資枠: 2枚（毎期リセット）
-      </div>
-      <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px;letter-spacing:.03em;">
-        投資受付の開始時刻（毎日この時刻から受付開始）
-      </div>
-      <div class="row" style="margin-bottom:8px;">
-        <input type="time" id="invest-time" style="flex:1;"/>
-        <button class="btn btn-g" onclick="saveInvestTime()">設定</button>
-      </div>
-      <div style="font-size:.68rem;color:var(--muted);line-height:1.9;letter-spacing:.03em;">
-        · 枠: 2枚 chips initially, +2 per hourly reward · No upper limit<br>
-        ・20分ごとに投資判定（×0.25 / ×0.5 / ×0.75 / ×1.5 / ×1.75 / ×2）<br>
-        ・1時間ごとに −2 / −1 / +1 / +2 枚のランダム増減（投資中のみ）
-      </div>
-      <div style="margin-top:12px;">
-        <button class="btn btn-d" style="font-size:.75rem;padding:7px 14px;width:100%;" onclick="triggerInvestNow()">🎲 今すぐ投資判定を実行</button>
-      </div>
-      <div style="margin-top:8px;">
-        <button class="btn btn-o" style="font-size:.75rem;padding:7px 14px;width:100%;" onclick="triggerHourlyNow()">⏱ 今すぐ時間報酬を配布</button>
-      </div>
+      <button class="btn btn-d" style="font-size:.75rem;padding:7px 14px;width:100%;margin-bottom:8px;" onclick="triggerInvestNow()">🎲 今すぐ投資判定を実行</button>
+      <button class="btn btn-o" style="font-size:.75rem;padding:7px 14px;width:100%;" onclick="triggerHourlyNow()">⏱ 今すぐ時間報酬を配布</button>
     </div>
 
     <p class="sec">クイズ管理</p>
@@ -969,75 +1065,14 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
 </div>
 
 <!-- PROFILE MODAL -->
-<div id="profile-modal" style="position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:16px 0 40px;">
-  <div style="background:linear-gradient(160deg,#091a10 0%,#0f2a18 50%,#091a10 100%);border:1px solid rgba(201,168,76,.4);border-radius:2px;padding:24px 20px;width:100%;max-width:400px;box-shadow:0 0 60px rgba(201,168,76,.1);">
-    <div style="font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:.15em;color:var(--brass-light);margin-bottom:18px;text-align:center;">✏️ プロフィール編集</div>
-
-    <!-- プレビュー -->
-    <div style="display:flex;justify-content:center;margin-bottom:18px;">
-      <div style="width:96px;height:96px;border-radius:50%;border:2px solid rgba(201,168,76,.4);overflow:hidden;background:#0a1a0e;box-shadow:0 0 20px rgba(201,168,76,.15);">
-        <canvas id="avatar-preview" width="96" height="96" style="display:block;"></canvas>
-      </div>
+<div id="profile-modal" style="position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;display:none;align-items:center;justify-content:center;">
+  <div class="popup-box" style="max-width:360px;max-height:90vh;overflow-y:auto;">
+    <div style="font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:.15em;color:var(--brass);margin-bottom:16px;">✏️ プロフィール編集</div>
+    <div class="emoji-grid" id="profile-emoji-grid"></div>
+    <div style="margin-top:12px;">
+      <input type="text" id="profile-name" placeholder="表示名" maxlength="10"/>
     </div>
-
-    <!-- 名前 -->
-    <input type="text" id="profile-name" placeholder="表示名" maxlength="10" style="margin-bottom:14px;"/>
-
-    <!-- パーツ選択 -->
-    <div id="avatar-builder">
-      <!-- 肌色 -->
-      <div class="ab-row">
-        <div class="ab-label">肌色</div>
-        <div class="ab-opts" id="ab-skin"></div>
-      </div>
-      <!-- 髪型 -->
-      <div class="ab-row">
-        <div class="ab-label">髪型</div>
-        <div class="ab-opts" id="ab-hair"></div>
-      </div>
-      <!-- 髪色 -->
-      <div class="ab-row">
-        <div class="ab-label">髪色</div>
-        <div class="ab-opts" id="ab-haircolor"></div>
-      </div>
-      <!-- 眉毛 -->
-      <div class="ab-row">
-        <div class="ab-label">眉毛</div>
-        <div class="ab-opts" id="ab-eyebrow"></div>
-      </div>
-      <!-- 目 -->
-      <div class="ab-row">
-        <div class="ab-label">目</div>
-        <div class="ab-opts" id="ab-eyes"></div>
-      </div>
-      <!-- 鼻 -->
-      <div class="ab-row">
-        <div class="ab-label">鼻</div>
-        <div class="ab-opts" id="ab-nose"></div>
-      </div>
-      <!-- 口 -->
-      <div class="ab-row">
-        <div class="ab-label">口</div>
-        <div class="ab-opts" id="ab-mouth"></div>
-      </div>
-      <!-- 髭 -->
-      <div class="ab-row">
-        <div class="ab-label">髭</div>
-        <div class="ab-opts" id="ab-beard"></div>
-      </div>
-      <!-- 帽子 -->
-      <div class="ab-row">
-        <div class="ab-label">帽子</div>
-        <div class="ab-opts" id="ab-hat"></div>
-      </div>
-      <!-- マスク -->
-      <div class="ab-row">
-        <div class="ab-label">マスク</div>
-        <div class="ab-opts" id="ab-mask"></div>
-      </div>
-    </div>
-
-    <div style="display:flex;gap:8px;margin-top:18px;">
+    <div style="display:flex;gap:8px;margin-top:14px;">
       <button class="btn btn-o btn-full" onclick="closeProfile()">キャンセル</button>
       <button class="btn btn-g btn-full" onclick="saveProfile()">保存</button>
     </div>
@@ -1078,19 +1113,36 @@ const firebaseConfig = {
 const ADMIN_PIN = "7131";
 const INIT_CHIPS = 20;
 const EMOJIS = [
-  // 動物
-  '🐶','🐱','🦊','🐼','🐨','🦁','🐯','🐸','🐙','🦋','🐺','🦝','🐮','🐷','🐧','🦄','🐲','🦅','🐬','🐺',
-  // 食べ物・植物
-  '🌸','🍀','🌈','🌊','🌙','⭐','☀️','🌵','🍄','🌺',
-  // キャラ・人
-  '👑','🎭','🤖','👻','💀','🧙','🥷','🤡','👾','🎅',
-  // スポーツ・趣味
-  '🎯','🚀','🎪','🎸','🎲','🃏','🎰','🏆','⚽','🎮','🎻','🥊','🏹','🎳','🎺',
-  // モノ・シンボル
-  '💎','🔥','💫','⚡','🌀','❄️','💣','🗡️','🛡️','🔮',
+  // ── カジノ・トランプ・ギャンブル ──
+  '🃏','🎴','🀄','🎰','🎲','🎳','🏆','🥇','💰','💵',
+  '💴','💶','💷','💸','🪙','💳','🎟️','🎫','🏅','🎖️',
+  '♠️','♥️','♦️','♣️','🔴','⚫','🎯','🎪','🎡','🎢',
+  '🃏','🤑','💹','📈','🎰','🧧','🎁','🎀','🏵️','🎗️',
+  // ── 紳士・ダンディ ──
+  '🎩','🪄','🧣','🪥','🥃','🍷','🍸','🍹','🥂','🫗',
+  '🚬','🪭','💼','🕴️','🤵','👔','🧥','🪆','🗡️','🛡️',
+  // ── 動物（貴族・強い） ──
+  '🦁','🐯','🦊','🐺','🦅','🦆','🦉','🦚','🦜','🐉',
+  '🦂','🐍','🦈','🐬','🐋','🦇','🦎','🦁','🐻','🦝',
+  // ── 神秘・シンボル ──
+  '💀','👻','🔮','⚡','🔥','💎','👁️','🌙','⭐','✨',
+  '🌀','❄️','💣','☠️','🧿','🪬','⚜️','🔱','♾️','🌟',
 ];
-const INVEST_MULTIPLIERS = [0.25, 0.5, 0.75, 1.5, 1.75, 2.0];
-const HOURLY_REWARDS = [-2, -1, 1, 2];
+const INVEST_MULTIPLIERS = [0.25, 0.5, 0.75, 1.5, 1.75, 2.0, 3.0];
+// 確率: 0.25=5%, 0.5=15%, 0.75=20%, 1.5=25%, 1.75=20%, 2.0=10%, 3.0=5%
+// マイナス計40%、プラス計60%
+const INVEST_WEIGHTS  = [1, 3, 4, 5, 4, 2, 1]; // 合計20
+function pickMultiplier() {
+  const total = INVEST_WEIGHTS.reduce((a,b)=>a+b, 0);
+  let r = Math.random() * total;
+  for (let i = 0; i < INVEST_MULTIPLIERS.length; i++) {
+    r -= INVEST_WEIGHTS[i];
+    if (r <= 0) return INVEST_MULTIPLIERS[i];
+  }
+  return INVEST_MULTIPLIERS[INVEST_MULTIPLIERS.length - 1];
+}
+// 時間報酬: -2=15%, -1=25%, +1=30%, +2=30% → マイナス40% / プラス60%
+const HOURLY_REWARDS  = [-2,-2,-2, -1,-1,-1,-1,-1, 1,1,1,1,1,1, 2,2,2,2,2,2];
 
 const fbApp = initializeApp(firebaseConfig);
 const auth = getAuth(fbApp);
@@ -1110,300 +1162,290 @@ let currentTab = 0;
 let investTimerInterval = null;
 
 // ── Init emoji grids ──────────────────────────────────────
-function initEmojiGrids() {
-  ['emoji-grid','profile-emoji-grid'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.innerHTML = EMOJIS.map(e => `
-      <button class="emoji-btn ${e === selectedEmoji ? 'on' : ''}"
-        onclick="selectEmoji('${e}','${id}')">${e}</button>`).join('');
-  });
+
+// ── UTILS ─────────────────────────────────────────────────
+function show(id){ const e=document.getElementById(id); if(e) e.style.display='block'; }
+function hide(id){ const e=document.getElementById(id); if(e) e.style.display='none'; }
+function bump(id){ const e=document.getElementById(id); if(!e) return; e.classList.remove('bump'); void e.offsetWidth; e.classList.add('bump'); }
+let prevRankMap = {};
+
+// ── AUTH ──────────────────────────────────────────────────
+function initEmojiGridsAuth() {
+  const g = document.getElementById('emoji-grid');
+  if(g) g.innerHTML = EMOJIS.map(e=>`<button class="emoji-btn ${e===selectedEmoji?'on':''}" onclick="selectEmoji('${e}','emoji-grid')">${e}</button>`).join('');
 }
 window.selectEmoji = (e, gridId) => {
-  if (gridId === 'emoji-grid') selectedEmoji = e;
-  else profileEmoji = e;
-  document.querySelectorAll(`#${gridId} .emoji-btn`).forEach(b => {
-    b.classList.toggle('on', b.textContent === e);
-  });
+  if(gridId==='emoji-grid') selectedEmoji=e; else profileEmoji=e;
+  document.querySelectorAll(`#${gridId} .emoji-btn`).forEach(b=>b.classList.toggle('on',b.textContent===e||b.innerText===e));
 };
-
-// ── Auth ─────────────────────────────────────────────────
-
-// ── AVATAR HELPER ─────────────────────────────────────────
-function avatarImg(player, size = 48) {
-  if (player && player.avatarSvg) {
-    const enc = encodeURIComponent(player.avatarSvg);
-    return `<img src="data:image/svg+xml,${enc}" width="${size}" height="${size}" style="border-radius:50%;display:block;" />`;
-  }
-  return player?.emoji || '🃏';
-}
-function avatarIsCustom(player) {
-  return !!(player && player.avatarSvg);
-}
-
-onAuthStateChanged(auth, async user => {
-  hide('loading');
-  if (user) {
-    currentUser = user;
-    const snap = await get(ref(db, `players/${user.uid}`));
-    if (!snap.exists()) {
-      await set(ref(db, `players/${user.uid}`), {
-        name: user.displayName || 'ゲスト',
-        emoji: selectedEmoji,
-        chips: INIT_CHIPS,
-        invested: 0,
-        uid: user.uid
-      });
-    }
-    hide('auth');
-    show('tabs');
-    switchTab(0);
-    listenAll();
-    startInvestTimer();
-  } else {
-    currentUser = null;
-    hide('tabs'); hide('s0'); hide('s1'); hide('s2'); hide('lock');
-    show('auth');
-    initEmojiGrids();
-  }
-});
 
 window.switchAuth = (mode) => {
   authMode = mode;
-  document.getElementById('at0').classList.toggle('on', mode === 'login');
-  document.getElementById('at1').classList.toggle('on', mode === 'reg');
-  const rf = document.getElementById('reg-fields');
-  rf.style.display = mode === 'reg' ? 'flex' : 'none';
-  document.getElementById('auth-btn').textContent = mode === 'login' ? 'ログイン' : '登録する';
-  document.getElementById('auth-err').textContent = '';
-  if (mode === 'reg') initEmojiGrids();
+  document.getElementById('at0').classList.toggle('on', mode==='login');
+  document.getElementById('at1').classList.toggle('on', mode==='register');
+  document.getElementById('reg-fields').style.display = mode==='register'?'flex':'none';
+  document.getElementById('auth-btn').textContent = mode==='login'?'ログイン':'新規登録';
+  document.getElementById('auth-err').textContent='';
 };
 
 window.doAuth = async () => {
   const email = document.getElementById('auth-email').value.trim();
   const pass  = document.getElementById('auth-pass').value;
-  const name  = document.getElementById('auth-name').value.trim();
   const errEl = document.getElementById('auth-err');
-  errEl.textContent = '';
-  if (!email || !pass) { errEl.textContent = 'メールとパスワードを入力してください'; return; }
+  errEl.textContent='';
   try {
-    if (authMode === 'reg') {
-      if (!name) { errEl.textContent = '表示名を入力してください'; return; }
-      const cred = await createUserWithEmailAndPassword(auth, email, pass);
-      await updateProfile(cred.user, { displayName: name });
+    if(authMode==='register'){
+      const name = document.getElementById('auth-name').value.trim();
+      if(!name){errEl.textContent='名前を入力してください'; return;}
+      const uc = await createUserWithEmailAndPassword(auth, email, pass);
+      await updateProfile(uc.user, {displayName:name});
+      await set(ref(db,`players/${uc.user.uid}`),{name,emoji:selectedEmoji,chips:INIT_CHIPS,invested:0,investSlotsUsed:0,uid:uc.user.uid});
     } else {
       await signInWithEmailAndPassword(auth, email, pass);
     }
-  } catch(e) {
-    const msgs = {
-      'auth/email-already-in-use':'このメールはすでに登録済みです',
-      'auth/invalid-email':'メールアドレスの形式が正しくありません',
-      'auth/wrong-password':'パスワードが違います',
-      'auth/user-not-found':'アカウントが見つかりません',
-      'auth/invalid-credential':'メールまたはパスワードが違います',
-      'auth/weak-password':'パスワードは6文字以上にしてください',
-    };
-    errEl.textContent = msgs[e.code] || e.message;
+  } catch(err) {
+    const msgs={'auth/user-not-found':'メールアドレスが見つかりません','auth/wrong-password':'パスワードが違います','auth/email-already-in-use':'このメールは既に使われています','auth/weak-password':'パスワードは6文字以上','auth/invalid-email':'メールアドレスの形式が正しくありません','auth/invalid-credential':'メールアドレスまたはパスワードが違います'};
+    errEl.textContent = msgs[err.code]||err.message;
   }
 };
 
 window.doSignOut = async () => {
-  adminUnlocked = false;
-  if (investTimerInterval) clearInterval(investTimerInterval);
+  adminUnlocked=false;
+  if(investTimerInterval) clearInterval(investTimerInterval);
   await signOut(auth);
   toast('ログアウトしました');
 };
 
-// ── Listen ────────────────────────────────────────────────
+// ── FIREBASE LISTENERS ────────────────────────────────────
 function listenAll() {
-  onValue(ref(db, 'players'), snap => {
-    players = snap.val() || {};
+  onValue(ref(db,'players'), snap => {
+    players = snap.val()||{};
     renderHome(); renderRanking(); renderAdmin();
   });
-  onValue(ref(db, 'logs'), snap => {
-    logsData = snap.val() || {};
+  onValue(ref(db,'logs'), snap => {
+    logsData = snap.val()||{};
     renderLogs();
+    const gw = document.getElementById('invest-graph-wrap');
+    if(gw && gw.style.display!=='none') renderInvestGraph();
   });
-  onValue(ref(db, 'quizzes'), snap => {
-    quizData = snap.val() || {};
-    renderQuiz();
-    renderAdminQuiz();
-  });
-  onValue(ref(db, 'settings'), snap => {
-    if (snap.val()) {
-      settings = { ...settings, ...snap.val() };
-      if (document.getElementById('invest-toggle'))
-        document.getElementById('invest-toggle').checked = settings.investEnabled;
-      if (document.getElementById('invest-time'))
-        document.getElementById('invest-time').value = settings.investTime || '18:00';
-      // 枠情報を再描画
-      renderHome();
-      renderAdmin();
+  onValue(ref(db,'settings'), snap => {
+    if(snap.val()){
+      settings={...settings,...snap.val()};
+      const it=document.getElementById('invest-toggle');
+      if(it) it.checked=settings.investEnabled;
+      const iv=document.getElementById('invest-time');
+      if(iv) iv.value=settings.investTime||'18:00';
+      renderHome(); renderAdmin();
     }
   });
+  onValue(ref(db,'quizzes'), snap => {
+    quizData=snap.val()||{};
+    renderQuiz(); renderAdminQuiz();
+  });
 }
+
+// ── AUTH STATE ────────────────────────────────────────────
+onAuthStateChanged(auth, async user => {
+  hide('loading');
+  if(user){
+    currentUser=user;
+    const snap=await get(ref(db,`players/${user.uid}`));
+    if(!snap.exists()){
+      await set(ref(db,`players/${user.uid}`),{name:user.displayName||'ゲスト',emoji:selectedEmoji,chips:INIT_CHIPS,invested:0,investSlotsUsed:0,uid:user.uid});
+    }
+    hide('auth'); show('tabs'); switchTab(0);
+    listenAll(); startInvestTimer();
+    setTimeout(initChipDrag, 800);
+  } else {
+    currentUser=null;
+    hide('tabs');['s0','s1','s2','s3','lock'].forEach(hide);
+    show('auth');
+    initEmojiGrids();
+  }
+});
 
 // ── TAB ───────────────────────────────────────────────────
 window.switchTab = (i) => {
-  currentTab = i;
-  [0,1,2,3].forEach(j => {
-    const t = document.getElementById(`t${j}`);
-    if (t) t.classList.toggle('on', j === i);
+  currentTab=i;
+  [0,1,2,3].forEach(j=>{
+    const t=document.getElementById(`t${j}`);
+    if(t) t.classList.toggle('on',j===i);
     hide(`s${j}`);
   });
-  if (i === 2) {
-    if (!adminUnlocked) { showLock(); return; }
-  }
+  if(i===2){ if(!adminUnlocked){showLock();return;} }
   show(`s${i}`);
-  if (i === 1) renderRanking(true);
+  if(i===1) renderRanking(true);
 };
 
-function showLock() {
-  hide('s2');
-  show('lock');
-  document.getElementById('pin-in').value = '';
-  document.getElementById('pin-err').textContent = '';
-}
-window.lockAdmin = () => {
-  adminUnlocked = false;
-  switchTab(0);
-  toast('管理者をロックしました');
-};
+function showLock(){ hide('s2'); show('lock'); }
 window.checkPin = () => {
-  if (document.getElementById('pin-in').value === ADMIN_PIN) {
-    adminUnlocked = true;
-    hide('lock');
-    show('s2');
-    renderAdmin();
+  if(document.getElementById('pin-in').value===ADMIN_PIN){
+    adminUnlocked=true; hide('lock'); show('s2'); renderAdmin();
   } else {
-    document.getElementById('pin-err').textContent = 'PINが違います';
-    document.getElementById('pin-in').value = '';
+    document.getElementById('pin-err').textContent='PINが違います';
+    document.getElementById('pin-in').value='';
   }
 };
+window.lockAdmin = () => { adminUnlocked=false; switchTab(0); };
+
 
 // ── HOME ──────────────────────────────────────────────────
 function renderHome() {
-  if (!currentUser) return;
-  const me = players[currentUser.uid];
-  if (!me) return;
-
-  document.getElementById('user-badge').textContent = `${me.emoji || '🃏'} ${me.name}`;
-  document.getElementById('my-name').textContent = me.name;
-  const avatarEl = document.getElementById('my-avatar');
-  if (me.avatarSvg) {
-    avatarEl.innerHTML = `<img src="data:image/svg+xml,${encodeURIComponent(me.avatarSvg)}" style="width:100%;height:100%;border-radius:50%;display:block;" />`;
-  } else {
-    avatarEl.textContent = me.emoji || '🃏';
+  if(!currentUser) return;
+  const me=players[currentUser.uid];
+  if(!me) return;
+  document.getElementById('user-badge').textContent=`${me.emoji||'🃏'} ${me.name}`;
+  document.getElementById('my-avatar').textContent=me.emoji||'🃏';
+  document.getElementById('my-name').textContent=me.name;
+  const cv=document.getElementById('my-chips');
+  cv.textContent=me.chips; bump('my-chips');
+  const invested=parseFloat(me.invested||0);
+  const slots=2, usedSlots=me.investSlotsUsed??0;
+  const remaining=Math.max(0,slots-usedSlots);
+  document.getElementById('invest-num').textContent=invested.toFixed(2);
+  document.getElementById('my-invested-val').textContent=invested.toFixed(2);
+  document.getElementById('my-total-val').textContent=(me.chips+invested).toFixed(2);
+  const badge=document.getElementById('invest-badge');
+  badge.textContent=settings.investEnabled?'稼働中':'停止中';
+  badge.className='invest-badge'+(settings.investEnabled?'':' off');
+  document.getElementById('btn-invest-add').disabled=remaining<=0||me.chips<=0;
+  document.getElementById('btn-invest-pull').disabled=invested<=0;
+  const pullQuicks=document.getElementById('pull-quicks');
+  if(pullQuicks){
+    const maxPull=Math.ceil(invested);
+    const steps=Array.from({length:maxPull},(_,i)=>i+1);
+    pullQuicks.innerHTML=steps.map(v=>`<button class="qbtn" onclick="setPullAmt(${v})">${v}</button>`).join('');
   }
-  const cv = document.getElementById('my-chips');
-  cv.textContent = me.chips;
-  bump('my-chips');
+  const unitEl=document.getElementById('invest-unit');
+  if(unitEl) unitEl.textContent=`枚投資中（残り枠: ${remaining}枚）`;
+  const limitLbl=document.getElementById('invest-limit-label');
+  if(limitLbl) limitLbl.textContent=`今期枠: ${slots}枚 / 使用済: ${usedSlots}枚（残り${remaining}枚）`;
+  const bar=document.getElementById('invest-bar');
+  if(bar) bar.style.width=`${Math.min(100,(usedSlots/slots)*100)}%`;
 
-  // invest
-  const invested    = parseFloat(me.invested || 0);
-  const slots       = 2;  // 毎期固定2枚
-  const usedSlots   = me.investSlotsUsed ?? 0;
-  const remaining   = Math.max(0, slots - usedSlots);
-  document.getElementById('invest-num').textContent = invested.toFixed(2);
-  document.getElementById('my-invested-val').textContent = invested.toFixed(2);
-  document.getElementById('my-total-val').textContent = (me.chips + invested).toFixed(2);
-  const badge = document.getElementById('invest-badge');
-  badge.textContent = settings.investEnabled ? '稼働中' : '停止中';
-  badge.className = 'invest-badge' + (settings.investEnabled ? '' : ' off');
-  document.getElementById('btn-invest-add').disabled = !settings.investEnabled || remaining <= 0 || me.chips <= 0;
-  document.getElementById('btn-invest-pull').disabled = invested <= 0;
-  // 引き出しクイックボタンを投資残高に合わせて更新
-  const pullQuicks = document.getElementById('pull-quicks');
-  if (pullQuicks) {
-    const maxPull = Math.ceil(invested);
-    const steps = Array.from({ length: maxPull }, (_, i) => i + 1);
-    pullQuicks.innerHTML = steps.map(v =>
-      `<button class="qbtn" onclick="setPullAmt(${v})">${v}</button>`
-    ).join('');
+  // 直近3件の投資判定・時間報酬履歴
+  renderInvestHistory(me.name);
+
+  // 投入合計 vs 現在枚数の損益表示
+  const pnlEl = document.getElementById('invest-pnl');
+  if (pnlEl) {
+    if (invested > 0) {
+      pnlEl.style.display = 'block';
+      // invログから自分の投資合計を計算
+      const myInvLogs = Object.values(logsData)
+        .filter(l => l.type === 'inv' && l.from === me.name && l.note && l.note.includes('投資開始'));
+      const totalIn = myInvLogs.reduce((s, l) => s + (l.amt || 0), 0);
+      // 引き出したログも加算（引き出し = 手元に戻ってきた分）
+      const myPullLogs = Object.values(logsData)
+        .filter(l => l.type === 'inv' && l.from === me.name && l.note && (l.note.includes('引き出し') || l.note.includes('全額引き出し')));
+      const totalOut = myPullLogs.reduce((s, l) => s + (l.amt || 0), 0);
+      // 損益 = 現在の投資残高 + 引き出した合計 - 投入合計
+      const pnl = parseFloat((invested + totalOut - totalIn).toFixed(2));
+      const pnlCol = pnl > 0 ? 'var(--emerald-light)' : pnl < 0 ? 'var(--crimson-light)' : 'var(--muted)';
+      const pnlSign = pnl >= 0 ? '+' : '';
+      document.getElementById('invest-total-in').textContent = totalIn.toFixed(2) + '枚';
+      document.getElementById('invest-total-now').textContent = invested.toFixed(2) + '枚';
+      document.getElementById('invest-total-now').style.color = pnl >= 0 ? 'var(--emerald-light)' : 'var(--crimson-light)';
+      document.getElementById('invest-total-pnl').textContent = pnlSign + pnl.toFixed(2) + '枚';
+      document.getElementById('invest-total-pnl').style.color = pnlCol;
+    } else {
+      pnlEl.style.display = 'none';
+    }
   }
-  // 枠表示
-  const unitEl = document.getElementById('invest-unit');
-  if (unitEl) unitEl.textContent = `枚投資中（残り枠: ${remaining}枚）`;
-  const limitLbl = document.getElementById('invest-limit-label');
-  if (limitLbl) limitLbl.textContent = `今期枠: ${slots}枚 / 使用済: ${usedSlots}枚（残り${remaining}枚）`;
-  const bar = document.getElementById('invest-bar');
-  if (bar) bar.style.width = `${Math.min(100, (usedSlots / slots) * 100)}%`;
 
-  // debt
-  const debt = parseFloat(me.debt || 0);
-  const debtBase = parseFloat(me.debtBase || 0);
-  const debtDisp = document.getElementById('debt-val-display');
-  if (debtDisp) debtDisp.textContent = debt + '枚';
-  const debtBaseDisp = document.getElementById('debt-base-display');
-  if (debtBaseDisp) debtBaseDisp.textContent = debtBase;
-  const debtHeader = document.getElementById('debt-header-row');
-  if (debtHeader) debtHeader.style.display = debt > 0 ? 'flex' : 'none';
-  const debtBaseRow = document.getElementById('debt-base-row');
-  if (debtBaseRow) debtBaseRow.style.display = debt > 0 ? 'block' : 'none';
-  const repaySection = document.getElementById('debt-repay-section');
-  if (repaySection) repaySection.style.display = debt > 0 ? 'block' : 'none';
+  const debt=parseFloat(me.debt||0);
+  const debtBase=parseFloat(me.debtBase||0);
+  const dd=document.getElementById('debt-val-display'); if(dd) dd.textContent=debt+'枚';
+  const dbd=document.getElementById('debt-base-display'); if(dbd) dbd.textContent=debtBase;
+  const dhr=document.getElementById('debt-header-row'); if(dhr) dhr.style.display=debt>0?'flex':'none';
+  const dbr=document.getElementById('debt-base-row'); if(dbr) dbr.style.display=debt>0?'block':'none';
+  const drs=document.getElementById('debt-repay-section'); if(drs) drs.style.display=debt>0?'block':'none';
 
-  // tickets
-  const tickets = me.tickets || 0;
-  const ticketEl = document.getElementById('my-tickets');
-  if (ticketEl) ticketEl.textContent = tickets;
-  const c2t = settings.chipToTicket || 5;
-  const t2c = settings.ticketToChip || 3;
-  const rateDisp = document.getElementById('ticket-rate-disp');
-  if (rateDisp) rateDisp.innerHTML = `🎟→チップ: 1枚 = ${t2c}チップ<br>チップ→🎟: ${c2t}チップ = 1枚`;
+  const tickets=me.tickets||0;
+  const mt=document.getElementById('my-tickets'); if(mt) mt.textContent=tickets;
+  const c2t=settings.chipToTicket||5, t2c=settings.ticketToChip||3;
+  const rd=document.getElementById('ticket-rate-disp');
+  if(rd) rd.innerHTML=`🎟→チップ: 1枚 = ${t2c}チップ<br>チップ→🎟: ${c2t}チップ = 1枚`;
 
-  // to select
-  const ts = document.getElementById('p-to');
-  const tv = ts.value;
-  ts.innerHTML = '<option value="">送る相手を選ぶ</option>' +
-    Object.values(players).filter(p => p.uid !== currentUser.uid)
-      .map(p => `<option value="${p.uid}">${p.emoji || '🃏'} ${p.name}</option>`).join('');
-  if (tv) ts.value = tv;
+  const ts=document.getElementById('p-to');
+  const tv=ts?ts.value:'';
+  if(ts){
+    ts.innerHTML='<option value="">送る相手を選ぶ</option>'+
+      Object.values(players).filter(p=>p.uid!==currentUser.uid)
+        .map(p=>`<option value="${p.uid}">${p.emoji||'🃏'} ${p.name}</option>`).join('');
+    if(tv) ts.value=tv;
+  }
 }
 
 // ── RANKING ───────────────────────────────────────────────
-let prevRankMap = {}; // uid → 前回の順位（1始まり）
+function renderInvestHistory(myName) {
+  const el = document.getElementById('invest-history');
+  if (!el) return;
 
-function renderRanking(animate = false) {
-  const sorted = Object.values(players).sort((a,b) => (b.chips + (b.invested||0)) - (a.chips + (a.invested||0)));
-  const el = document.getElementById('rank-list');
-  if (!sorted.length) { el.innerHTML = '<div class="empty">プレイヤーなし</div>'; return; }
-  const cls = ['rank-gold','rank-silver','rank-bronze'];
+  // inv-res（投資判定）と hourly（時間報酬）を時系列で取得
+  const logs = Object.values(logsData)
+    .filter(l => (l.type === 'inv-res' || l.type === 'hourly') && l.to === myName)
+    .sort((a, b) => (b.ts || 0) - (a.ts || 0))
+    .slice(0, 5);
 
-  el.innerHTML = sorted.map((p, i) => {
-    const rank = i + 1;
-    const prev = prevRankMap[p.uid];
-    let arrow = '';
-    if (prev !== undefined && prev !== rank) {
-      const diff = prev - rank; // 正=上昇、負=下落
-      if (diff > 0) {
-        arrow = `<div style="display:flex;flex-direction:column;align-items:center;gap:1px;">
-          <span style="color:#2ab06a;font-size:1rem;line-height:1;">▲</span>
-          <span style="color:#2ab06a;font-size:.65rem;font-weight:700;line-height:1;">+${diff}</span>
-        </div>`;
-      } else {
-        arrow = `<div style="display:flex;flex-direction:column;align-items:center;gap:1px;">
-          <span style="color:var(--crimson-light);font-size:1rem;line-height:1;">▼</span>
-          <span style="color:var(--crimson-light);font-size:.65rem;font-weight:700;line-height:1;">${diff}</span>
-        </div>`;
-      }
-    } else if (prev === undefined) {
-      arrow = `<div style="color:var(--muted);font-size:.65rem;letter-spacing:.05em;font-family:'Cinzel',serif;">NEW</div>`;
+  if (!logs.length) {
+    el.innerHTML = '<div style="font-size:.72rem;color:var(--muted);">まだ履歴がありません</div>';
+    return;
+  }
+
+  el.innerHTML = logs.map(l => {
+    const isInvest = l.type === 'inv-res';
+    const amt = parseFloat(l.amt || 0);
+    const plus = amt >= 0 ? '+' : '';
+    const col = amt > 0 ? 'var(--emerald-light)' : amt < 0 ? 'var(--crimson-light)' : 'var(--muted)';
+    // 倍率をnoteから抽出（例: "×1.75 (2枚→3.5枚)"）
+    const multMatch = (l.note || '').match(/×([\d.]+)/);
+    const multStr = multMatch ? `×${multMatch[1]}` : '';
+    const icon = isInvest ? '🎲' : '⏱';
+    const label = isInvest ? `投資判定 ${multStr}` : '時間報酬';
+    return `<div style="display:flex;align-items:center;justify-content:space-between;
+      padding:6px 10px;background:rgba(0,0,0,.25);border-radius:6px;
+      border-left:3px solid ${isInvest ? 'var(--emerald)' : 'rgba(122,184,245,.5)'};">
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="font-size:.9rem;">${icon}</span>
+        <div>
+          <div style="font-size:.68rem;color:var(--muted);letter-spacing:.04em;">${label}</div>
+          <div style="font-size:.6rem;color:var(--muted);opacity:.7;">${l.time || ''}</div>
+        </div>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:${col};">
+        ${plus}${amt.toFixed(2)}枚
+      </div>
+    </div>`;
+  }).join('');
+}
+function renderRanking(animate=false) {
+  const sorted=Object.values(players).sort((a,b)=>(b.chips+(b.invested||0))-(a.chips+(a.invested||0)));
+  const el=document.getElementById('rank-list');
+  if(!el) return;
+  if(!sorted.length){el.innerHTML='<div class="empty">プレイヤーなし</div>';return;}
+  const cls=['rank-gold','rank-silver','rank-bronze'];
+  el.innerHTML=sorted.map((p,i)=>{
+    const rank=i+1, prev=prevRankMap[p.uid];
+    let arrow='';
+    if(prev!==undefined&&prev!==rank){
+      const diff=prev-rank;
+      arrow=diff>0
+        ?`<div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="color:#30c870;font-size:1rem;line-height:1;">▲</span><span style="color:#30c870;font-size:.65rem;font-weight:700;">+${diff}</span></div>`
+        :`<div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="color:var(--crimson-light);font-size:1rem;line-height:1;">▼</span><span style="color:var(--crimson-light);font-size:.65rem;font-weight:700;">${diff}</span></div>`;
+    } else if(prev===undefined){
+      arrow=`<div style="color:var(--muted);font-size:.65rem;font-family:'Cinzel',serif;">NEW</div>`;
     } else {
-      arrow = `<div style="color:var(--brass-light);font-size:1rem;line-height:1;">→</div>`;
+      arrow=`<div style="color:var(--brass-light);font-size:.9rem;">→</div>`;
     }
-
-    return `
-    <div class="rank-item ${cls[i] || ''} ${animate ? 'animate' : ''}" style="${animate ? `animation-delay:${i*0.08}s` : ''}">
-      <div class="rank-num">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i+1}</div>
-      <div class="rank-emoji">${p.avatarSvg
-        ? `<img src="data:image/svg+xml,${encodeURIComponent(p.avatarSvg)}" style="width:100%;height:100%;border-radius:50%;display:block;"/>`
-        : (p.emoji || '🃏')}</div>
+    return `<div class="rank-item ${cls[i]||''} ${animate?'animate':''}" style="${animate?`animation-delay:${i*0.08}s`:''}">
+      <div class="rank-num">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
+      <div class="rank-emoji">${p.emoji||'🃏'}</div>
       <div class="rank-info">
-        <div class="rank-name">${p.name}${currentUser && p.uid === currentUser.uid ? '<span class="rank-me">自分</span>' : ''}</div>
+        <div class="rank-name">${p.name}${currentUser&&p.uid===currentUser.uid?'<span class="rank-me">自分</span>':''}</div>
         <div class="rank-sub">所持チップ</div>
-        ${(p.invested||0) > 0 ? `<div class="rank-invest">📈 ${p.invested}枚 投資中</div>` : ''}
-        ${(p.debt||0) > 0 ? `<div style="font-size:.7rem;color:var(--crimson-light);margin-top:1px;">💸 借金 ${p.debt}枚</div>` : ''}
+        ${(p.invested||0)>0?`<div class="rank-invest">📈 ${p.invested}枚 投資中</div>`:''}
+        ${(p.debt||0)>0?`<div style="font-size:.7rem;color:var(--crimson-light);margin-top:1px;">💸 借金 ${p.debt}枚</div>`:''}
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="min-width:28px;text-align:center;">${arrow}</div>
@@ -1411,1473 +1453,582 @@ function renderRanking(animate = false) {
       </div>
     </div>`;
   }).join('');
-
-  // 今回の順位を保存（次回の比較用）
-  sorted.forEach((p, i) => { prevRankMap[p.uid] = i + 1; });
+  sorted.forEach((p,i)=>{prevRankMap[p.uid]=i+1;});
 }
 
-// ── SEND ──────────────────────────────────────────────────
-window.pq = (v) => {
-  document.getElementById('pamt').value = v;
-  document.querySelectorAll('#pquicks .qbtn').forEach(b =>
-    b.classList.toggle('on', parseInt(b.textContent) === v));
-};
 
-window.doSend = async () => {
-  const toUid = document.getElementById('p-to').value;
-  const amt   = parseInt(document.getElementById('pamt').value);
-  if (!toUid) { toast('送る相手を選んでください'); return; }
-  if (!amt || amt <= 0) { toast('枚数を入力してください'); return; }
-  const me = players[currentUser.uid];
-  const to = players[toUid];
-  if (!me || !to) return;
-  if (me.chips < amt) { toast(`チップが足りません（${me.chips}枚）`); return; }
-  await update(ref(db, 'players'), {
-    [`${currentUser.uid}/chips`]: me.chips - amt,
-    [`${toUid}/chips`]: to.chips + amt
-  });
-  await pushLog('t', me.name, to.name, amt);
-  document.getElementById('pamt').value = '';
-  document.querySelectorAll('#pquicks .qbtn').forEach(b => b.classList.remove('on'));
+// ── SEND ──────────────────────────────────────────────────
+window.pq=(v)=>{document.getElementById('pamt').value=v;document.querySelectorAll('#pquicks .qbtn').forEach(b=>b.classList.toggle('on',parseInt(b.textContent)===v));};
+window.doSend=async()=>{
+  const toUid=document.getElementById('p-to').value;
+  const amt=parseInt(document.getElementById('pamt').value);
+  if(!toUid){toast('送る相手を選んでください');return;}
+  if(!amt||amt<=0){toast('枚数を入力してください');return;}
+  const me=players[currentUser.uid], to=players[toUid];
+  if(!me||!to) return;
+  if(me.chips<amt){toast(`チップが足りません（${me.chips}枚）`);return;}
+  await update(ref(db,'players'),{[`${currentUser.uid}/chips`]:me.chips-amt,[`${toUid}/chips`]:to.chips+amt});
+  await pushLog('t',me.name,to.name,amt);
+  document.getElementById('pamt').value='';
+  document.querySelectorAll('#pquicks .qbtn').forEach(b=>b.classList.remove('on'));
   toast(`${to.name} に ${amt}枚 送りました！`);
 };
 
-window.payAdminQ = (v) => {
-  document.getElementById('pay-admin-amt').value = v;
-  document.querySelectorAll('#pay-admin-quicks .qbtn').forEach(b =>
-    b.classList.toggle('on', parseInt(b.textContent) === v));
-};
-
-window.doPayAdmin = async () => {
-  const me  = players[currentUser.uid];
-  if (!me) return;
-  const amt = parseInt(document.getElementById('pay-admin-amt').value);
-  if (!amt || amt <= 0) { toast('枚数を入力してください'); return; }
-  if (me.chips < amt)  { toast(`チップが足りません（${me.chips}枚）`); return; }
-  const prev = parseInt((await get(ref(db, 'settings/adminChest'))).val() || 0);
-  await update(ref(db, `players/${currentUser.uid}`), { chips: me.chips - amt });
-  await update(ref(db, 'settings'), { adminChest: prev + amt });
-  await pushLog('t', me.name, '管理者', amt, `管理者に${amt}枚を渡した`);
-  document.getElementById('pay-admin-amt').value = '';
-  document.querySelectorAll('#pay-admin-quicks .qbtn').forEach(b => b.classList.remove('on'));
+window.payAdminQ=(v)=>{document.getElementById('pay-admin-amt').value=v;document.querySelectorAll('#pay-admin-quicks .qbtn').forEach(b=>b.classList.toggle('on',parseInt(b.textContent)===v));};
+window.doPayAdmin=async()=>{
+  const me=players[currentUser.uid];if(!me) return;
+  const amt=parseInt(document.getElementById('pay-admin-amt').value);
+  if(!amt||amt<=0){toast('枚数を入力してください');return;}
+  if(me.chips<amt){toast(`チップが足りません（${me.chips}枚）`);return;}
+  const prev=parseInt((await get(ref(db,'settings/adminChest'))).val()||0);
+  await update(ref(db,`players/${currentUser.uid}`),{chips:me.chips-amt});
+  await update(ref(db,'settings'),{adminChest:prev+amt});
+  await pushLog('t',me.name,'管理者',amt,`管理者に${amt}枚を渡した`);
+  document.getElementById('pay-admin-amt').value='';
+  document.querySelectorAll('#pay-admin-quicks .qbtn').forEach(b=>b.classList.remove('on'));
   toast(`管理者に ${amt}枚 渡しました`);
 };
+window.clearAdminChest=async()=>{if(!confirm('胴元チップをリセットしますか？'))return;await update(ref(db,'settings'),{adminChest:0});toast('胴元チップをリセットしました');};
 
-window.clearAdminChest = async () => {
-  if (!confirm('胴元チップをリセットしますか？')) return;
-  await update(ref(db, 'settings'), { adminChest: 0 });
-  toast('胴元チップをリセットしました');
-};
-
-
-// 投資枠 = 時間報酬精算回数 × 2 + 2（上限なし・累計）
-// investedTotal = ゲーム開始から今まで投資した累計枚数（判定後もリセットしない）
-// 各プレイヤーの今期の投資枠を計算
-// 前の期に枠を使いきった → 通常+2枚
-// 前の期に枠を使いきらなかった → +2枚のみ（前期の残り枠は繰り越さない）
-function calcInvestLimit() {
-  return 2; // 毎期固定2枚（引き継ぎなし）
+// ── INVEST ────────────────────────────────────────────────
+function calcInvestLimit(){return 2;}
+// ── CHIP ANIMATION ────────────────────────────────────────
+function animChipFly(fromEl, toEl, colorClass, count, cb) {
+  // fromElがない場合はアニメーションなしで即コールバック
+  if (!fromEl || !toEl) { if (cb) cb(); return; }
+  const fr = fromEl.getBoundingClientRect();
+  const tr = toEl.getBoundingClientRect();
+  const fx = fr.left + fr.width/2, fy = fr.top + fr.height/2;
+  const tx = tr.left + tr.width/2, ty = tr.top + tr.height/2;
+  const flyCount = Math.min(count, 4);
+  let done = 0;
+  for (let i = 0; i < flyCount; i++) {
+    setTimeout(() => {
+      const chip = document.createElement('div');
+      chip.className = 'chip-fly';
+      chip.innerHTML = makeChipSVG();
+      chip.style.setProperty('--tx', (tx-fx)+'px');
+      chip.style.setProperty('--ty', (ty-fy)+'px');
+      chip.style.setProperty('--fx', ((tx-fx)*0.4+(Math.random()-.5)*80)+'px');
+      chip.style.setProperty('--fy', ((ty-fy)*0.3-60-Math.random()*40)+'px');
+      chip.style.left = (fx-26)+'px';
+      chip.style.top  = (fy-18)+'px';
+      document.body.appendChild(chip);
+      chip.addEventListener('animationend', () => {
+        chip.remove(); done++;
+        if (done === flyCount && cb) cb();
+      });
+    }, i * 100);
+  }
 }
 
-window.addInvest = async () => {
-  const me = players[currentUser.uid];
-  if (!me || !settings.investEnabled) return;
-  const invested  = parseFloat(me.invested || 0);
-  const usedSlots = me.investSlotsUsed ?? 0;  // 今期の使用済み枠
-  const limit     = 2;                        // 毎期固定2枚
-
-  if (usedSlots >= limit) {
-    toast('投資枠上限です（今期2枚）。次の時間報酬精算後にリセットされます');
-    return;
-  }
-  if (me.chips <= 0) { toast('チップが足りません'); return; }
-
-  await update(ref(db, `players/${currentUser.uid}`), {
-    chips:           me.chips - 1,
-    invested:        parseFloat((invested + 1).toFixed(2)),
-    investSlotsUsed: usedSlots + 1,
+window.addInvest=async()=>{
+  const me=players[currentUser.uid];
+  if(!me) return;
+  const invested=parseFloat(me.invested||0);
+  const usedSlots=me.investSlotsUsed??0;
+  if(usedSlots>=2){toast('投資枠上限です（今期2枚）');return;}
+  if(me.chips<=0){toast('チップが足りません');return;}
+  // DB更新を先に実行（アニメーションに依存しない）
+  await update(ref(db,`players/${currentUser.uid}`),{
+    chips: me.chips-1,
+    invested: parseFloat((invested+1).toFixed(2)),
+    investSlotsUsed: usedSlots+1
   });
-  const newInvested = parseFloat((invested + 1).toFixed(2));
-  await pushLog('inv', me.name, '投資', 1, '投資開始', newInvested);
+  await pushLog('inv',me.name,'投資',1,'投資開始',parseFloat((invested+1).toFixed(2)));
+  // アニメーションは後から（失敗しても問題なし）
+  const fromEl=document.getElementById('chip-stack-display');
+  const toEl=document.getElementById('btn-invest-add');
+  if(fromEl && toEl) animChipFly(fromEl,toEl,'',1,null);
   toast('1枚投資しました！');
 };
-
-window.setPullAmt = (v) => {
-  document.getElementById('pull-amt').value = v;
-  document.querySelectorAll('#pull-quicks .qbtn').forEach(b =>
-    b.classList.toggle('on', parseFloat(b.textContent) === v));
+window.setPullAmt=(v)=>{document.getElementById('pull-amt').value=v;document.querySelectorAll('#pull-quicks .qbtn').forEach(b=>b.classList.toggle('on',parseFloat(b.textContent)===v));};
+window.pullInvest=async()=>{
+  const me=players[currentUser.uid];if(!me) return;
+  const invested=parseFloat(me.invested||0);
+  if(invested<=0){toast('投資中のチップがありません');return;}
+  const inputVal=Math.floor(parseFloat(document.getElementById('pull-amt').value));
+  if(!inputVal||inputVal<=0){toast('引き出す枚数を入力してください');return;}
+  const maxPull=Math.ceil(invested);
+  if(inputVal>maxPull){toast(`最大${maxPull}枚まで引き出せます`);return;}
+  const remaining=inputVal>=maxPull?0:parseFloat((invested-inputVal).toFixed(2));
+  await update(ref(db,`players/${currentUser.uid}`),{chips:me.chips+inputVal,invested:remaining});
+  await pushLog('inv',me.name,'投資',inputVal,`引き出し（残高${invested.toFixed(2)}→${remaining.toFixed(2)}枚）`,remaining);
+  document.getElementById('pull-amt').value='';
+  toast(`${inputVal}枚引き出しました`);
+};
+window.pullAllInvest=async()=>{
+  const me=players[currentUser.uid];if(!me) return;
+  const invested=parseFloat(me.invested||0);
+  if(invested<=0){toast('投資中のチップがありません');return;}
+  const returned=Math.ceil(invested);
+  await update(ref(db,`players/${currentUser.uid}`),{chips:me.chips+returned,invested:0});
+  await pushLog('inv',me.name,'投資',returned,`全額引き出し（${invested.toFixed(2)}→切上${returned}枚）`,0);
+  toast(`全額 ${returned}枚引き出しました`);
 };
 
-window.pullInvest = async () => {
-  const me = players[currentUser.uid];
-  if (!me) return;
-  const invested = parseFloat(me.invested || 0);
-  if (invested <= 0) { toast('投資中のチップがありません'); return; }
-  const inputVal = Math.floor(parseFloat(document.getElementById('pull-amt').value));
-  if (!inputVal || inputVal <= 0) { toast('引き出す枚数を入力してください'); return; }
-  const maxPull = Math.ceil(invested);
-  if (inputVal > maxPull) { toast(`引き出せるのは最大 ${maxPull}枚です（切り上げ上限）`); return; }
-  const returned = inputVal; // 入力値がそのまま手元へ（切り上げ分は端数を補填）
-  // inputValがinvestedを超えた分（端数補填）は残高0に
-  const remaining = inputVal >= maxPull ? 0 : parseFloat((invested - inputVal).toFixed(2));
-  await update(ref(db, `players/${currentUser.uid}`), {
-    chips:    me.chips + returned,
-    invested: remaining
-  });
-  await pushLog('inv', me.name, '投資', returned, `引き出し（残高${invested.toFixed(2)}→${remaining.toFixed(2)}枚）`, remaining);
-  document.getElementById('pull-amt').value = '';
-  document.querySelectorAll('#pull-quicks .qbtn').forEach(b => b.classList.remove('on'));
-  toast(`${returned}枚引き出しました`);
-};
-
-window.pullAllInvest = async () => {
-  const me = players[currentUser.uid];
-  if (!me) return;
-  const invested = parseFloat(me.invested || 0);
-  if (invested <= 0) { toast('投資中のチップがありません'); return; }
-  const returned = Math.ceil(invested);
-  await update(ref(db, `players/${currentUser.uid}`), {
-    chips:    me.chips + returned,
-    invested: 0
-  });
-  await pushLog('inv', me.name, '投資', returned, `全額引き出し（${invested.toFixed(2)}→切上${returned}枚）`, 0);
-  document.getElementById('pull-amt').value = '';
-  document.querySelectorAll('#pull-quicks .qbtn').forEach(b => b.classList.remove('on'));
-  toast(`全額 ${returned}枚引き出しました（${invested.toFixed(2)}枚を切り上げ）`);
-};
-
-// ── Investment timer（カウントダウン表示のみ） ────────────
-function startInvestTimer() {
-  if (investTimerInterval) clearInterval(investTimerInterval);
-  const tick = () => {
-    const now = new Date();
-    const sec = now.getSeconds() + now.getMinutes() * 60 + now.getHours() * 3600;
-    const nextInvest = (Math.ceil(sec / 1200) * 1200) % 86400;
-    const diffInv = ((nextInvest - sec) + 86400) % 86400;
-    const m = Math.floor(diffInv / 60), s = diffInv % 60;
-
-    const el = document.getElementById('next-timer');
-    if (el) el.innerHTML =
-      `次の判定目安まで <span>${m}分${s.toString().padStart(2,'0')}秒</span>`;
-
-    // renderHomeの枠表示も毎秒更新（枠が増えるタイミングに対応）
-    if (currentUser && players[currentUser.uid]) renderHome();
+// ── INVEST TIMER ──────────────────────────────────────────
+function startInvestTimer(){
+  if(investTimerInterval) clearInterval(investTimerInterval);
+  const tick=()=>{
+    if(!settings.investEnabled||!settings.investTime) return;
+    const now=new Date();
+    const [hh,mm]=settings.investTime.split(':').map(Number);
+    const target=new Date(now);target.setHours(hh,mm,0,0);
+    if(target<=now) target.setDate(target.getDate()+1);
+    const diffInv=Math.floor((target-now)/1000);
+    const m=Math.floor(diffInv/60),s=diffInv%60;
+    if(currentUser&&players[currentUser.uid]) renderHome();
   };
-  tick();
-  investTimerInterval = setInterval(tick, 1000);
+  tick(); investTimerInterval=setInterval(tick,1000);
 }
 
-async function runInvestResolution() {
-  const multipliers = INVEST_MULTIPLIERS;
-  const upd = {};
-  const entries = [];
-  Object.values(players).forEach(p => {
-    const hasInvest = (p.invested || 0) > 0;
-    const hasDebt   = (p.debt || 0) > 0;
-    if (!hasInvest && !hasDebt) return;
-
-    if (hasInvest) {
-      const mult = multipliers[Math.floor(Math.random() * multipliers.length)];
-      const result = parseFloat((p.invested * mult).toFixed(2));
-      const diff = parseFloat((result - p.invested).toFixed(2));
-      upd[`${p.uid}/chips`]   = p.chips || 0;
-      upd[`${p.uid}/invested`] = result;
-      entries.push({ name: p.name, uid: p.uid, invested: p.invested, result, mult, diff, type: 'invest' });
-    }
-
-    if (hasDebt) {
-      const prevDebt = parseFloat(p.debt);
-      const base     = parseFloat(p.debtBase || prevDebt); // 元本（なければ現在額を元本とする）
-      const newDebt  = parseFloat((prevDebt + base).toFixed(2));
-      upd[`${p.uid}/debt`] = newDebt;
-      entries.push({ name: p.name, uid: p.uid, prevDebt, newDebt, base, type: 'debt' });
-    }
-  });
-  if (Object.keys(upd).length === 0) { toast('投資中・借金のプレイヤーがいません'); return; }
-  await update(ref(db, 'players'), upd);
-  for (const e of entries) {
-    if (e.type === 'invest') {
-      const s = e.diff >= 0 ? '+' : '';
-      await pushLog('inv-res', '投資判定', e.name, e.diff,
-        `×${e.mult} (${e.invested}枚→${e.result}枚)`, e.result);
-    } else {
-      await pushLog('debt', '利子発生', e.name, e.newDebt - e.prevDebt,
-        `借金 ${e.prevDebt}枚 → ${e.newDebt}枚（+${e.base}枚）`);
-    }
-  }
-  if (currentUser) {
-    const me = entries.find(e => e.uid === currentUser.uid && e.type === 'invest');
-    if (me) showInvestPopup(me);
-  }
-}
-
-async function runHourlyReward() {
-  const upd = {};
-  const entries = [];
-
-  Object.values(players).forEach(p => {
-    // 毎期リセット: 枠は常に2枚、使用済みは0に戻す
-    upd[`${p.uid}/investSlotsUsed`] = 0;
-
-    // 投資中の人には時間報酬も付与（0枚以下にはならない）
-    if ((p.invested || 0) > 0) {
-      const reward = HOURLY_REWARDS[Math.floor(Math.random() * HOURLY_REWARDS.length)];
-      const newInvested = parseFloat(Math.max(0, (p.invested || 0) + reward).toFixed(2));
-      upd[`${p.uid}/invested`] = newInvested;
-      entries.push({ name: p.name, uid: p.uid, reward, actualReward: newInvested - (p.invested || 0), newBalance: newInvested });
-    } else {
-      entries.push({ name: p.name, uid: p.uid, reward: null, actualReward: 0 });
-    }
-  });
-
-  if (Object.keys(upd).length === 0) {
-    toast('⏱ プレイヤーがいません');
-    return;
-  }
-
-  await update(ref(db, 'players'), upd);
-  const newCount = (settings.hourlyCount || 0) + 1;
-  await update(ref(db, 'settings'), { hourlyCount: newCount });
-
-  for (const e of entries) {
-    if (e.reward !== null) {
-      const actual = parseFloat(e.actualReward.toFixed(2));
-      const s = actual >= 0 ? '+' : '';
-      await pushLog('hourly', '時間報酬', e.name, actual,
-        `${s}${actual}枚（投資残高に加算）/ 枠リセット`, e.newBalance);
-    } else {
-      await pushLog('hourly', '時間報酬', e.name, 0, '報酬なし / 枠リセット');
-    }
-  }
-
-  // 自分への報酬をプレイヤー画面に表示
-  if (currentUser) {
-    const me = entries.find(e => e.uid === currentUser.uid);
-    if (me) showHourlyToast(me);
-  }
-  toast('⏱ 時間報酬を配布しました');
-}
-
-function showHourlyToast(e) {
-  const el = document.getElementById('hourly-reward-display');
-  if (!el) return;
-  if (e.reward !== null) {
-    const actual = parseFloat((e.actualReward || 0).toFixed(2));
-    const s = actual >= 0 ? '+' : '';
-    const col = actual >= 0 ? 'var(--emerald-light)' : 'var(--crimson-light)';
-    el.innerHTML = `<span style="color:var(--brass-light)">⏱ 時間報酬</span>: <span style="color:${col}">${s}${actual}枚</span> <span style="color:var(--muted);font-size:.7rem;">(枠リセット: 2枚)</span>`;
-  } else {
-    el.innerHTML = `<span style="color:var(--brass-light)">⏱ 時間報酬</span>: 報酬なし <span style="color:var(--muted);font-size:.7rem;">(枠リセット: 2枚)</span>`;
-  }
-  el.style.opacity = '1';
-  setTimeout(() => { el.style.opacity = '0'; }, 8000);
-}
-
-function showInvestPopup(result) {
-  const win = result.diff > 0;
-  const even = result.diff === 0;
-  document.getElementById('popup-emoji').textContent = win ? '🎉' : even ? '😐' : '😢';
-  document.getElementById('popup-title').textContent = win ? '投資成功！' : even ? '変化なし' : '投資損失...';
-  const s = result.diff >= 0 ? '+' : '';
-  document.getElementById('popup-result').textContent = `${s}${result.diff.toFixed(2)}枚`;
-  document.getElementById('popup-result').style.color = win ? 'var(--emerald-light)' : result.diff < 0 ? 'var(--crimson-light)' : 'var(--muted)';
-  document.getElementById('popup-desc').textContent =
-    `${result.invested.toFixed(2)}枚投資 → ×${result.mult} → ${result.result.toFixed(2)}枚\n（引き出し時は切り上げ）`;
+// ── INVEST POPUP ──────────────────────────────────────────
+function showInvestPopup(result){
+  const win=result.diff>0,even=result.diff===0;
+  document.getElementById('popup-emoji').textContent=win?'🎉':even?'😐':'😢';
+  document.getElementById('popup-title').textContent=win?'投資成功！':even?'変化なし':'投資損失...';
+  const s=result.diff>=0?'+':'';
+  document.getElementById('popup-result').textContent=`${s}${result.diff.toFixed(2)}枚`;
+  document.getElementById('popup-result').style.color=win?'var(--emerald-light)':result.diff<0?'var(--crimson-light)':'var(--muted)';
+  document.getElementById('popup-desc').textContent=`${result.invested.toFixed(2)}枚投資 → ×${result.mult} → ${result.result.toFixed(2)}枚\n（引き出し時は切り上げ）`;
   document.getElementById('invest-popup').classList.add('show');
 }
-window.closePopup = () => document.getElementById('invest-popup').classList.remove('show');
+window.closePopup=()=>document.getElementById('invest-popup').classList.remove('show');
 
-window.toggleInvestGraph = () => {
-  const wrap = document.getElementById('invest-graph-wrap');
-  const btn  = document.getElementById('btn-graph');
-  const visible = wrap.style.display !== 'none';
-  wrap.style.display = visible ? 'none' : 'block';
-  btn.textContent = visible ? '📈 投資履歴グラフを表示' : '📉 グラフを閉じる';
-  if (!visible) renderInvestGraph();
+// ── INVEST GRAPH ──────────────────────────────────────────
+window.toggleInvestGraph=()=>{
+  const wrap=document.getElementById('invest-graph-wrap');
+  const btn=document.getElementById('btn-graph');
+  const visible=wrap.style.display!=='none';
+  wrap.style.display=visible?'none':'block';
+  btn.textContent=visible?'📈 投資履歴グラフを表示':'📉 グラフを閉じる';
+  if(!visible) renderInvestGraph();
 };
-
-function renderInvestGraph() {
-  if (!currentUser) return;
-  const canvas = document.getElementById('invest-graph');
-  if (!canvas) return;
-  const ctx    = canvas.getContext('2d');
-  const myName = players[currentUser.uid]?.name;
-  if (!myName) return;
-
-  // inv（投資/引き出し）・inv-res（判定）・hourly（時間報酬）ログを時系列で取得
-  // balance フィールドがあるものだけ使う
-  const raw = Object.values(logsData)
-    .filter(l =>
-      ['inv','inv-res','hourly'].includes(l.type) &&
-      (l.to === myName || l.from === myName) &&
-      l.balance !== undefined
-    )
-    .sort((a, b) => (a.ts || 0) - (b.ts || 0))
-    .slice(-40);
-
-  // 先頭に「0枚」の起点を追加して、投資前の状態も見えるように
-  const me = players[currentUser.uid];
-  const currentBalance = parseFloat(me?.invested || 0);
-
-  const dpr = window.devicePixelRatio || 1;
-  const W   = canvas.offsetWidth || 300;
-  const H   = 180;
-  canvas.width  = W * dpr;
-  canvas.height = H * dpr;
-  canvas.style.height = H + 'px';
-  ctx.scale(dpr, dpr);
-
-  ctx.fillStyle = 'rgba(3,10,6,.75)';
-  ctx.fillRect(0, 0, W, H);
-
-  if (raw.length === 0) {
-    ctx.fillStyle = 'rgba(201,168,76,.5)';
-    ctx.font = '12px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('投資履歴がまだありません', W/2, H/2);
-    return;
-  }
-
-  // 起点(0)＋ログのbalance値をプロット用データに
-  const pts = [{ val: 0, type: 'start', time: '' }, ...raw.map(l => ({
-    val:  parseFloat(l.balance),
-    type: l.type,
-    time: l.time || ''
-  }))];
-  // 末尾に現在残高を追加（最新状態を反映）
-  const lastLogged = pts[pts.length - 1].val;
-  if (Math.abs(currentBalance - lastLogged) > 0.01) {
-    pts.push({ val: currentBalance, type: 'current', time: '現在' });
-  }
-
-  const n    = pts.length;
-  const padL = 42, padR = 14, padT = 14, padB = 22;
-  const gW   = W - padL - padR;
-  const gH   = H - padT - padB;
-
-  const allVals = pts.map(p => p.val);
-  const minV = 0;
-  const maxV = Math.max(...allVals, 1);
-  const range = maxV - minV;
-
-  const toX = i => padL + (i / Math.max(n - 1, 1)) * gW;
-  const toY = v => padT + gH - ((v - minV) / range) * gH;
-
-  // グリッド
-  ctx.strokeStyle = 'rgba(201,168,76,.07)';
-  ctx.lineWidth = 1;
-  for (let i = 0; i <= 4; i++) {
-    const y = padT + (gH / 4) * i;
-    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
-  }
-
-  // ゼロ線
-  ctx.strokeStyle = 'rgba(201,168,76,.25)';
-  ctx.setLineDash([4, 3]);
-  ctx.beginPath(); ctx.moveTo(padL, toY(0)); ctx.lineTo(W - padR, toY(0)); ctx.stroke();
-  ctx.setLineDash([]);
-
-  // エリア塗り
-  const grad = ctx.createLinearGradient(0, padT, 0, padT + gH);
-  grad.addColorStop(0, 'rgba(240,208,128,.18)');
-  grad.addColorStop(1, 'rgba(240,208,128,.02)');
-  ctx.fillStyle = grad;
-  ctx.beginPath();
-  ctx.moveTo(toX(0), toY(0));
-  pts.forEach((p, i) => ctx.lineTo(toX(i), toY(p.val)));
-  ctx.lineTo(toX(n - 1), toY(0));
-  ctx.closePath();
-  ctx.fill();
-
-  // 折れ線
-  ctx.strokeStyle = '#f0d080';
-  ctx.lineWidth = 2.5;
-  ctx.lineJoin = 'round';
-  ctx.beginPath();
-  pts.forEach((p, i) => i === 0 ? ctx.moveTo(toX(i), toY(p.val)) : ctx.lineTo(toX(i), toY(p.val)));
-  ctx.stroke();
-
-  // ポイント
-  pts.forEach((p, i) => {
-    if (p.type === 'start') return;
-    const col = p.type === 'inv-res' ? '#2ab06a'
-              : p.type === 'hourly'  ? '#7ab8f5'
-              : p.type === 'current' ? '#f0d080'
-              : '#c8b880';
-    ctx.beginPath();
-    ctx.arc(toX(i), toY(p.val), p.type === 'current' ? 5 : 3.5, 0, Math.PI * 2);
-    ctx.fillStyle = col;
-    ctx.fill();
-    ctx.strokeStyle = '#f0d080';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    // 各点の枚数ラベル（間引き：最初・最後・判定点のみ）
-    if (p.type === 'inv-res' || p.type === 'current' || i === 1) {
-      ctx.fillStyle = '#f0d080';
-      ctx.font = 'bold 10px sans-serif';
-      ctx.textAlign = 'center';
-      const labelY = toY(p.val) - 8;
-      ctx.fillText(p.val.toFixed(p.val % 1 === 0 ? 0 : 2) + '枚', toX(i), labelY < padT + 8 ? toY(p.val) + 16 : labelY);
-    }
-  });
-
-  // Y軸ラベル
-  ctx.fillStyle = 'rgba(201,168,76,.65)';
-  ctx.font = '10px sans-serif';
-  ctx.textAlign = 'right';
-  [0, Math.round(maxV / 2), maxV].forEach(v => {
-    const y = toY(v);
-    if (y >= padT - 2 && y <= padT + gH + 2)
-      ctx.fillText(v % 1 === 0 ? v : v.toFixed(1), padL - 4, y + 3);
-  });
-
-  // X軸 時刻（最初・最後）
-  ctx.fillStyle = 'rgba(201,168,76,.4)';
-  ctx.font = '9px sans-serif';
-  const firstTime = raw[0]?.time || '';
-  const lastTime  = pts[n - 1].time;
-  ctx.textAlign = 'left';  ctx.fillText(firstTime, padL, H - 5);
-  ctx.textAlign = 'right'; ctx.fillText(lastTime,  W - padR, H - 5);
+function renderInvestGraph(){
+  if(!currentUser) return;
+  const canvas=document.getElementById('invest-graph');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const myName=players[currentUser.uid]?.name;
+  if(!myName) return;
+  const raw=Object.values(logsData)
+    .filter(l=>['inv','inv-res','hourly'].includes(l.type)&&(l.to===myName||l.from===myName)&&l.balance!==undefined)
+    .sort((a,b)=>(a.ts||0)-(b.ts||0)).slice(-40);
+  const me=players[currentUser.uid];
+  const currentBalance=parseFloat(me?.invested||0);
+  const dpr=window.devicePixelRatio||1,W=canvas.offsetWidth||300,H=180;
+  canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.height=H+'px';ctx.scale(dpr,dpr);
+  ctx.fillStyle='rgba(3,10,6,.75)';ctx.fillRect(0,0,W,H);
+  if(raw.length===0){ctx.fillStyle='rgba(201,168,76,.5)';ctx.font='12px sans-serif';ctx.textAlign='center';ctx.fillText('投資履歴がまだありません',W/2,H/2);return;}
+  const pts=[{val:0,type:'start',time:''},...raw.map(l=>({val:parseFloat(l.balance),type:l.type,time:l.time||''}))];
+  if(Math.abs(currentBalance-pts[pts.length-1].val)>0.01) pts.push({val:currentBalance,type:'current',time:'現在'});
+  const n=pts.length,padL=42,padR=14,padT=14,padB=22,gW=W-padL-padR,gH=H-padT-padB;
+  const allVals=pts.map(p=>p.val),minV=0,maxV=Math.max(...allVals,1),range=maxV-minV;
+  const toX=i=>padL+(i/Math.max(n-1,1))*gW,toY=v=>padT+gH-((v-minV)/range)*gH;
+  ctx.strokeStyle='rgba(201,168,76,.07)';ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){const y=padT+(gH/4)*i;ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke();}
+  ctx.strokeStyle='rgba(201,168,76,.25)';ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(padL,toY(0));ctx.lineTo(W-padR,toY(0));ctx.stroke();ctx.setLineDash([]);
+  const grad=ctx.createLinearGradient(0,padT,0,padT+gH);grad.addColorStop(0,'rgba(240,208,128,.18)');grad.addColorStop(1,'rgba(240,208,128,.02)');ctx.fillStyle=grad;
+  ctx.beginPath();ctx.moveTo(toX(0),toY(0));pts.forEach((p,i)=>ctx.lineTo(toX(i),toY(p.val)));ctx.lineTo(toX(n-1),toY(0));ctx.closePath();ctx.fill();
+  ctx.strokeStyle='#f0d080';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.beginPath();pts.forEach((p,i)=>i===0?ctx.moveTo(toX(i),toY(p.val)):ctx.lineTo(toX(i),toY(p.val)));ctx.stroke();
+  pts.forEach((p,i)=>{if(p.type==='start') return;ctx.beginPath();ctx.arc(toX(i),toY(p.val),3.5,0,Math.PI*2);ctx.fillStyle=p.type==='inv-res'?'#30c870':p.type==='hourly'?'#7ab8f5':'#f0d080';ctx.fill();ctx.strokeStyle='#f0d080';ctx.lineWidth=1;ctx.stroke();});
+  ctx.fillStyle='rgba(201,168,76,.65)';ctx.font='10px sans-serif';ctx.textAlign='right';[0,maxV].forEach(v=>{const y=toY(v);if(y>=padT-2&&y<=padT+gH+2) ctx.fillText(v.toFixed(1),padL-4,y+3);});
+  const last=pts[n-1].val;ctx.fillStyle='#f0d080';ctx.font='bold 11px sans-serif';ctx.textAlign='right';ctx.fillText(last.toFixed(2)+'枚',W-padR,toY(last)-7);
+  ctx.fillStyle='rgba(201,168,76,.4)';ctx.font='9px sans-serif';ctx.textAlign='left';ctx.fillText(raw[0]?.time||'',padL,H-5);ctx.textAlign='right';ctx.fillText(pts[n-1].time,W-padR,H-5);
 }
 
 
 // ── ADMIN ─────────────────────────────────────────────────
-function renderAdmin() {
-  if (!adminUnlocked) return;
-  const sorted = Object.values(players).sort((a,b) => b.chips - a.chips);
-
-  // 胴元チップ表示
-  const chestEl = document.getElementById('admin-chest-val');
-  if (chestEl) {
-    const chest = parseInt(settings.adminChest || 0);
-    chestEl.innerHTML = `${chest}<span style="font-size:1rem;color:var(--muted);"> 枚</span>`;
-  }
-
-  document.getElementById('amlist').innerHTML = sorted.map(p => `
+function renderAdmin(){
+  if(!adminUnlocked) return;
+  const sorted=Object.values(players).sort((a,b)=>b.chips-a.chips);
+  const chestEl=document.getElementById('admin-chest-val');
+  if(chestEl) chestEl.innerHTML=`${parseInt(settings.adminChest||0)}<span style="font-size:1rem;color:var(--muted);"> 枚</span>`;
+  const amlist=document.getElementById('amlist');
+  if(amlist) amlist.innerHTML=sorted.map(p=>`
     <div class="citem">
       <div><span style="font-size:1.1rem;">${p.emoji||'🃏'}</span>
         <span style="font-weight:700;margin-left:8px;">${p.name}</span>
         <span style="color:var(--muted);font-size:.75rem;margin-left:8px;">${p.chips}枚${p.invested?` (投資中:${p.invested}枚)`:''}</span>
       </div>
       <button class="btn btn-d" style="padding:4px 10px;font-size:.72rem;" onclick="aRmP('${p.uid}','${p.name}')">削除</button>
-    </div>`).join('') || '<div class="empty">プレイヤーなし</div>';
-
-  const as = document.getElementById('adjp');
-  const av = as.value;
-  as.innerHTML = '<option value="">プレイヤーを選択</option>' +
-    sorted.map(p => `<option value="${p.uid}">${p.name}</option>`).join('');
-  if (av) as.value = av;
-
-  const ds = document.getElementById('debtplayer');
-  const dv = ds.value;
-  ds.innerHTML = '<option value="">プレイヤーを選択</option>' +
-    sorted.map(p => `<option value="${p.uid}">${p.name}${(p.debt||0)>0?` (借金${p.debt}枚)`:''}</option>`).join('');
-  if (dv) ds.value = dv;
-
-  document.getElementById('aview').innerHTML = sorted.map((p, i) => `
-    <div class="prow">
-      <div class="cicon">${p.avatarSvg
-        ? `<img src="data:image/svg+xml,${encodeURIComponent(p.avatarSvg)}" style="width:100%;height:100%;border-radius:50%;display:block;"/>`
-        : (p.emoji||'🃏')}</div>
-      <div style="flex:1;">
-        <div style="font-weight:700;">${p.name}
-          ${i===0?'<span style="font-size:.7rem;background:rgba(240,208,128,.2);color:var(--brass-light);border:1px solid var(--brass);border-radius:2px;padding:2px 8px;margin-left:6px;">👑 1位</span>':''}
-        </div>
-        <div style="font-size:.72rem;color:var(--muted);">所持 ${p.chips}枚${p.invested?` / 投資中 ${p.invested}枚`:''}${p.debt?` / <span style="color:var(--crimson-light)">借金 ${p.debt}枚</span>`:''}</div>
-      </div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--brass-light);">${p.chips}</div>
     </div>`).join('');
-
-  document.getElementById('invest-toggle').checked = settings.investEnabled;
-  document.getElementById('invest-time').value = settings.investTime || '18:00';
-  // ゲーム開始日時
-  if (settings.gameStartTime) {
-    const d = new Date(settings.gameStartTime);
-    const pad = n => n.toString().padStart(2,'0');
-    const localStr = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-    document.getElementById('game-start-time').value = localStr;
+  const aview=document.getElementById('aview');
+  if(aview) aview.innerHTML=sorted.map(p=>`
+    <div class="prow">
+      <div class="cicon">${p.emoji||'🃏'}</div>
+      <div style="flex:1;">
+        <div style="font-weight:700;">${p.name}</div>
+        <div style="font-size:.72rem;color:var(--muted);">所持 ${p.chips}枚${p.invested?` 投資中 ${p.invested}枚`:''}${p.debt?` 借金 ${p.debt}枚`:''}</div>
+      </div>
+    </div>`).join('');
+  const ds=document.getElementById('debtplayer');
+  if(ds){
+    const dv=ds.value;
+    ds.innerHTML='<option value="">プレイヤーを選ぶ</option>'+sorted.map(p=>`<option value="${p.uid}">${p.name}${(p.debt||0)>0?` (借金${p.debt}枚)`:''}</option>`).join('');
+    if(dv) ds.value=dv;
   }
-  const limit = calcInvestLimit();
-  const infoEl = document.getElementById('invest-limit-info');
-  if (infoEl) {
-    const count = settings.hourlyCount || 0;
-    infoEl.textContent = `現在の投資枠: ${limit}枚（時間報酬精算 ${count}回実施済み）`;
+  const it=document.getElementById('invest-toggle');if(it) it.checked=settings.investEnabled;
+  const iv=document.getElementById('invest-time');if(iv) iv.value=settings.investTime||'18:00';
+  if(settings.gameStartTime){
+    const d=new Date(settings.gameStartTime),pad=n=>n.toString().padStart(2,'0');
+    const gs=document.getElementById('game-start-time');
+    if(gs) gs.value=`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
-  // ticket rate
-  const c2t = settings.chipToTicket || 5;
-  const t2c = settings.ticketToChip || 3;
-  const rateInfo = document.getElementById('ticket-rate-info');
-  if (rateInfo) rateInfo.textContent = `現在のレート — チップ→抽選券: ${c2t}チップ=1枚 / 抽選券→チップ: 1枚=${t2c}チップ`;
-  const c2tEl = document.getElementById('rate-chip-to-ticket');
-  const t2cEl = document.getElementById('rate-ticket-to-chip');
-  if (c2tEl && !c2tEl.value) c2tEl.placeholder = `現在: ${c2t}チップ=1枚`;
-  if (t2cEl && !t2cEl.value) t2cEl.placeholder = `現在: 1枚=${t2c}チップ`;
 }
 
-window.aq = (v) => {
-  document.getElementById('adjamt').value = v;
-  document.querySelectorAll('#aquicks .qbtn').forEach(b =>
-    b.classList.toggle('on', parseInt(b.textContent) === v));
+window.aq=(v)=>{document.getElementById('adjamt').value=v;document.querySelectorAll('#aquicks .qbtn').forEach(b=>b.classList.toggle('on',parseInt(b.textContent)===v));};
+window.doAdj=async()=>{
+  const uid=document.getElementById('adjplayer').value;
+  const amt=parseInt(document.getElementById('adjamt').value);
+  if(!uid){toast('プレイヤーを選んでください');return;}
+  if(!amt||amt===0){toast('枚数を入力してください');return;}
+  const p=players[uid];if(!p) return;
+  const newChips=Math.max(0,p.chips+amt);
+  await update(ref(db,`players/${uid}`),{chips:newChips});
+  await pushLog('adj','管理者',p.name,amt,`チップ調整 ${p.chips}→${newChips}枚`);
+  toast(`${p.name} のチップを ${amt>0?'+':''}${amt}枚 調整しました`);
 };
-
-window.doAdj = async () => {
-  const uid = document.getElementById('adjp').value;
-  const amt = parseInt(document.getElementById('adjamt').value);
-  if (!uid) { toast('プレイヤーを選んでください'); return; }
-  if (!amt || amt === 0) { toast('枚数を入力してください'); return; }
-  const p = players[uid];
-  if (p.chips + amt < 0) { toast('チップがマイナスになります'); return; }
-  await update(ref(db, `players/${uid}`), { chips: p.chips + amt });
-  await pushLog('adj', '管理者', p.name, amt);
-  document.getElementById('adjamt').value = '';
-  document.querySelectorAll('#aquicks .qbtn').forEach(b => b.classList.remove('on'));
-  const s = amt > 0 ? '+' : '';
-  toast(`${p.name} に ${s}${amt}枚 調整`);
+window.cq=(v)=>{document.getElementById('collectamt').value=v;document.querySelectorAll('#cquicks .qbtn').forEach(b=>b.classList.toggle('on',parseInt(b.textContent)===v));};
+window.doCollect=async()=>{
+  const amt=parseInt(document.getElementById('collectamt').value);
+  if(!amt||amt<=0){toast('枚数を入力してください');return;}
+  const upd={};let debtCount=0;
+  Object.values(players).forEach(p=>{
+    if((p.chips||0)>=amt){upd[`${p.uid}/chips`]=(p.chips||0)-amt;}
+    else if((p.chips||0)>0){const short=amt-(p.chips||0);upd[`${p.uid}/chips`]=0;upd[`${p.uid}/debt`]=(p.debt||0)+short;if(!p.debtBase) upd[`${p.uid}/debtBase`]=short;debtCount++;}
+    else{upd[`${p.uid}/debt`]=(p.debt||0)+amt;if(!p.debtBase) upd[`${p.uid}/debtBase`]=amt;debtCount++;}
+  });
+  await update(ref(db,'players'),upd);
+  for(const p of Object.values(players)){
+    if((upd[`${p.uid}/debt`]||0)>(p.debt||0)) await pushLog('debt','管理者',p.name,amt,`回収→借金発生`);
+    else await pushLog('adj','管理者',p.name,-amt);
+  }
+  document.getElementById('collectamt').value='';
+  document.querySelectorAll('#cquicks .qbtn').forEach(b=>b.classList.remove('on'));
+  toast(`${amt}枚 一斉回収しました${debtCount>0?`（${debtCount}人に借金）`:''}`);
 };
-
-window.aRmP = async (uid, name) => {
-  if (!confirm(`${name} を削除しますか？`)) return;
-  await remove(ref(db, `players/${uid}`));
-  await pushLog('sys', 'システム', name, 0, '退場');
-  toast(`${name} を削除しました`);
+window.aRmP=async(uid,name)=>{if(!confirm(`${name} を削除しますか？`))return;await remove(ref(db,`players/${uid}`));toast(`${name} を削除しました`);};
+window.doReset=async()=>{
+  if(!confirm('全員リセットします。\nチップ・投資・借金・クイズ履歴・取引履歴がすべてリセットされます。'))return;
+  const upd={};
+  Object.keys(players).forEach(uid=>{
+    upd[`${uid}/chips`]=INIT_CHIPS;upd[`${uid}/invested`]=0;upd[`${uid}/investedTotal`]=0;
+    upd[`${uid}/investSlotsUsed`]=0;upd[`${uid}/debt`]=0;upd[`${uid}/debtBase`]=0;upd[`${uid}/tickets`]=0;
+  });
+  await update(ref(db,'players'),upd);
+  // 設定リセット（hourlyCountも0に）
+  await update(ref(db,'settings'),{hourlyCount:0,adminChest:0});
+  // クイズ・履歴を全削除
+  await remove(ref(db,'quizzes'));
+  await remove(ref(db,'logs'));
+  toast('🔄 全員リセット完了（クイズ・履歴もクリア）');
 };
-
-window.toggleInvest = async () => {
-  const val = document.getElementById('invest-toggle').checked;
-  await update(ref(db, 'settings'), { investEnabled: val });
-  toast(val ? '投資機能を有効にしました' : '投資機能を停止しました');
+window.setInvestEnabled=async(v)=>{await update(ref(db,'settings'),{investEnabled:v});toast(v?'投資を開始しました':'投資を停止しました');};
+window.toggleInvest=async()=>{
+  const cb=document.getElementById('invest-toggle');
+  if(cb) await window.setInvestEnabled(cb.checked);
 };
-
-window.saveGameStartTime = async () => {
-  const val = document.getElementById('game-start-time').value;
-  if (!val) { toast('開始日時を選択してください'); return; }
-  const ts = new Date(val).getTime();
-  await update(ref(db, 'settings'), { gameStartTime: ts });
-  toast('ゲーム開始日時を設定しました');
+window.triggerInvestNow=async()=>{ await runInvestResolution(); };
+window.triggerHourlyNow=async()=>{ await runHourlyReward(); };
+window.saveGameStartTime=async()=>{
+  const v=document.getElementById('game-start-time')?.value;
+  if(!v) return;
+  await update(ref(db,'settings'),{gameStartTime:new Date(v).getTime()});
+  toast('ゲーム開始時刻を設定しました');
 };
-
-window.saveInvestTime = async () => {
-  const t = document.getElementById('invest-time').value;
-  if (!t) { toast('時刻を入力してください'); return; }
-  await update(ref(db, 'settings'), { investTime: t });
-  toast(`投資開始時刻を ${t} に設定しました`);
-};
-
-window.triggerInvestNow = async () => {
-  if (!confirm('今すぐ投資判定を実行しますか？')) return;
-  await runInvestResolution();
+window.saveInvestTime=async()=>{const t=document.getElementById('invest-time').value;if(!t) return;await update(ref(db,'settings'),{investTime:t});toast(`投資時刻を ${t} に設定しました`);};
+window.saveGameStart=async()=>{const v=document.getElementById('game-start-time').value;if(!v) return;await update(ref(db,'settings'),{gameStartTime:new Date(v).getTime()});toast('ゲーム開始時刻を設定しました');};
+window.runInvestResolution=async()=>{
+  const upd={},entries=[];
+  Object.values(players).forEach(p=>{
+    const hasInvest=(p.invested||0)>0,hasDebt=(p.debt||0)>0;
+    if(!hasInvest&&!hasDebt) return;
+    if(hasInvest){
+      const mult=pickMultiplier();
+      const result=parseFloat((p.invested*mult).toFixed(2));
+      const diff=parseFloat((result-p.invested).toFixed(2));
+      upd[`${p.uid}/invested`]=result;
+      entries.push({name:p.name,uid:p.uid,invested:p.invested,result,mult,diff,type:'invest'});
+    }
+    if(hasDebt){
+      const prevDebt=parseFloat(p.debt),base=parseFloat(p.debtBase||prevDebt);
+      const newDebt=parseFloat((prevDebt+base).toFixed(2));
+      upd[`${p.uid}/debt`]=newDebt;
+      entries.push({name:p.name,uid:p.uid,prevDebt,newDebt,base,type:'debt'});
+    }
+  });
+  if(Object.keys(upd).length===0){toast('投資中・借金のプレイヤーがいません');return;}
+  await update(ref(db,'players'),upd);
+  for(const e of entries){
+    if(e.type==='invest') await pushLog('inv-res','投資判定',e.name,e.diff,`×${e.mult} (${e.invested}枚→${e.result}枚)`,e.result);
+    else await pushLog('debt','利子発生',e.name,e.newDebt-e.prevDebt,`借金 ${e.prevDebt}枚 → ${e.newDebt}枚`);
+  }
+  if(currentUser){const me=entries.find(e=>e.uid===currentUser.uid&&e.type==='invest');if(me) showInvestPopup(me);}
   toast('投資判定を実行しました');
 };
-
-window.triggerHourlyNow = async () => {
-  if (!confirm('今すぐ時間報酬を配布しますか？')) return;
-  await runHourlyReward();
-};
-
-window.clearLog = async () => {
-  if (!confirm('履歴を全削除しますか？')) return;
-  await remove(ref(db, 'logs'));
-  toast('履歴を削除しました');
-};
-
-window.dq = (v) => {
-  document.getElementById('debtamt').value = v;
-  document.querySelectorAll('#dquicks .qbtn').forEach(b =>
-    b.classList.toggle('on', parseInt(b.textContent) === v));
-};
-
-window.doAddDebt = async () => {
-  const uid = document.getElementById('debtplayer').value;
-  const amt = parseFloat(document.getElementById('debtamt').value);
-  if (!uid) { toast('プレイヤーを選んでください'); return; }
-  if (!amt || amt <= 0) { toast('借金額を入力してください'); return; }
-  const p = players[uid];
-  const newDebt = parseFloat(((p.debt || 0) + amt).toFixed(2));
-  const newBase = parseFloat(((p.debtBase || 0) + amt).toFixed(2));
-  await update(ref(db, `players/${uid}`), { debt: newDebt, debtBase: newBase });
-  await pushLog('debt', '管理者', p.name, amt, `借金追加 ${amt}枚`);
-  document.getElementById('debtamt').value = '';
-  document.querySelectorAll('#dquicks .qbtn').forEach(b => b.classList.remove('on'));
-  toast(`${p.name} に借金 ${amt}枚 を課しました`);
-};
-
-window.cq = (v) => {
-  document.getElementById('collectamt').value = v;
-  document.querySelectorAll('#cquicks .qbtn').forEach(b =>
-    b.classList.toggle('on', parseInt(b.textContent) === v));
-};
-
-window.doCollect = async () => {
-  const amt = parseInt(document.getElementById('collectamt').value);
-  if (!amt || amt <= 0) { toast('回収枚数を入力してください'); return; }
-  if (!confirm(`全員から ${amt}枚 回収しますか？\n払えない人はチップをそのまま残して借金になります。`)) return;
-  const upd = {};
-  let debtCount = 0;
-  Object.values(players).forEach(p => {
-    if (p.chips >= amt) {
-      upd[`${p.uid}/chips`] = p.chips - amt;
+window.runHourlyReward=async()=>{
+  const upd={},entries=[];
+  Object.values(players).forEach(p=>{
+    upd[`${p.uid}/investSlotsUsed`]=0;
+    if((p.invested||0)>0){
+      const reward=HOURLY_REWARDS[Math.floor(Math.random()*HOURLY_REWARDS.length)];
+      const newInvested=parseFloat(Math.max(0,(p.invested||0)+reward).toFixed(2));
+      upd[`${p.uid}/invested`]=newInvested;
+      entries.push({name:p.name,uid:p.uid,reward,actualReward:newInvested-(p.invested||0),newBalance:newInvested});
     } else {
-      // 払えない → チップはそのまま・回収額まるまる借金（元本も加算）
-      upd[`${p.uid}/debt`]     = parseFloat(((p.debt || 0) + amt).toFixed(2));
-      upd[`${p.uid}/debtBase`] = parseFloat(((p.debtBase || 0) + amt).toFixed(2));
-      debtCount++;
+      entries.push({name:p.name,uid:p.uid,reward:null,actualReward:0,newBalance:0});
     }
   });
-  await update(ref(db, 'players'), upd);
-  for (const p of Object.values(players)) {
-    if ((upd[`${p.uid}/debt`] || 0) > (p.debt || 0)) {
-      await pushLog('debt', '管理者', p.name, amt, `回収不足→借金 ${amt}枚`);
-    } else {
-      await pushLog('adj', '管理者', p.name, -amt);
-    }
+  if(Object.keys(upd).length===0){toast('⏱ プレイヤーがいません');return;}
+  await update(ref(db,'players'),upd);
+  await update(ref(db,'settings'),{hourlyCount:(settings.hourlyCount||0)+1});
+  for(const e of entries){
+    if(e.reward!==null){const s=e.actualReward>=0?'+':'';await pushLog('hourly','時間報酬',e.name,e.actualReward,`${s}${e.actualReward.toFixed(2)}枚 / 枠リセット`,e.newBalance);}
+    else await pushLog('hourly','時間報酬',e.name,0,'報酬なし / 枠リセット');
   }
-  document.getElementById('collectamt').value = '';
-  document.querySelectorAll('#cquicks .qbtn').forEach(b => b.classList.remove('on'));
-  toast(`${amt}枚 一斉回収しました${debtCount > 0 ? `（${debtCount}人が借金）` : ''}`);
+  if(currentUser){const me=entries.find(e=>e.uid===currentUser.uid);if(me) showHourlyToast(me);}
+  toast('⏱ 時間判定実行');
 };
-
-window.setBorrowAmt = (v) => {
-  document.getElementById('borrow-amt').value = v;
-  document.querySelectorAll('#borrow-quicks .qbtn').forEach(b =>
-    b.classList.toggle('on', parseInt(b.textContent) === v));
-};
-
-window.doBorrow = async () => {
-  const me = players[currentUser.uid];
-  if (!me) return;
-  const amt = parseFloat(document.getElementById('borrow-amt').value);
-  if (!amt || amt <= 0) { toast('借りる枚数を入力してください'); return; }
-  const newChips = me.chips + amt;
-  const newDebt  = parseFloat(((me.debt || 0) + amt).toFixed(2));
-  const newBase  = parseFloat(((me.debtBase || 0) + amt).toFixed(2));
-  await update(ref(db, `players/${currentUser.uid}`), {
-    chips:    newChips,
-    debt:     newDebt,
-    debtBase: newBase
-  });
-  await pushLog('debt', me.name, me.name, amt, `借金 ${amt}枚（チップに加算）`);
-  document.getElementById('borrow-amt').value = '';
-  document.querySelectorAll('#borrow-quicks .qbtn').forEach(b => b.classList.remove('on'));
-  toast(`${amt}枚借りました（借金: ${newDebt}枚）`);
-};
-
-window.repayDebt = async () => {
-  const me = players[currentUser.uid];
-  if (!me) return;
-  const debt = parseFloat(me.debt || 0);
-  if (debt <= 0) { toast('借金はありません'); return; }
-  const amt = parseInt(document.getElementById('debt-repay-amt').value);
-  if (!amt || amt <= 0) { toast('返済枚数を入力してください'); return; }
-  if (me.chips < amt) { toast(`チップが足りません（${me.chips}枚）`); return; }
-  // 切り捨てた借金額以下を返済したら完済扱い
-  const floorDebt = Math.floor(debt);
-  const isFullRepay = amt >= floorDebt && floorDebt >= 0;
-  const repay   = isFullRepay ? floorDebt : amt;
-  const newDebt = isFullRepay ? 0 : parseFloat((debt - repay).toFixed(2));
-  // 返済比率に応じて元本も減らす（完済時は0）
-  const oldBase = parseFloat(me.debtBase || debt);
-  const newBase = newDebt <= 0 ? 0 : parseFloat((oldBase * (newDebt / debt)).toFixed(2));
-  await update(ref(db, `players/${currentUser.uid}`), {
-    chips:    me.chips - repay,
-    debt:     newDebt,
-    debtBase: newBase
-  });
-  await pushLog('debt', me.name, '返済', repay, `借金 ${debt}枚 → ${newDebt}枚`);
-  document.getElementById('debt-repay-amt').value = '';
-  toast(newDebt <= 0 ? `完済しました！（${repay}枚返済）` : `${repay}枚返済しました（残借金: ${newDebt}枚）`);
-};
-
-window.doReset = async () => {
-  if (!confirm('全員のチップを20枚にリセットしますか？')) return;
-  const upd = {};
-  Object.keys(players).forEach(uid => {
-    upd[`${uid}/chips`] = INIT_CHIPS;
-    upd[`${uid}/invested`] = 0;
-    upd[`${uid}/investedTotal`] = 0;
-    upd[`${uid}/investSlotsUsed`] = 0;
-    upd[`${uid}/debt`] = 0;
-    upd[`${uid}/debtBase`] = 0;
-    upd[`${uid}/tickets`] = 0;
-  });
-  await update(ref(db, 'players'), upd);
-  await update(ref(db, 'settings'), { hourlyCount: 0 });
-  await pushLog('sys', 'システム', '全員', INIT_CHIPS, 'リセット');
-  toast('全員のチップを20枚にリセットしました');
-};
-
-// ── PROFILE ───────────────────────────────────────────────
-// ── AVATAR BUILDER ────────────────────────────────────────
-const AB = {
-  skin: [
-    { id:'s1', hex:'#FDDBB4' },
-    { id:'s2', hex:'#F5C68A' },
-    { id:'s3', hex:'#D4905A' },
-    { id:'s4', hex:'#9A5C28' },
-    { id:'s5', hex:'#532808' },
-  ],
-  hair: [
-    { id:'h0', label:'なし' },
-    { id:'h1', label:'短髪' },
-    { id:'h2', label:'センター分け' },
-    { id:'h3', label:'オールバック' },
-    { id:'h4', label:'七三分け' },
-    { id:'h5', label:'ロング' },
-    { id:'h6', label:'ボサボサ' },
-    { id:'h7', label:'刈り上げ' },
-  ],
-  haircolor: [
-    { id:'hc1', hex:'#0d0600' },  // 黒
-    { id:'hc2', hex:'#2e1506' },  // 焦茶
-    { id:'hc3', hex:'#6b3a1f' },  // ブラウン
-    { id:'hc4', hex:'#8a8a8a' },  // グレー
-    { id:'hc5', hex:'#c8c8c8' },  // 白（レイリー）
-    { id:'hc6', hex:'#e8d050' },  // 金髪（浦原）
-    { id:'hc7', hex:'#c0392b' },  // 赤
-    { id:'hc8', hex:'#e8e0c8' },  // 白金
-  ],
-  eyes: [
-    { id:'e1', label:'切れ長' },
-    { id:'e2', label:'鋭い目' },
-    { id:'e3', label:'細目' },
-    { id:'e4', label:'たれ目' },   // 浦原
-    { id:'e5', label:'眼鏡' },
-    { id:'e6', label:'丸眼鏡' },   // レイリー
-    { id:'e7', label:'サングラス' },
-  ],
-  eyebrow: [
-    { id:'eb1', label:'普通' },
-    { id:'eb2', label:'太い' },
-    { id:'eb3', label:'つり上がり' }, // ジャック
-    { id:'eb4', label:'細い' },
-  ],
-  nose: [
-    { id:'n1', label:'普通' },
-    { id:'n2', label:'高い鷹鼻' },   // レイリー・ジャック
-    { id:'n3', label:'小さい' },
-  ],
-  mouth: [
-    { id:'m1', label:'普通' },
-    { id:'m2', label:'スマイル' },
-    { id:'m3', label:'不敵な笑み' }, // 浦原
-    { id:'m4', label:'真一文字' },
-    { id:'m5', label:'口角上がり' }, // ジャック
-  ],
-  beard: [
-    { id:'b0', label:'なし' },
-    { id:'b1', label:'無精髭' },
-    { id:'b2', label:'顎髭' },       // レイリー
-    { id:'b3', label:'細口髭' },     // 浦原・ジャック
-    { id:'b4', label:'フル髭' },
-    { id:'b5', label:'もみあげ' },
-  ],
-  hat: [
-    { id:'ht0', label:'なし' },
-    { id:'ht1', label:'シルクハット' },
-    { id:'ht2', label:'ハンチング黒' },
-    { id:'ht3', label:'ハンチング緑' }, // 浦原
-    { id:'ht4', label:'山高帽' },
-    { id:'ht5', label:'麦わら帽' },
-    { id:'ht6', label:'ベレー帽' },
-  ],
-  mask: [
-    { id:'mk0', label:'なし' },
-    { id:'mk1', label:'黒マスク' },
-    { id:'mk2', label:'白マスク' },
-    { id:'mk3', label:'バンダナ' },
-  ],
-};
-
-let abState = { skin:'s1', hair:'h2', haircolor:'hc1', eyebrow:'eb1', eyes:'e1', nose:'n1', mouth:'m2', beard:'b0', hat:'ht0', mask:'mk0' };
-
-// ═══════════════════════════════════════════════
-// 漫画風SVGアバター描画エンジン
-// ═══════════════════════════════════════════════
-function buildAvatarSVG(st) {
-  const skin = (AB.skin.find(x=>x.id===st.skin)||AB.skin[0]).hex;
-  const hcol = (AB.haircolor.find(x=>x.id===st.haircolor)||AB.haircolor[0]).hex;
-  // 肌の影色
-  const skinShadow = blendHex(skin, '#8B4513', 0.18);
-  const p = [];
-
-  // ── 背景円 ──
-  p.push(`<circle cx="48" cy="48" r="47" fill="#0b1e12"/>`);
-
-  // ── 首 ──
-  p.push(`<path d="M38 78 Q48 82 58 78 L58 90 Q48 94 38 90Z" fill="${skin}"/>`);
-  p.push(`<path d="M38 78 Q48 82 58 78 L58 82 Q48 86 38 82Z" fill="${skinShadow}"/>`);
-
-  // ── 耳 ──
-  p.push(`<path d="M18 50 Q13 54 14 60 Q16 66 20 64 L20 50Z" fill="${skin}" stroke="#0004" stroke-width=".5"/>`);
-  p.push(`<path d="M78 50 Q83 54 82 60 Q80 66 76 64 L76 50Z" fill="${skin}" stroke="#0004" stroke-width=".5"/>`);
-  // 耳の線
-  p.push(`<path d="M15 54 Q15 60 16 64" stroke="${skinShadow}" stroke-width="1" fill="none" stroke-linecap="round"/>`);
-  p.push(`<path d="M81 54 Q81 60 80 64" stroke="${skinShadow}" stroke-width="1" fill="none" stroke-linecap="round"/>`);
-
-  // ── 顔輪郭（漫画風のシャープな輪郭） ──
-  p.push(`<path d="M20 38 Q18 54 20 64 Q26 78 38 82 Q48 86 58 82 Q70 78 76 64 Q78 54 76 38 Q68 18 48 18 Q28 18 20 38Z"
-    fill="${skin}" stroke="#1a0a00" stroke-width="1.2"/>`);
-  // 顎のシャドウ
-  p.push(`<path d="M34 76 Q48 84 62 76 Q68 70 74 62 Q70 72 58 80 Q48 84 38 80 Q26 72 22 62 Q28 70 34 76Z" fill="${skinShadow}" opacity=".5"/>`);
-
-  // ── 眉毛 ──
-  const browCol = hcol === '#e8d050' ? '#8B6914' : (hcol === '#c8c8c8' || hcol === '#e8e0c8' ? '#666' : '#1a0800');
-  if (st.eyebrow === 'eb1') { // 普通
-    p.push(`<path d="M28 36 Q36 32 44 35" stroke="${browCol}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-            <path d="M52 35 Q60 32 68 36" stroke="${browCol}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`);
-  } else if (st.eyebrow === 'eb2') { // 太い
-    p.push(`<path d="M27 36 Q36 31 44 34" stroke="${browCol}" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-            <path d="M52 34 Q60 31 69 36" stroke="${browCol}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`);
-  } else if (st.eyebrow === 'eb3') { // つり上がり（ジャック）
-    p.push(`<path d="M28 38 Q36 30 44 33" stroke="${browCol}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <path d="M52 33 Q60 30 68 38" stroke="${browCol}" stroke-width="2.5" fill="none" stroke-linecap="round"/>`);
-  } else if (st.eyebrow === 'eb4') { // 細い
-    p.push(`<path d="M29 36 Q36 33 44 35" stroke="${browCol}" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-            <path d="M52 35 Q60 33 67 36" stroke="${browCol}" stroke-width="1.4" fill="none" stroke-linecap="round"/>`);
-  }
-
-  // ── 目 ──
-  if (st.eyes === 'e1') { // 切れ長
-    p.push(`<path d="M28 46 Q36 42 44 46 Q36 50 28 46Z" fill="#1a0800"/>
-            <circle cx="36" cy="46" r="2.5" fill="#1a0800"/>
-            <circle cx="37" cy="45" r="1" fill="#fff" opacity=".8"/>
-            <path d="M28 46 Q36 42 44 46" stroke="#0d0600" stroke-width="1.5" fill="none"/>
-            <path d="M52 46 Q60 42 68 46 Q60 50 52 46Z" fill="#1a0800"/>
-            <circle cx="60" cy="46" r="2.5" fill="#1a0800"/>
-            <circle cx="61" cy="45" r="1" fill="#fff" opacity=".8"/>
-            <path d="M52 46 Q60 42 68 46" stroke="#0d0600" stroke-width="1.5" fill="none"/>`);
-  } else if (st.eyes === 'e2') { // 鋭い目（ジャック）
-    p.push(`<path d="M27 44 Q36 40 45 45 L44 50 Q36 52 28 48Z" fill="#1a0800"/>
-            <circle cx="36" cy="46" r="3" fill="#0d0600"/>
-            <circle cx="37" cy="44.5" r="1.2" fill="#fff" opacity=".9"/>
-            <path d="M27 44 Q36 40 45 45" stroke="#0d0600" stroke-width="2" fill="none" stroke-linecap="round"/>
-            <path d="M51 45 Q60 40 69 44 L68 48 Q60 52 52 50Z" fill="#1a0800"/>
-            <circle cx="60" cy="46" r="3" fill="#0d0600"/>
-            <circle cx="61" cy="44.5" r="1.2" fill="#fff" opacity=".9"/>
-            <path d="M51 45 Q60 40 69 44" stroke="#0d0600" stroke-width="2" fill="none" stroke-linecap="round"/>`);
-  } else if (st.eyes === 'e3') { // 細目
-    p.push(`<path d="M28 46 Q36 43 44 46" stroke="#0d0600" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <path d="M28 47 Q36 50 44 47" stroke="#0d0600" stroke-width="1" fill="none" stroke-linecap="round"/>
-            <path d="M52 46 Q60 43 68 46" stroke="#0d0600" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <path d="M52 47 Q60 50 68 47" stroke="#0d0600" stroke-width="1" fill="none" stroke-linecap="round"/>`);
-  } else if (st.eyes === 'e4') { // たれ目（浦原）
-    p.push(`<path d="M29 44 Q36 48 43 45 Q36 52 29 48Z" fill="#1a0800"/>
-            <circle cx="36" cy="47" r="2.5" fill="#1a0800"/>
-            <circle cx="37" cy="45.5" r="1" fill="#fff" opacity=".8"/>
-            <path d="M29 44 Q36 42 43 45" stroke="#0d0600" stroke-width="1.5" fill="none"/>
-            <path d="M43 45 Q42 50 37 51" stroke="#0d0600" stroke-width="1" fill="none"/>
-            <path d="M53 45 Q60 48 67 44 Q60 52 53 48Z" fill="#1a0800"/>
-            <circle cx="60" cy="47" r="2.5" fill="#1a0800"/>
-            <circle cx="61" cy="45.5" r="1" fill="#fff" opacity=".8"/>
-            <path d="M53 45 Q60 42 67 44" stroke="#0d0600" stroke-width="1.5" fill="none"/>
-            <path d="M67 44 Q66 50 61 51" stroke="#0d0600" stroke-width="1" fill="none"/>`);
-  } else if (st.eyes === 'e5') { // 眼鏡（四角）
-    p.push(`<circle cx="36" cy="46" r="3" fill="#1a0800"/>
-            <circle cx="37" cy="45" r="1.2" fill="#fff" opacity=".8"/>
-            <circle cx="60" cy="46" r="3" fill="#1a0800"/>
-            <circle cx="61" cy="45" r="1.2" fill="#fff" opacity=".8"/>
-            <rect x="28" y="40" width="16" height="12" rx="2" fill="none" stroke="#555" stroke-width="1.8"/>
-            <rect x="52" y="40" width="16" height="12" rx="2" fill="none" stroke="#555" stroke-width="1.8"/>
-            <line x1="44" y1="46" x2="52" y2="46" stroke="#555" stroke-width="1.5"/>
-            <line x1="20" y1="44" x2="28" y2="44" stroke="#555" stroke-width="1.2"/>
-            <line x1="68" y1="44" x2="76" y2="44" stroke="#555" stroke-width="1.2"/>`);
-  } else if (st.eyes === 'e6') { // 丸眼鏡（レイリー）
-    p.push(`<circle cx="36" cy="46" r="3" fill="#1a0800"/>
-            <circle cx="37" cy="45" r="1.2" fill="#fff" opacity=".8"/>
-            <circle cx="60" cy="46" r="3" fill="#1a0800"/>
-            <circle cx="61" cy="45" r="1.2" fill="#fff" opacity=".8"/>
-            <circle cx="36" cy="46" r="7" fill="none" stroke="#7a6030" stroke-width="1.8"/>
-            <circle cx="60" cy="46" r="7" fill="none" stroke="#7a6030" stroke-width="1.8"/>
-            <line x1="43" y1="46" x2="53" y2="46" stroke="#7a6030" stroke-width="1.5"/>
-            <line x1="20" y1="44" x2="29" y2="44" stroke="#7a6030" stroke-width="1.2"/>
-            <line x1="67" y1="44" x2="76" y2="44" stroke="#7a6030" stroke-width="1.2"/>`);
-  } else if (st.eyes === 'e7') { // サングラス
-    p.push(`<path d="M26 41 Q36 38 46 42 L45 52 Q36 54 27 50Z" fill="#0a0a0a" opacity=".95"/>
-            <path d="M50 42 Q60 38 70 41 L69 50 Q60 54 51 52Z" fill="#0a0a0a" opacity=".95"/>
-            <path d="M26 41 Q36 38 46 42" stroke="#333" stroke-width="1" fill="none"/>
-            <path d="M50 42 Q60 38 70 41" stroke="#333" stroke-width="1" fill="none"/>
-            <line x1="46" y1="42" x2="50" y2="42" stroke="#333" stroke-width="1.5"/>
-            <line x1="20" y1="43" x2="26" y2="42" stroke="#333" stroke-width="1.5"/>
-            <line x1="76" y1="43" x2="70" y2="42" stroke="#333" stroke-width="1.5"/>`);
-  }
-
-  // ── 鼻 ──
-  if (st.nose === 'n1') {
-    p.push(`<path d="M44 55 Q48 58 52 55" stroke="${skinShadow}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-            <circle cx="44.5" cy="55" r="1.2" fill="${skinShadow}" opacity=".6"/>
-            <circle cx="51.5" cy="55" r="1.2" fill="${skinShadow}" opacity=".6"/>`);
-  } else if (st.nose === 'n2') { // 鷹鼻（レイリー・ジャック）
-    p.push(`<path d="M48 44 L46 56 Q48 60 50 56 L48 44" fill="${skinShadow}" opacity=".4"/>
-            <path d="M48 44 L46 58 Q44 60 44 58" stroke="${skinShadow}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-            <path d="M44 58 Q48 62 52 58" stroke="${skinShadow}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-            <circle cx="44.5" cy="58" r="1.5" fill="${skinShadow}" opacity=".5"/>
-            <circle cx="51.5" cy="58" r="1.5" fill="${skinShadow}" opacity=".5"/>`);
-  } else if (st.nose === 'n3') {
-    p.push(`<circle cx="46.5" cy="56" r="1" fill="${skinShadow}" opacity=".5"/>
-            <circle cx="49.5" cy="56" r="1" fill="${skinShadow}" opacity=".5"/>`);
-  }
-
-  // ── 口 ──
-  if (st.mouth === 'm1') {
-    p.push(`<path d="M38 68 Q48 72 58 68" stroke="#7a2a2a" stroke-width="2" fill="none" stroke-linecap="round"/>`);
-  } else if (st.mouth === 'm2') { // スマイル
-    p.push(`<path d="M38 66 Q48 74 58 66" stroke="#7a2a2a" stroke-width="2" fill="#c87070" stroke-linecap="round"/>
-            <path d="M38 66 Q48 74 58 66" stroke="#7a2a2a" stroke-width="1.5" fill="none"/>
-            <line x1="38" y1="66" x2="38" y2="69" stroke="#7a2a2a" stroke-width="1.2" stroke-linecap="round"/>
-            <line x1="58" y1="66" x2="58" y2="69" stroke="#7a2a2a" stroke-width="1.2" stroke-linecap="round"/>`);
-  } else if (st.mouth === 'm3') { // 不敵な笑み（浦原）
-    p.push(`<path d="M38 67 Q43 72 48 67 Q53 72 58 67" stroke="#7a2a2a" stroke-width="2" fill="#c87070" stroke-linecap="round"/>
-            <path d="M38 67 Q43 65 48 67 Q53 65 58 67" stroke="#7a2a2a" stroke-width="1" fill="none"/>
-            <path d="M36 67 L38 67" stroke="#7a2a2a" stroke-width="2" stroke-linecap="round"/>
-            <path d="M58 67 L60 67" stroke="#7a2a2a" stroke-width="2" stroke-linecap="round"/>`);
-  } else if (st.mouth === 'm4') { // 真一文字
-    p.push(`<path d="M38 68 L58 68" stroke="#5a1a1a" stroke-width="2" stroke-linecap="round"/>`);
-  } else if (st.mouth === 'm5') { // 口角上がり（ジャック）
-    p.push(`<path d="M40 70 Q48 68 56 70" stroke="#7a2a2a" stroke-width="2" fill="#c87070" stroke-linecap="round"/>
-            <path d="M38 66 Q40 70 42 69" stroke="#7a2a2a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-            <path d="M58 66 Q56 70 54 69" stroke="#7a2a2a" stroke-width="1.5" fill="none" stroke-linecap="round"/>`);
-  }
-
-  // ── 髭 ──
-  const beardCol = hcol === '#e8d050' ? '#b09020' : (hcol==='#c8c8c8'||hcol==='#e8e0c8' ? '#999' : hcol);
-  if (st.beard === 'b1') { // 無精髭
-    const dts = [];
-    [[32,64],[36,65],[40,65],[44,64],[48,65],[52,64],[56,65],[60,65],[64,64],
-     [33,68],[37,68],[41,69],[45,68],[49,69],[53,68],[57,69],[61,68],[63,68]].forEach(([x,y])=>{
-      dts.push(`<circle cx="${x}" cy="${y}" r="1" fill="${beardCol}" opacity=".55"/>`);
-    });
-    p.push(dts.join(''));
-  } else if (st.beard === 'b2') { // 顎髭（レイリー）
-    p.push(`<path d="M34 70 Q38 66 42 68 Q48 64 54 68 Q58 66 62 70 Q60 82 48 86 Q36 82 34 70Z" fill="${beardCol}" opacity=".88"/>
-            <path d="M38 70 Q48 66 58 70" stroke="${blendHex(beardCol,'#000',.2)}" stroke-width="1" fill="none"/>`);
-  } else if (st.beard === 'b3') { // 細口髭（浦原・ジャック）
-    p.push(`<path d="M37 63 Q42 60 48 63" stroke="${beardCol}" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <path d="M48 63 Q54 60 59 63" stroke="${beardCol}" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <circle cx="37.5" cy="63" r="1.2" fill="${beardCol}"/>
-            <circle cx="58.5" cy="63" r="1.2" fill="${beardCol}"/>`);
-  } else if (st.beard === 'b4') { // フル髭
-    p.push(`<path d="M30 66 Q34 62 40 64 Q48 60 56 64 Q62 62 66 66 L64 80 Q48 88 32 80Z" fill="${beardCol}" opacity=".85"/>
-            <path d="M30 66 Q48 62 66 66" stroke="${blendHex(beardCol,'#000',.15)}" stroke-width="1.2" fill="none"/>`);
-  } else if (st.beard === 'b5') { // もみあげ
-    p.push(`<path d="M20 52 Q18 62 20 70 Q22 72 24 66 Q24 58 22 52Z" fill="${beardCol}" opacity=".8"/>
-            <path d="M76 52 Q78 62 76 70 Q74 72 72 66 Q72 58 74 52Z" fill="${beardCol}" opacity=".8"/>`);
-  }
-
-  // ── 髪型（帽子なしの場合は上に描画。帽子ありは帽子の下から見える部分のみ） ──
-  const hasHat = st.hat !== 'ht0';
-  if (st.hair === 'h1') { // 短髪
-    p.push(`<path d="M20 38 Q24 16 48 14 Q72 16 76 38 Q68 22 48 20 Q28 22 20 38Z" fill="${hcol}"/>
-            ${hasHat?'':``}`);
-    if (!hasHat) p.push(`<path d="M20 38 L22 46 Q20 36 20 38Z" fill="${hcol}"/>
-                          <path d="M76 38 L74 46 Q76 36 76 38Z" fill="${hcol}"/>`);
-  } else if (st.hair === 'h2') { // センター分け
-    p.push(`<path d="M20 38 Q24 16 48 14 Q72 16 76 38 Q68 20 48 18 Q28 20 20 38Z" fill="${hcol}"/>
-            <path d="M48 14 Q46 28 40 38" stroke="${blendHex(hcol,'#000',.15)}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <path d="M48 14 Q50 28 56 38" stroke="${blendHex(hcol,'#000',.15)}" stroke-width="2.5" fill="none" stroke-linecap="round"/>`);
-    if (!hasHat) p.push(`<path d="M20 38 L18 52 Q18 44 20 42Z" fill="${hcol}"/>
-                          <path d="M76 38 L78 52 Q78 44 76 42Z" fill="${hcol}"/>`);
-  } else if (st.hair === 'h3') { // オールバック
-    p.push(`<path d="M20 38 Q26 18 48 16 Q70 18 76 38 Q66 22 48 20 Q30 22 20 38Z" fill="${hcol}"/>
-            <path d="M24 28 Q48 18 72 28 Q68 20 48 18 Q28 20 24 28Z" fill="${blendHex(hcol,'#fff',.08)}"/>`);
-    if (!hasHat) p.push(`<path d="M20 38 L19 50 Q19 44 20 40Z" fill="${hcol}"/>
-                          <path d="M76 38 L77 50 Q77 44 76 40Z" fill="${hcol}"/>`);
-  } else if (st.hair === 'h4') { // 七三分け
-    p.push(`<path d="M20 38 Q24 16 48 14 Q72 16 76 38 Q68 20 48 18 Q28 20 20 38Z" fill="${hcol}"/>
-            <path d="M40 14 Q38 32 30 44" stroke="${blendHex(hcol,'#000',.2)}" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <path d="M40 14 Q50 28 66 36" stroke="${blendHex(hcol,'#000',.2)}" stroke-width="3" fill="none" stroke-linecap="round"/>`);
-    if (!hasHat) p.push(`<path d="M20 38 L18 56 Q18 46 20 42Z" fill="${hcol}"/>
-                          <path d="M76 38 L78 56 Q78 46 76 42Z" fill="${hcol}"/>`);
-  } else if (st.hair === 'h5') { // ロング
-    p.push(`<path d="M20 38 Q24 16 48 14 Q72 16 76 38 Q68 20 48 18 Q28 20 20 38Z" fill="${hcol}"/>
-            <path d="M20 38 L16 70 Q18 80 22 74 L22 40" fill="${hcol}"/>
-            <path d="M76 38 L80 70 Q78 80 74 74 L74 40" fill="${hcol}"/>
-            <path d="M22 40 Q48 36 74 40 L74 44 Q48 40 22 44Z" fill="${hcol}"/>`);
-  } else if (st.hair === 'h6') { // ボサボサ
-    p.push(`<path d="M20 38 Q22 16 48 12 Q74 16 76 38" fill="${hcol}"/>
-            <path d="M20 36 Q18 24 22 18 Q20 28 24 22 Q22 32 28 28 Q26 36 32 32" fill="${hcol}"/>
-            <path d="M76 36 Q78 24 74 18 Q76 28 72 22 Q74 32 68 28 Q70 36 64 32" fill="${hcol}"/>
-            <path d="M48 12 Q44 8 40 14 Q46 8 48 10 Q50 8 54 14 Q56 8 52 12" fill="${hcol}"/>`);
-    if (!hasHat) {
-      p.push(`<path d="M20 38 L16 56 Q16 46 18 42Z" fill="${hcol}"/>
-              <path d="M76 38 L80 56 Q80 46 78 42Z" fill="${hcol}"/>`);
-    }
-  } else if (st.hair === 'h7') { // 刈り上げ
-    p.push(`<path d="M28 26 Q48 16 68 26 Q60 18 48 16 Q36 18 28 26Z" fill="${hcol}"/>
-            <path d="M20 40 L20 38 Q22 28 28 26 L28 40Z" fill="${hcol}"/>
-            <path d="M76 40 L76 38 Q74 28 68 26 L68 40Z" fill="${hcol}"/>`);
-  }
-
-  // ── 帽子 ──
-  if (st.hat === 'ht1') { // シルクハット
-    p.push(`<rect x="30" y="8" width="36" height="26" rx="3" fill="#111"/>
-            <rect x="22" y="32" width="52" height="6" rx="2" fill="#111"/>
-            <rect x="24" y="33" width="48" height="3" fill="#2a2a2a"/>
-            <path d="M30 8 L66 8" stroke="#333" stroke-width="1" opacity=".5"/>`);
-  } else if (st.hat === 'ht2') { // ハンチング（黒）
-    p.push(`<path d="M18 34 Q48 12 78 34 Q72 38 48 36 Q24 38 18 34Z" fill="#1a1a1a"/>
-            <ellipse cx="48" cy="34" rx="30" ry="5" fill="#222"/>
-            <path d="M18 34 Q14 36 15 40 Q20 40 22 36" fill="#111"/>
-            <path d="M22 24 Q48 14 74 24" stroke="#333" stroke-width="1" fill="none" opacity=".4"/>`);
-  } else if (st.hat === 'ht3') { // ハンチング（緑）浦原
-    p.push(`<path d="M18 34 Q48 12 78 34 Q72 38 48 36 Q24 38 18 34Z" fill="#2d5a1e"/>
-            <ellipse cx="48" cy="34" rx="30" ry="5" fill="#366824"/>
-            <path d="M18 34 Q14 36 15 40 Q20 40 22 36" fill="#2a5218"/>
-            <path d="M22 24 Q48 14 74 24" stroke="#4a8030" stroke-width="1.5" fill="none" opacity=".6"/>
-            <circle cx="48" cy="17" r="3" fill="#4a8030" opacity=".7"/>`);
-  } else if (st.hat === 'ht4') { // 山高帽
-    p.push(`<ellipse cx="48" cy="22" rx="24" ry="20" fill="#181818"/>
-            <rect x="24" y="30" width="48" height="6" rx="2" fill="#111"/>
-            <ellipse cx="48" cy="36" rx="28" ry="5" fill="#222"/>
-            <path d="M30 10 Q48 6 66 10" stroke="#333" stroke-width="1" fill="none" opacity=".5"/>`);
-  } else if (st.hat === 'ht5') { // 麦わら帽子
-    p.push(`<ellipse cx="48" cy="22" rx="22" ry="14" fill="#c8a030"/>
-            <ellipse cx="48" cy="30" width="56" rx="32" ry="6" fill="#b89020"/>
-            <path d="M26 22 Q48 14 70 22" stroke="#a07818" stroke-width="1.5" fill="none"/>
-            <path d="M20 30 Q48 24 76 30" stroke="#a07818" stroke-width="1" fill="none"/>`);
-  } else if (st.hat === 'ht6') { // ベレー帽
-    p.push(`<path d="M18 32 Q20 12 52 10 Q72 12 74 28 Q62 16 48 16 Q30 18 22 32Z" fill="#5a1a1a"/>
-            <ellipse cx="48" cy="32" rx="30" ry="5" fill="#4a1212"/>
-            <circle cx="58" cy="16" r="3" fill="#7a2a2a"/>`);
-  }
-
-  // ── マスク ──
-  if (st.mask === 'mk1') { // 黒マスク
-    p.push(`<path d="M28 62 Q48 70 68 62 L68 78 Q48 86 28 78Z" fill="#111"/>
-            <path d="M28 62 Q48 67 68 62" stroke="#333" stroke-width="1" fill="none"/>
-            <path d="M26 62 L20 60 Q18 62 20 68 L26 70Z" fill="#0a0a0a"/>
-            <path d="M70 62 L76 60 Q78 62 76 68 L70 70Z" fill="#0a0a0a"/>`);
-  } else if (st.mask === 'mk2') { // 白マスク
-    p.push(`<path d="M28 62 Q48 70 68 62 L68 78 Q48 86 28 78Z" fill="#eee"/>
-            <path d="M28 62 Q48 67 68 62" stroke="#ccc" stroke-width="1" fill="none"/>
-            <path d="M26 62 L20 60 Q18 62 20 68 L26 70Z" fill="#ddd"/>
-            <path d="M70 62 L76 60 Q78 62 76 68 L70 70Z" fill="#ddd"/>`);
-  } else if (st.mask === 'mk3') { // バンダナ
-    p.push(`<path d="M26 64 Q48 72 70 64 L70 80 Q48 84 26 80Z" fill="#8B1a2a"/>
-            <path d="M26 64 Q48 69 70 64" stroke="#6b1020" stroke-width="1.5" fill="none"/>
-            <path d="M22 60 L26 64 L22 78 Q20 70 20 64Z" fill="#6b1020"/>
-            <path d="M74 60 L70 64 L74 78 Q76 70 76 64Z" fill="#6b1020"/>`);
-  }
-
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">${p.join('')}</svg>`;
+function showHourlyToast(e){
+  const el=document.getElementById('hourly-reward-display');if(!el) return;
+  const actual=parseFloat((e.actualReward||0).toFixed(2)),s=actual>=0?'+':'';
+  const col=actual>=0?'var(--emerald-light)':'var(--crimson-light)';
+  if(e.reward!==null) el.innerHTML=`<span style="color:var(--brass-light)">⏱ 時間報酬</span>: <span style="color:${col}">${s}${actual}枚</span> <span style="color:var(--muted);font-size:.7rem;">(枠リセット: 2枚)</span>`;
+  else el.innerHTML=`<span style="color:var(--brass-light)">⏱ 時間報酬</span>: 報酬なし <span style="color:var(--muted);font-size:.7rem;">(枠リセット: 2枚)</span>`;
+  el.style.opacity='1';setTimeout(()=>{el.style.opacity='0';},8000);
 }
 
-// 色のブレンドヘルパー
-function blendHex(hex1, hex2, t) {
-  const p = (h)=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
-  const [r1,g1,b1]=p(hex1.length===4?hex1.replace(/./g,c=>c+c):hex1);
-  const [r2,g2,b2]=p(hex2.length===4?hex2.replace(/./g,c=>c+c):hex2);
-  const r=Math.round(r1+(r2-r1)*t).toString(16).padStart(2,'0');
-  const g=Math.round(g1+(g2-g1)*t).toString(16).padStart(2,'0');
-  const b=Math.round(b1+(b2-b1)*t).toString(16).padStart(2,'0');
-  return `#${r}${g}${b}`;
-}
-
-// プレビューCanvas更新
-function updateAvatarPreview() {
-  const canvas = document.getElementById('avatar-preview');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const svg = buildAvatarSVG(abState);
-  const enc = 'data:image/svg+xml,' + encodeURIComponent(svg);
-  const img = new Image();
-  img.onload = () => { ctx.clearRect(0,0,96,96); ctx.drawImage(img,0,0,96,96); };
-  img.src = enc;
-}
-
-// パーツ選択ボタン生成
-function initAvatarBuilder(me) {
-  if (me.avatarState) {
-    try { Object.assign(abState, JSON.parse(me.avatarState)); } catch(e) {}
-  }
-
-  // 肌色・髪色: 丸いカラーチップ
-  ['skin','haircolor'].forEach(key => {
-    const elId = key === 'haircolor' ? 'ab-haircolor' : 'ab-skin';
-    const el = document.getElementById(elId);
-    if (!el) return;
-    el.innerHTML = AB[key].map(s =>
-      `<button class="ab-btn ${abState[key]===s.id?'on':''}" onclick="abPick('${key}','${s.id}')">
-        <div class="ab-color" style="background:${s.hex};"></div>
-      </button>`).join('');
-  });
-
-  // その他パーツ: テキストラベル
-  const textKeys = [
-    ['ab-hair','hair'],['ab-eyebrow','eyebrow'],['ab-eyes','eyes'],
-    ['ab-nose','nose'],['ab-mouth','mouth'],['ab-beard','beard'],
-    ['ab-hat','hat'],['ab-mask','mask']
-  ];
-  textKeys.forEach(([elId, key]) => {
-    const el = document.getElementById(elId);
-    if (!el) return;
-    el.innerHTML = AB[key].map(p =>
-      `<button class="ab-btn ${abState[key]===p.id?'on':''}" onclick="abPick('${key}','${p.id}')"
-        style="width:auto;padding:4px 8px;font-size:.65rem;color:var(--muted);height:auto;min-height:32px;">
-        ${p.label}
-      </button>`).join('');
-  });
-
-  updateAvatarPreview();
-}
-
-window.abPick = (key, id) => {
-  abState[key] = id;
-  const elId = key==='haircolor'?'ab-haircolor':'ab-'+key;
-  const el = document.getElementById(elId);
-  if (el) el.querySelectorAll('.ab-btn').forEach(b => {
-    b.classList.toggle('on', b.getAttribute('onclick') === `abPick('${key}','${id}')`);
-  });
-  updateAvatarPreview();
+// ── BORROW / DEBT ─────────────────────────────────────────
+window.setBorrowAmt=(v)=>{document.getElementById('borrow-amt').value=v;document.querySelectorAll('#borrow-quicks .qbtn').forEach(b=>b.classList.toggle('on',parseInt(b.textContent)===v));};
+window.doBorrow=async()=>{
+  const me=players[currentUser.uid];if(!me) return;
+  const amt=parseInt(document.getElementById('borrow-amt').value);
+  if(!amt||amt<=0){toast('枚数を入力してください');return;}
+  const prevDebt=parseFloat(me.debt||0);
+  const newDebt=parseFloat((prevDebt+amt).toFixed(2));
+  const newBase=parseFloat(((me.debtBase||prevDebt)+amt).toFixed(2));
+  await update(ref(db,`players/${currentUser.uid}`),{chips:me.chips+amt,debt:newDebt,debtBase:newBase});
+  await pushLog('debt','借金',me.name,amt,`借金発生 ${prevDebt}→${newDebt}枚`);
+  document.getElementById('borrow-amt').value='';
+  toast(`${amt}枚 借りました（借金 ${newDebt}枚）`);
+};
+window.doAddDebt=async()=>{
+  const uid=document.getElementById('debtplayer').value;
+  const amt=parseInt(document.getElementById('debtamt').value);
+  if(!uid){toast('プレイヤーを選んでください');return;}
+  if(!amt||amt<=0){toast('枚数を入力してください');return;}
+  const p=players[uid];if(!p) return;
+  const prevDebt=parseFloat(p.debt||0),newDebt=parseFloat((prevDebt+amt).toFixed(2));
+  const newBase=parseFloat(((p.debtBase||prevDebt)+amt).toFixed(2));
+  await update(ref(db,`players/${uid}`),{debt:newDebt,debtBase:newBase});
+  await pushLog('debt','管理者',p.name,amt,`借金付与 ${prevDebt}→${newDebt}枚`);
+  toast(`${p.name} に ${amt}枚の借金を付与しました`);
+};
+window.repayDebt=async()=>{
+  const me=players[currentUser.uid];if(!me) return;
+  const debt=parseFloat(me.debt||0);
+  if(debt<=0){toast('借金はありません');return;}
+  const amt=parseInt(document.getElementById('debt-repay-amt').value);
+  if(!amt||amt<=0){toast('返済枚数を入力してください');return;}
+  if(me.chips<amt){toast(`チップが足りません（${me.chips}枚）`);return;}
+  const repay=Math.min(amt,debt),newDebt=parseFloat((debt-repay).toFixed(2));
+  const oldBase=parseFloat(me.debtBase||debt);
+  const newBase=newDebt<=0?0:parseFloat((oldBase*(newDebt/debt)).toFixed(2));
+  await update(ref(db,`players/${currentUser.uid}`),{chips:me.chips-repay,debt:newDebt,debtBase:newBase});
+  await pushLog('debt',me.name,'返済',repay,`借金 ${debt}→${newDebt}枚`);
+  document.getElementById('debt-repay-amt').value='';
+  toast(`${repay}枚返済しました（残借金 ${newDebt}枚）`);
 };
 
-window.showProfile = () => {
-  const me = players[currentUser.uid];
-  if (!me) return;
-  document.getElementById('profile-name').value = me.name;
-  document.getElementById('profile-modal').style.display = 'flex';
-  initAvatarBuilder(me);
-};
-window.closeProfile = () => {
-  document.getElementById('profile-modal').style.display = 'none';
-};
-window.saveProfile = async () => {
-  const name = document.getElementById('profile-name').value.trim();
-  if (!name) { toast('名前を入力してください'); return; }
-  const avatarSvg   = buildAvatarSVG(abState);
-  const avatarState = JSON.stringify(abState);
-  await update(ref(db, `players/${currentUser.uid}`), { name, avatarSvg, avatarState });
-  await updateProfile(currentUser, { displayName: name });
-  closeProfile();
-  toast('プロフィールを更新しました');
-};
 
 // ── TICKET ────────────────────────────────────────────────
-window.tqBuy = (v) => {
-  document.getElementById('ticket-buy-amt').value = v;
-  document.querySelectorAll('#tq-buy .qbtn').forEach(b =>
-    b.classList.toggle('on', parseInt(b.textContent) === v));
+window.tqBuy=(v)=>{document.getElementById('ticket-buy-amt').value=v;document.querySelectorAll('#tq-buy .qbtn').forEach(b=>b.classList.toggle('on',parseInt(b.textContent)===v));};
+window.tqSell=(v)=>{document.getElementById('ticket-sell-amt').value=v;document.querySelectorAll('#tq-sell .qbtn').forEach(b=>b.classList.toggle('on',parseInt(b.textContent)===v));};
+window.buyTicket=async()=>{
+  const me=players[currentUser.uid];if(!me) return;
+  const ticketAmt=parseInt(document.getElementById('ticket-buy-amt').value);
+  if(!ticketAmt||ticketAmt<=0){toast('枚数を入力してください');return;}
+  const c2t=settings.chipToTicket||5;
+  const chipCost=ticketAmt*c2t;
+  if(me.chips<chipCost){toast(`チップが足りません（必要: ${chipCost}枚）`);return;}
+  await update(ref(db,`players/${currentUser.uid}`),{chips:me.chips-chipCost,tickets:(me.tickets||0)+ticketAmt});
+  await pushLog('ticket',me.name,'購入',ticketAmt,`${chipCost}チップ→抽選券${ticketAmt}枚`);
+  document.getElementById('ticket-buy-amt').value='';
+  toast(`抽選券${ticketAmt}枚を購入しました（${chipCost}チップ使用）`);
 };
-window.tqSell = (v) => {
-  document.getElementById('ticket-sell-amt').value = v;
-  document.querySelectorAll('#tq-sell .qbtn').forEach(b =>
-    b.classList.toggle('on', parseInt(b.textContent) === v));
+window.sellTicket=async()=>{
+  const me=players[currentUser.uid];if(!me) return;
+  const ticketAmt=parseInt(document.getElementById('ticket-sell-amt').value);
+  if(!ticketAmt||ticketAmt<=0){toast('枚数を入力してください');return;}
+  if((me.tickets||0)<ticketAmt){toast(`抽選券が足りません（${me.tickets||0}枚）`);return;}
+  const t2c=settings.ticketToChip||3;
+  const chipGain=ticketAmt*t2c;
+  await update(ref(db,`players/${currentUser.uid}`),{chips:me.chips+chipGain,tickets:(me.tickets||0)-ticketAmt});
+  await pushLog('ticket',me.name,'換金',ticketAmt,`抽選券${ticketAmt}枚→${chipGain}チップ`);
+  document.getElementById('ticket-sell-amt').value='';
+  toast(`抽選券${ticketAmt}枚を換金しました（+${chipGain}チップ）`);
 };
-
-window.buyTicket = async () => {
-  const me = players[currentUser.uid];
-  if (!me) return;
-  const ticketAmt = parseInt(document.getElementById('ticket-buy-amt').value);
-  if (!ticketAmt || ticketAmt <= 0) { toast('枚数を入力してください'); return; }
-  const rate = settings.chipToTicket || 5;
-  const chipCost = ticketAmt * rate;
-  if (me.chips < chipCost) { toast(`チップが足りません（必要: ${chipCost}枚）`); return; }
-  await update(ref(db, `players/${currentUser.uid}`), {
-    chips:   me.chips - chipCost,
-    tickets: (me.tickets || 0) + ticketAmt
-  });
-  await pushLog('ticket', me.name, me.name, ticketAmt, `チップ${chipCost}枚→抽選券${ticketAmt}枚`);
-  document.getElementById('ticket-buy-amt').value = '';
-  document.querySelectorAll('#tq-buy .qbtn').forEach(b => b.classList.remove('on'));
-  toast(`抽選券 ${ticketAmt}枚と交換しました（-${chipCost}チップ）`);
-};
-
-window.sellTicket = async () => {
-  const me = players[currentUser.uid];
-  if (!me) return;
-  const ticketAmt = parseInt(document.getElementById('ticket-sell-amt').value);
-  if (!ticketAmt || ticketAmt <= 0) { toast('枚数を入力してください'); return; }
-  const tickets = me.tickets || 0;
-  if (tickets < ticketAmt) { toast(`抽選券が足りません（所持: ${tickets}枚）`); return; }
-  const rate = settings.ticketToChip || 3;
-  const chipGain = ticketAmt * rate;
-  await update(ref(db, `players/${currentUser.uid}`), {
-    chips:   me.chips + chipGain,
-    tickets: tickets - ticketAmt
-  });
-  await pushLog('ticket', me.name, me.name, chipGain, `抽選券${ticketAmt}枚→チップ${chipGain}枚`);
-  document.getElementById('ticket-sell-amt').value = '';
-  document.querySelectorAll('#tq-sell .qbtn').forEach(b => b.classList.remove('on'));
-  toast(`抽選券 ${ticketAmt}枚を換金しました（+${chipGain}チップ）`);
-};
-
-window.saveTicketRate = async () => {
-  const c2t = parseInt(document.getElementById('rate-chip-to-ticket').value);
-  const t2c = parseInt(document.getElementById('rate-ticket-to-chip').value);
-  const upd = {};
-  if (c2t && c2t > 0) upd.chipToTicket = c2t;
-  if (t2c && t2c > 0) upd.ticketToChip = t2c;
-  if (Object.keys(upd).length === 0) { toast('レートを入力してください'); return; }
-  await update(ref(db, 'settings'), upd);
-  document.getElementById('rate-chip-to-ticket').value = '';
-  document.getElementById('rate-ticket-to-chip').value = '';
-  toast('レートを設定しました');
+window.saveTicketRate=async()=>{
+  const c2t=parseInt(document.getElementById('rate-chip-to-ticket').value);
+  const t2c=parseInt(document.getElementById('rate-ticket-to-chip').value);
+  if(c2t>0) await update(ref(db,'settings'),{chipToTicket:c2t});
+  if(t2c>0) await update(ref(db,'settings'),{ticketToChip:t2c});
+  document.getElementById('rate-chip-to-ticket').value='';
+  document.getElementById('rate-ticket-to-chip').value='';
+  toast('レートを更新しました');
 };
 
 // ── QUIZ ──────────────────────────────────────────────────
-window.selectQuizAns = (ans) => {
-  selectedQuizAns = ans;
-  document.getElementById('quiz-ans-a').className = 'btn ' + (ans === 'A' ? 'btn-g' : 'btn-o');
-  document.getElementById('quiz-ans-b').className = 'btn ' + (ans === 'B' ? 'btn-g' : 'btn-o');
+window.selectQuizAns=(ans)=>{
+  selectedQuizAns=ans;
+  document.getElementById('quiz-ans-a').classList.toggle('on',ans==='A');
+  document.getElementById('quiz-ans-b').classList.toggle('on',ans==='B');
 };
-
-window.createQuiz = async () => {
-  const q  = document.getElementById('quiz-q').value.trim();
-  const a  = document.getElementById('quiz-a').value.trim();
-  const b  = document.getElementById('quiz-b').value.trim();
-  if (!q) { toast('問題文を入力してください'); return; }
-  if (!a || !b) { toast('選択肢A・Bを入力してください'); return; }
-  if (!selectedQuizAns) { toast('正解を選んでください'); return; }
-  // 既に受付中のクイズがあれば弾く
-  const active = Object.values(quizData).find(qz => qz.status === 'open');
-  if (active) { toast('受付中のクイズが既にあります'); return; }
-  await push(ref(db, 'quizzes'), {
-    q, a, b,
-    answer: selectedQuizAns,
-    status: 'open',
-    votes: {},
-    createdAt: serverTimestamp()
+window.createQuiz=async()=>{
+  const q=document.getElementById('quiz-q').value.trim();
+  const a=document.getElementById('quiz-a').value.trim();
+  const b=document.getElementById('quiz-b').value.trim();
+  if(!q||!a||!b){toast('問題と選択肢を入力してください');return;}
+  if(!selectedQuizAns){toast('正解を選んでください');return;}
+  await push(ref(db,'quizzes'),{q,a,b,ans:selectedQuizAns,status:'open',bets:{},ts:serverTimestamp()});
+  document.getElementById('quiz-q').value='';
+  document.getElementById('quiz-a').value='';
+  document.getElementById('quiz-b').value='';
+  selectedQuizAns=null;
+  document.getElementById('quiz-ans-a').classList.remove('on');
+  document.getElementById('quiz-ans-b').classList.remove('on');
+  toast('クイズを作成しました');
+};
+window.closeQuiz=async(qid)=>{
+  const quiz=quizData[qid];if(!quiz) return;
+  const bets=quiz.bets||{};
+  const upd={};
+  Object.entries(bets).forEach(([uid,bet])=>{
+    const p=players[uid];if(!p) return;
+    if(bet.ans===quiz.ans) upd[`${uid}/chips`]=(p.chips||0)+(bet.amt*2);
   });
-  document.getElementById('quiz-q').value = '';
-  document.getElementById('quiz-a').value = '';
-  document.getElementById('quiz-b').value = '';
-  selectedQuizAns = null;
-  document.getElementById('quiz-ans-a').className = 'btn btn-o';
-  document.getElementById('quiz-ans-b').className = 'btn btn-o';
-  toast('クイズを出題しました！');
+  await update(ref(db,'quizzes'),{[`${qid}/status`]:'closed'});
+  if(Object.keys(upd).length>0) await update(ref(db,'players'),upd);
+  toast('クイズを締め切りました');
 };
-
-window.closeQuiz = async (qid) => {
-  if (!confirm('正解を発表してチップを配布しますか？')) return;
-  const qz = quizData[qid];
-  if (!qz) return;
-  const votes = qz.votes || {};
-  const upd = {};
-  const winners = [];
-  // 正解者にチップ×2を配布
-  Object.entries(votes).forEach(([uid, v]) => {
-    const p = players[uid];
-    if (!p) return;
-    if (v.choice === qz.answer) {
-      upd[`${uid}/chips`] = (p.chips || 0) + v.amt * 2;
-      winners.push({ name: p.name, gain: v.amt * 2 });
-    }
-  });
-  if (Object.keys(upd).length > 0) await update(ref(db, 'players'), upd);
-  await update(ref(db, `quizzes/${qid}`), { status: 'closed' });
-  for (const w of winners) {
-    await pushLog('quiz', 'クイズ正解', w.name, w.gain, `正解！ +${w.gain}枚`);
-  }
-  toast(`正解発表！ ${winners.length}人が正解しました`);
+window.betQuiz=async(qid)=>{
+  const me=players[currentUser.uid];if(!me) return;
+  const ansEl=document.querySelector(`[data-quiz="${qid}"].selected`);
+  const amtEl=document.getElementById(`quiz-bet-${qid}`);
+  const ans=ansEl?ansEl.dataset.ans:'';
+  const amt=parseInt(amtEl?.value||0);
+  if(!ans){toast('選択肢を選んでください');return;}
+  if(!amt||amt<=0){toast('賭け枚数を入力してください');return;}
+  if(me.chips<amt){toast(`チップが足りません（${me.chips}枚）`);return;}
+  await update(ref(db,`players/${currentUser.uid}`),{chips:me.chips-amt});
+  await update(ref(db,`quizzes/${qid}/bets/${currentUser.uid}`),{ans,amt});
+  await pushLog('quiz',me.name,qid,amt,`クイズ賭け: ${ans}`);
+  if(amtEl) amtEl.value='';
+  toast(`${amt}枚 賭けました！`);
 };
-
-window.voteQuiz = async (qid) => {
-  const qz = quizData[qid];
-  if (!qz || qz.status !== 'open') { toast('受付が終了しています'); return; }
-  const votes = qz.votes || {};
-  if (votes[currentUser.uid]) { toast('すでに投票済みです'); return; }
-  const choice = document.querySelector(`[data-quiz="${qid}"].selected`)?.dataset.choice;
-  if (!choice) { toast('選択肢を選んでください'); return; }
-  const amt = parseInt(document.getElementById(`quiz-bet-${qid}`).value);
-  if (!amt || amt <= 0) { toast('枚数を入力してください'); return; }
-  const me = players[currentUser.uid];
-  if (me.chips < amt) { toast(`チップが足りません（${me.chips}枚）`); return; }
-  await update(ref(db, `players/${currentUser.uid}`), { chips: me.chips - amt });
-  await update(ref(db, `quizzes/${qid}/votes/${currentUser.uid}`), { choice, amt });
-  await pushLog('quiz', me.name, 'クイズ投票', amt, `選択肢${choice}に${amt}枚`);
-  toast(`選択肢${choice}に${amt}枚を賭けました！`);
+window.selectQuizOpt=(qid,ans,el)=>{
+  document.querySelectorAll(`[data-quiz="${qid}"]`).forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
 };
-
-window.selectVote = (qid, choice) => {
-  document.querySelectorAll(`[data-quiz="${qid}"]`).forEach(el => {
-    el.classList.toggle('selected', el.dataset.choice === choice);
-  });
-};
-
-function renderQuiz() {
-  if (!currentUser) return;
-  const all = Object.entries(quizData).sort((a,b) => (b[1].createdAt||0) - (a[1].createdAt||0));
-  const active = all.filter(([,qz]) => qz.status === 'open');
-  const closed = all.filter(([,qz]) => qz.status === 'closed');
-
-  // 受付中
-  const ab = document.getElementById('quiz-active-block');
-  if (!ab) return;
-  if (active.length === 0) {
-    ab.innerHTML = '<div class="card"><div class="empty">現在受付中のクイズはありません</div></div>';
-  } else {
-    ab.innerHTML = active.map(([qid, qz]) => {
-      const myVote = (qz.votes || {})[currentUser.uid];
-      const totalA = Object.values(qz.votes||{}).filter(v=>v.choice==='A').reduce((s,v)=>s+v.amt,0);
-      const totalB = Object.values(qz.votes||{}).filter(v=>v.choice==='B').reduce((s,v)=>s+v.amt,0);
-      return `<div class="quiz-card">
-        <div class="quiz-status open">受付中</div>
-        <div class="quiz-q">${qz.q}</div>
-        <div class="quiz-opts">
-          <div class="quiz-opt${myVote?.choice==='A'?' selected':''}" data-quiz="${qid}" data-choice="A"
-            onclick="${myVote ? '' : `selectVote('${qid}','A')`}">
-            <div>A</div><div style="font-size:.82rem;margin-top:4px;">${qz.a}</div>
-            <div style="font-size:.7rem;color:var(--muted);margin-top:4px;">${totalA}枚</div>
-          </div>
-          <div class="quiz-opt${myVote?.choice==='B'?' selected':''}" data-quiz="${qid}" data-choice="B"
-            onclick="${myVote ? '' : `selectVote('${qid}','B')`}">
-            <div>B</div><div style="font-size:.82rem;margin-top:4px;">${qz.b}</div>
-            <div style="font-size:.7rem;color:var(--muted);margin-top:4px;">${totalB}枚</div>
-          </div>
-        </div>
-        ${myVote
-          ? `<div style="font-size:.8rem;color:var(--brass);text-align:center;padding:6px 0;">✅ 選択肢${myVote.choice}に${myVote.amt}枚を投票済み</div>`
-          : `<div class="row" style="margin-bottom:0;">
-              <input type="number" id="quiz-bet-${qid}" placeholder="賭ける枚数" min="1" style="font-size:.88rem;"/>
-              <button class="btn btn-g" onclick="voteQuiz('${qid}')">投票</button>
-            </div>`
-        }
-      </div>`;
-    }).join('');
-  }
-
-  // 履歴
-  const hb = document.getElementById('quiz-history-block');
-  if (!hb) return;
-  if (closed.length === 0) {
-    hb.innerHTML = '<div class="empty">まだ終了したクイズはありません</div>';
-  } else {
-    hb.innerHTML = closed.map(([qid, qz]) => {
-      const myVote = (qz.votes||{})[currentUser.uid];
-      const won = myVote && myVote.choice === qz.answer;
-      const totalA = Object.values(qz.votes||{}).filter(v=>v.choice==='A').reduce((s,v)=>s+v.amt,0);
-      const totalB = Object.values(qz.votes||{}).filter(v=>v.choice==='B').reduce((s,v)=>s+v.amt,0);
-      return `<div class="quiz-hist-item">
-        <div class="quiz-hist-q">${qz.q}</div>
-        <div class="quiz-hist-ans">
-          <span class="${qz.answer==='A'?'':''}">A: ${qz.a}（${totalA}枚）</span>　
-          <span>B: ${qz.b}（${totalB}枚）</span>
-        </div>
-        <div style="font-size:.75rem;color:var(--brass-light);margin-top:4px;">正解: ${qz.answer}（${qz.answer==='A'?qz.a:qz.b}）</div>
-        ${myVote
-          ? `<div class="quiz-hist-result" style="color:${won?'var(--emerald-light)':'var(--crimson-light)'};">
-              ${won ? `✅ 正解！ +${myVote.amt*2}枚` : `❌ 不正解（${myVote.amt}枚損失）`}
-            </div>`
-          : `<div class="quiz-hist-result" style="color:var(--muted);">未投票</div>`
-        }
-      </div>`;
-    }).join('');
-  }
-}
-
-function renderAdminQuiz() {
-  const el = document.getElementById('admin-quiz-active');
-  if (!el) return;
-  const active = Object.entries(quizData).filter(([,qz]) => qz.status === 'open');
-  if (active.length === 0) { el.innerHTML = ''; return; }
-  el.innerHTML = active.map(([qid, qz]) => {
-    const votes = qz.votes || {};
-    const totalA = Object.values(votes).filter(v=>v.choice==='A').reduce((s,v)=>s+v.amt,0);
-    const totalB = Object.values(votes).filter(v=>v.choice==='B').reduce((s,v)=>s+v.amt,0);
-    const count  = Object.keys(votes).length;
-    return `<div class="card" style="border-color:var(--emerald-light);">
-      <div style="font-size:.7rem;color:var(--emerald-light);margin-bottom:6px;">📢 受付中</div>
-      <div style="font-weight:700;margin-bottom:8px;">${qz.q}</div>
-      <div style="font-size:.8rem;color:var(--muted);margin-bottom:4px;">
-        A: ${qz.a}（${totalA}枚）　B: ${qz.b}（${totalB}枚）　投票者: ${count}人
+function renderQuiz(){
+  const el=document.getElementById('quiz-active-block');if(!el) return;
+  const active=Object.entries(quizData).filter(([,q])=>q.status==='open');
+  if(active.length===0){el.innerHTML='<div class="empty" style="padding:16px;color:var(--muted);font-size:.8rem;">受付中のクイズはありません</div>';return;}
+  el.innerHTML=active.map(([qid,q])=>{
+    const myBet=q.bets?.[currentUser?.uid];
+    return `<div class="quiz-card">
+      <span class="quiz-status open">OPEN</span>
+      <div class="quiz-q">${q.q}</div>
+      <div class="quiz-opts">
+        <div class="quiz-opt ${myBet?.ans==='A'?'selected':''}" data-quiz="${qid}" data-ans="A" onclick="selectQuizOpt('${qid}','A',this)">A: ${q.a}</div>
+        <div class="quiz-opt ${myBet?.ans==='B'?'selected':''}" data-quiz="${qid}" data-ans="B" onclick="selectQuizOpt('${qid}','B',this)">B: ${q.b}</div>
       </div>
-      <div style="font-size:.75rem;color:var(--brass);margin-bottom:10px;">正解: ${qz.answer}（${qz.answer==='A'?qz.a:qz.b}）</div>
-      <button class="btn btn-g btn-full" onclick="closeQuiz('${qid}')">🎉 正解発表してチップ配布</button>
+      ${myBet?`<div style="font-size:.72rem;color:var(--brass-light);margin-bottom:8px;">✅ ${myBet.ans}に${myBet.amt}枚 賭け済み</div>`:`
+      <div class="row" style="margin-bottom:0;">
+        <input type="number" id="quiz-bet-${qid}" placeholder="賭け枚数" min="1" style="font-size:.85rem;"/>
+        <button class="btn btn-g" onclick="betQuiz('${qid}')">賭ける</button>
+      </div>`}
     </div>`;
   }).join('');
 }
+function renderAdminQuiz(){
+  const el=document.getElementById('admin-quiz-active');if(!el) return;
+  const entries=Object.entries(quizData);if(entries.length===0){el.innerHTML='';return;}
+  el.innerHTML=entries.map(([qid,q])=>`
+    <div class="quiz-card">
+      <span class="quiz-status ${q.status}">${q.status==='open'?'OPEN':'CLOSED'}</span>
+      <div class="quiz-q">${q.q}</div>
+      <div style="font-size:.72rem;color:var(--muted);">正解: ${q.ans} / 賭け人数: ${Object.keys(q.bets||{}).length}人</div>
+      ${q.status==='open'?`<button class="btn btn-d" style="margin-top:8px;font-size:.75rem;" onclick="closeQuiz('${qid}')">締め切る</button>`:''}
+    </div>`).join('');
+}
 
 // ── LOGS ──────────────────────────────────────────────────
-async function pushLog(type, from, to, amt, note, balance) {
-  const now = new Date();
-  const time = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
-  const entry = { type, from, to, amt: amt||0, time, note: note||null, ts: serverTimestamp() };
-  if (balance !== undefined) entry.balance = balance;
-  await push(ref(db, 'logs'), entry);
+async function pushLog(type,from,to,amt,note,balance){
+  const now=new Date();
+  const time=`${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+  const entry={type,from,to,amt:amt||0,time,note:note||null,ts:serverTimestamp()};
+  if(balance!==undefined) entry.balance=balance;
+  await push(ref(db,'logs'),entry);
 }
+function renderLogs(){
+  const logTypes={t:'送金',inv:'投資',adj:'調整',debt:'借金',ticket:'抽選券',quiz:'クイズ','inv-res':'投資判定',hourly:'時間報酬',sys:'システム'};
+  const all=Object.values(logsData).sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,50);
+  const myName=currentUser?players[currentUser.uid]?.name:'';
+  const myLogs=all.filter(l=>l.from===myName||l.to===myName);
+  const plogEl=document.getElementById('plog');
+  if(plogEl){
+    plogEl.innerHTML=myLogs.length?myLogs.slice(0,20).map(l=>`
+      <li class="logitem">
+        <span class="li">${l.from===myName?'→':'←'}</span>
+        <span class="lt"><b>${logTypes[l.type]||l.type}</b> ${l.from}→${l.to}</span>
+        <span class="la">${l.amt>=0?'+':''}${l.amt}</span>
+        <span class="ltime">${l.time||''}</span>
+      </li>`).join(''):'<li class="empty">まだ取引がありません</li>';
+  }
+  const alogEl=document.getElementById('alog');
+  if(alogEl&&adminUnlocked){
+    alogEl.innerHTML=all.length?all.map(l=>`
+      <li class="logitem">
+        <span class="lt"><b>${logTypes[l.type]||l.type}</b> ${l.from}→${l.to}${l.note?` <span style="color:var(--muted);font-size:.7rem;">${l.note}</span>`:''}</span>
+        <span class="la">${l.amt>=0?'+':''}${l.amt}</span>
+        <span class="ltime">${l.time||''}</span>
+      </li>`).join(''):'<li class="empty">まだ取引がありません</li>';
+  }
+}
+window.clearLog=async()=>{if(!confirm('全履歴を削除しますか？'))return;await remove(ref(db,'logs'));toast('履歴を削除しました');};
 
-function renderLogs() {
-  const entries = Object.values(logsData)
-    .sort((a,b) => (b.ts||0) - (a.ts||0)).slice(0, 50);
-  ['plog','alog'].forEach(id => {
-    const el = document.getElementById(id); if (!el) return;
-    if (!entries.length) { el.innerHTML = '<li class="empty">まだ取引がありません</li>'; return; }
-    el.innerHTML = entries.map(l => {
-      let ic, tx, am;
-      if (l.type === 't') {
-        ic = '💸'; tx = `<b>${l.from}</b> → <b>${l.to}</b>`; am = `${l.amt}枚`;
-      } else if (l.type === 'adj') {
-        const s = l.amt > 0 ? '+' : '';
-        ic = l.amt > 0 ? '➕' : '➖'; tx = `<b>${l.to}</b> 調整`; am = `${s}${l.amt}枚`;
-      } else if (l.type === 'inv') {
-        ic = '📈'; tx = `<b>${l.from}</b> ${l.note}`; am = l.note === '引き出し' ? `${l.amt}枚` : `-${l.amt}枚`;
-      } else if (l.type === 'inv-res') {
-        const s = l.amt >= 0 ? '+' : '';
-        ic = l.amt > 0 ? '💰' : l.amt < 0 ? '📉' : '➡️';
-        tx = `<b>${l.to}</b> 投資判定 ${l.note||''}`; am = `${s}${l.amt}枚`;
-      } else if (l.type === 'ticket') {
-        ic = '🎟️'; tx = `<b>${l.from}</b> ${l.note||'抽選券交換'}`; am = `${l.amt}`;
-      } else if (l.type === 'quiz') {
-        ic = l.amt > 0 ? '🎉' : '🎲';
-        tx = `<b>${l.to}</b> ${l.note||'クイズ'}`;
-        am = l.amt > 0 ? `+${l.amt}枚` : `${l.amt}枚`;
-      } else if (l.type === 'debt') {
-        const s = l.amt >= 0 ? '+' : '';
-        ic = '💸'; tx = `<b>${l.to}</b> ${l.note||'借金'}`; am = `${s}${l.amt}枚`;
-      } else if (l.type === 'hourly') {
-        const s = l.amt >= 0 ? '+' : '';
-        ic = '⏱'; tx = `<b>${l.to}</b> 時間報酬`; am = `${s}${l.amt}枚`;
-      } else {
-        ic = l.note === '参加' ? '🟢' : l.note === 'リセット' ? '🔄' : '🔴';
-        tx = `<b>${l.to}</b> ${l.note||''}`; am = '';
-      }
-      return `<li class="logitem">
-        <span class="li">${ic}</span>
-        <span class="lt">${tx}</span>
-        <span class="la">${am}</span>
-        <span class="ltime">${l.time}</span>
-      </li>`;
-    }).join('');
-  });
-}
-
-// ── UTILS ─────────────────────────────────────────────────
-function bump(id) {
-  const e = document.getElementById(id); if (!e) return;
-  e.classList.remove('bump'); void e.offsetWidth; e.classList.add('bump');
-}
-function show(id) { document.getElementById(id).style.display = 'block'; }
-function hide(id) { document.getElementById(id).style.display = 'none'; }
-let tt;
-window.toast = (msg) => {
-  const e = document.getElementById('toast');
-  e.textContent = msg; e.classList.add('show');
-  clearTimeout(tt); tt = setTimeout(() => e.classList.remove('show'), 2500);
+// ── PROFILE ───────────────────────────────────────────────
+window.showProfile=()=>{
+  const me=players[currentUser.uid];if(!me) return;
+  profileEmoji=me.emoji||'🃏';
+  document.getElementById('profile-name').value=me.name;
+  const grid=document.getElementById('profile-emoji-grid');
+  grid.innerHTML=EMOJIS.map(e=>`<button class="emoji-btn ${e===profileEmoji?'on':''}" onclick="selectEmoji('${e}','profile-emoji-grid')">${e}</button>`).join('');
+  document.getElementById('profile-modal').style.display='flex';
 };
-</script>
-<script>
-// Service Worker 登録
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  });
-}
-
-// インストールバナー（Android Chrome）
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  const btn = document.getElementById('pwa-install-btn');
-  if (btn) btn.style.display = 'block';
-});
-window.installPWA = async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  const btn = document.getElementById('pwa-install-btn');
-  if (btn) btn.style.display = 'none';
+window.closeProfile=()=>{document.getElementById('profile-modal').style.display='none';};
+window.saveProfile=async()=>{
+  const name=document.getElementById('profile-name').value.trim();
+  if(!name){toast('名前を入力してください');return;}
+  await update(ref(db,`players/${currentUser.uid}`),{name,emoji:profileEmoji});
+  await updateProfile(currentUser,{displayName:name});
+  closeProfile();toast('プロフィールを更新しました');
 };
+
+// ── TOAST / PWA ───────────────────────────────────────────
+window.toast=(msg)=>{
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.style.opacity='1';
+  clearTimeout(el._t);el._t=setTimeout(()=>{el.style.opacity='0';},2500);
+};
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;const b=document.getElementById('pwa-install-btn');if(b) b.style.display='inline-block';});
+window.installPWA=async()=>{if(!deferredPrompt) return;deferredPrompt.prompt();deferredPrompt=null;};
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+
 </script>
 </body>
 </html>
