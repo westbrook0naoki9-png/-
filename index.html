@@ -1279,18 +1279,23 @@ onAuthStateChanged(auth, async user => {
 
 // ── TAB ───────────────────────────────────────────────────
 window.switchTab = (i) => {
-  currentTab=i;
-  [0,1,2,3].forEach(j=>{
-    const t=document.getElementById(`t${j}`);
-    if(t) t.classList.toggle('on',j===i);
+  currentTab = i;
+  // lockも含めて全画面を隠す
+  hide('lock');
+  [0,1,2,3].forEach(j => {
+    const t = document.getElementById(`t${j}`);
+    if(t) t.classList.toggle('on', j===i);
     hide(`s${j}`);
   });
-  if(i===2){ if(!adminUnlocked){showLock();return;} }
+  if(i===2 && !adminUnlocked){ showLock(); return; }
   show(`s${i}`);
   if(i===1) renderRanking(true);
 };
 
-function showLock(){ hide('s2'); show('lock'); }
+function showLock(){
+  [0,1,2,3].forEach(j => hide(`s${j}`));
+  show('lock');
+}
 window.checkPin = () => {
   if(document.getElementById('pin-in').value===ADMIN_PIN){
     adminUnlocked=true; hide('lock'); show('s2'); renderAdmin();
