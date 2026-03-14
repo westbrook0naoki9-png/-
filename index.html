@@ -614,6 +614,22 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
 .drop-zone.dz-over span{ color:var(--brass-light) !important; }
 /* ドラッグ中はゾーンを表示 */
 .dragging-active .drop-zone-wrap{ display:flex !important; }
+
+/* ── ROULETTE ─────────────────────────────────────────── */
+.rl-num-btn{
+  padding:5px 2px;font-size:.7rem;border-radius:4px;border:none;
+  cursor:pointer;text-align:center;font-weight:600;transition:all .15s;
+  color:#fff;
+}
+.rl-num-btn:hover{transform:scale(1.1);filter:brightness(1.2);}
+.rl-num-btn.on{outline:2.5px solid var(--brass-light);box-shadow:0 0 8px rgba(248,216,120,.5);}
+.rl-red{background:#c0202a;}
+.rl-black{background:#222;}
+.rl-green{background:#1a7a30;}
+@keyframes rouletteSpin{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(var(--spin-deg));}
+}
 </style>
 </head>
 <body>
@@ -627,6 +643,7 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
   <div class="tabs" id="tabs" style="display:none;">
     <button class="tab on" id="t0" onclick="switchTab(0)">ホーム</button>
     <button class="tab" id="t1" onclick="switchTab(1)">ランキング</button>
+    <button class="tab" id="t4" onclick="switchTab(4)">ルーレット</button>
     <button class="tab" id="t3" onclick="switchTab(3)">クイズ</button>
     <button class="tab" id="t2" onclick="switchTab(2)">管理者</button>
   </div>
@@ -753,7 +770,7 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
       </div>
       <div style="display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:4px;">
         <span style="color:var(--muted);">投資中</span>
-        <span style="color:var(--emerald-light);" id="invest-limit-label">枠: 2枚</span>
+        <span style="color:var(--emerald-light);" id="invest-limit-label">枠: 4枚</span>
       </div>
       <div style="background:rgba(3,10,6,.75);border-radius:2px;height:6px;overflow:hidden;margin-bottom:10px;">
         <div id="invest-bar" style="height:100%;background:linear-gradient(90deg,var(--emerald),var(--emerald-light));border-radius:2px;transition:width .4s;width:0%;"></div>
@@ -814,7 +831,7 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
         <div style="font-size:.65rem;color:var(--muted);text-align:center;margin-top:4px;">投資中チップ合計の推移（直近30件）</div>
       </div>
       <div style="font-size:.68rem;color:var(--muted);margin-top:10px;letter-spacing:.03em;line-height:1.8;">
-        ※20分ごとに自動判定（×0.25 / ×0.5 / ×0.75 / ×1.5 / ×1.75 / ×2 / ×3）<br>
+        ※判定（×0.5 / ×0.75 / ×1.25 / ×1.5 / ×1.75 / ×2.0 / ×3.0 複利式）<br>
         ※時間報酬: −2 / −1 / +1 / +2 枚　※枠を使いきれなかった場合は次期枠=使用済+2
       </div>
     </div>
@@ -905,6 +922,118 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
     <div id="rank-list" class="rank-list"></div>
   </div>
 
+  <!-- ROULETTE SCREEN -->
+  <div id="s4" style="display:none;" class="screen">
+    <br>
+    <p class="sec">ルーレット</p>
+
+    <!-- ルーレット盤 -->
+    <div style="display:flex;justify-content:center;margin-bottom:20px;">
+      <div style="position:relative;width:320px;height:320px;">
+        <canvas id="roulette-canvas" width="320" height="320" style="display:block;border-radius:50%;filter:drop-shadow(0 0 24px rgba(212,168,76,.25));"></canvas>
+        <!-- 針 -->
+        <div id="roulette-needle" style="position:absolute;top:2px;left:50%;transform:translateX(-50%);
+          width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;
+          border-top:36px solid #f8d878;filter:drop-shadow(0 0 8px rgba(248,216,120,.9));z-index:10;"></div>
+        <!-- 中央ボタン -->
+        <div id="roulette-center" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+          width:56px;height:56px;border-radius:50%;
+          background:radial-gradient(circle at 40% 35%,#3a3a3a,#0a0a0a);
+          border:3px solid var(--brass);display:flex;align-items:center;justify-content:center;
+          cursor:pointer;z-index:10;box-shadow:0 0 20px rgba(212,168,76,.5),inset 0 1px 0 rgba(255,255,255,.1);"
+          onclick="spinRoulette()">
+          <span style="color:var(--brass-light);font-size:.6rem;font-family:'Cinzel',serif;letter-spacing:.08em;">SPIN</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 結果表示 -->
+    <div id="roulette-result" style="text-align:center;min-height:60px;margin-bottom:16px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:var(--muted);" id="roulette-num">—</div>
+      <div style="font-size:.8rem;margin-top:4px;" id="roulette-color-label"></div>
+    </div>
+
+    <!-- ベットパネル -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);">所持チップ</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--brass-light);" id="rl-chips">—</div>
+      </div>
+
+      <!-- ベット額選択 -->
+      <div style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.12em;color:var(--muted);margin-bottom:6px;">賭ける枚数</div>
+      <div class="quicks" id="rl-bet-quicks" style="margin-bottom:10px;">
+        <button class="qbtn" onclick="rlSetBet(1)">1</button>
+        <button class="qbtn" onclick="rlSetBet(2)">2</button>
+        <button class="qbtn" onclick="rlSetBet(3)">3</button>
+        <button class="qbtn" onclick="rlSetBet(5)">5</button>
+        <button class="qbtn" onclick="rlSetBet(10)">10</button>
+      </div>
+      <div class="row" style="margin-bottom:14px;">
+        <input type="number" id="rl-bet-amt" placeholder="枚数" min="1" style="font-size:.88rem;"/>
+        <div style="font-size:.75rem;color:var(--muted);white-space:nowrap;">枚</div>
+      </div>
+
+      <!-- ベット種類 -->
+      <div style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.12em;color:var(--muted);margin-bottom:8px;">賭け方を選択</div>
+
+      <!-- 数字ベット -->
+      <div style="margin-bottom:10px;">
+        <div style="font-size:.68rem;color:var(--muted);margin-bottom:6px;">▸ 数字に賭ける（35倍利益＋賭け戻し）</div>
+        <div id="rl-number-grid" style="display:grid;grid-template-columns:repeat(6,1fr);gap:3px;"></div>
+        <div style="margin-top:4px;">
+          <button class="qbtn" id="rl-btn-0" onclick="rlSelectBet('number',0)" style="width:100%;margin-top:3px;">0（グリーン 35倍利益）</button>
+        </div>
+      </div>
+
+      <!-- カラーベット -->
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <button class="btn" id="rl-btn-red" onclick="rlSelectBet('red',null)"
+          style="flex:1;background:rgba(208,68,88,.2);border:1.5px solid var(--crimson-light);color:var(--crimson-light);">
+          🔴 赤（1倍利益＋賭け戻し）
+        </button>
+        <button class="btn" id="rl-btn-black" onclick="rlSelectBet('black',null)"
+          style="flex:1;background:rgba(40,40,40,.4);border:1.5px solid #666;color:#ccc;">
+          ⚫ 黒（1倍利益＋賭け戻し）
+        </button>
+      </div>
+
+      <!-- 偶数奇数 -->
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <button class="btn btn-o" id="rl-btn-even" onclick="rlSelectBet('even',null)" style="flex:1;">偶数 Even（1倍利益）</button>
+        <button class="btn btn-o" id="rl-btn-odd"  onclick="rlSelectBet('odd',null)"  style="flex:1;">奇数 Odd（1倍利益）</button>
+      </div>
+
+      <!-- ハイ・ロー -->
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <button class="btn btn-o" id="rl-btn-low"  onclick="rlSelectBet('low',null)"  style="flex:1;">Low 1〜18（1倍利益）</button>
+        <button class="btn btn-o" id="rl-btn-high" onclick="rlSelectBet('high',null)" style="flex:1;">High 19〜36（1倍利益）</button>
+      </div>
+
+      <!-- ダズン -->
+      <div style="display:flex;gap:8px;margin-bottom:14px;">
+        <button class="btn btn-o" id="rl-btn-d1" onclick="rlSelectBet('dozen',1)" style="flex:1;font-size:.75rem;">1st 1〜12（2倍利益）</button>
+        <button class="btn btn-o" id="rl-btn-d2" onclick="rlSelectBet('dozen',2)" style="flex:1;font-size:.75rem;">2nd 13〜24（2倍利益）</button>
+        <button class="btn btn-o" id="rl-btn-d3" onclick="rlSelectBet('dozen',3)" style="flex:1;font-size:.75rem;">3rd 25〜36（2倍利益）</button>
+      </div>
+
+      <!-- 選択中のベット表示 -->
+      <div id="rl-bet-info" style="font-size:.75rem;color:var(--brass-light);text-align:center;margin-bottom:12px;min-height:20px;"></div>
+
+      <button class="btn btn-g btn-full" id="rl-spin-btn" onclick="spinRoulette()" style="font-size:.9rem;">
+        🎰 スピン
+      </button>
+    </div>
+
+    <!-- 履歴 -->
+    <p class="sec">直近の結果</p>
+    <div class="card" style="padding:14px;">
+      <div id="rl-history" style="display:flex;gap:6px;flex-wrap:wrap;min-height:32px;">
+        <div style="font-size:.72rem;color:var(--muted);">まだ記録がありません</div>
+      </div>
+    </div>
+  </div>
+
   <!-- QUIZ SCREEN (player) -->
   <div id="s3" style="display:none;" class="screen">
     <br>
@@ -971,7 +1100,7 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
     <p class="sec">チップ調整</p>
     <div class="card">
       <div class="row" style="margin-bottom:10px;">
-        <select class="sel" id="adjp"><option value="">プレイヤーを選択</option></select>
+        <select class="sel" id="adjplayer"><option value="">プレイヤーを選択</option></select>
       </div>
       <div class="quicks" id="aquicks">
         <button class="qbtn" onclick="aq(1)">+1</button>
@@ -993,17 +1122,17 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
         チップ → 抽選券（何チップで1枚？）
       </div>
       <div class="row" style="margin-bottom:12px;">
-        <input type="number" id="rate-chip-to-ticket" placeholder="例: 5（5チップ=抽選券1枚）" min="1" style="flex:1;"/>
+        <input type="number" id="rate-chip-to-ticket" placeholder="チップ数を入力" min="1" style="flex:1;"/>
         <button class="btn btn-g" onclick="saveTicketRate()">保存</button>
       </div>
       <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px;letter-spacing:.03em;">
         抽選券 → チップ（1枚で何チップ？）
       </div>
       <div class="row" style="margin-bottom:8px;">
-        <input type="number" id="rate-ticket-to-chip" placeholder="例: 3（抽選券1枚=3チップ）" min="1" style="flex:1;"/>
+        <input type="number" id="rate-ticket-to-chip" placeholder="チップ数を入力" min="1" style="flex:1;"/>
         <button class="btn btn-g" onclick="saveTicketRate()">保存</button>
       </div>
-      <div style="font-size:.7rem;color:var(--brass);margin-top:4px;letter-spacing:.05em;" id="ticket-rate-info">現在のレート: 未設定</div>
+      <div style="font-size:.7rem;color:var(--brass);margin-top:8px;letter-spacing:.05em;" id="ticket-rate-info">現在のレート: 未設定</div>
     </div>
 
     <p class="sec">投資設定</p>
@@ -1016,9 +1145,9 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
         </label>
       </div>
       <div style="font-size:.68rem;color:var(--muted);line-height:1.9;letter-spacing:.03em;margin-bottom:14px;">
-        ・投資判定: ×0.25 / ×0.5 / ×0.75 / ×1.5 / ×1.75 / ×2<br>
+        ・投資判定: ×0.5 / ×0.75 / ×1.25 / ×1.5 / ×1.75 / ×2.0 / ×3.0<br>
         ・時間報酬: −2 / −1 / +1 / +2 枚（投資中のみ）<br>
-        ・投資枠: 毎期2枚固定（リセット時に初期化）
+        ・投資枠: 毎期4枚固定（リセット時に初期化）
       </div>
       <button class="btn btn-d" style="font-size:.75rem;padding:7px 14px;width:100%;margin-bottom:8px;" onclick="triggerInvestNow()">🎲 今すぐ投資判定を実行</button>
       <button class="btn btn-o" style="font-size:.75rem;padding:7px 14px;width:100%;" onclick="triggerHourlyNow()">⏱ 今すぐ時間報酬を配布</button>
@@ -1127,10 +1256,10 @@ const EMOJIS = [
   '💀','👻','🔮','⚡','🔥','💎','👁️','🌙','⭐','✨',
   '🌀','❄️','💣','☠️','🧿','🪬','⚜️','🔱','♾️','🌟',
 ];
-const INVEST_MULTIPLIERS = [0.25, 0.5, 0.75, 1.5, 1.75, 2.0, 3.0];
-// 確率: 0.25=5%, 0.5=15%, 0.75=20%, 1.5=25%, 1.75=20%, 2.0=10%, 3.0=5%
-// マイナス計40%、プラス計60%
-const INVEST_WEIGHTS  = [1, 3, 4, 5, 4, 2, 1]; // 合計20
+const INVEST_MULTIPLIERS = [0.5, 0.75, 1.25, 1.5, 1.75, 2.0, 3.0];
+// 複利モデル: 中央値で30枚×18回→約40枚 (×1.0なし)
+// 0.5=27%, 0.75=20%, 1.25=10%, 1.5=18%, 1.75=12%, 2.0=11%, 3.0=2%
+const INVEST_WEIGHTS = [27, 20, 10, 18, 12, 11, 2]; // 合計100
 function pickMultiplier() {
   const total = INVEST_WEIGHTS.reduce((a,b)=>a+b, 0);
   let r = Math.random() * total;
@@ -1141,7 +1270,8 @@ function pickMultiplier() {
   return INVEST_MULTIPLIERS[INVEST_MULTIPLIERS.length - 1];
 }
 // 時間報酬: -2=15%, -1=25%, +1=30%, +2=30% → マイナス40% / プラス60%
-const HOURLY_REWARDS  = [-2,-2,-2, -1,-1,-1,-1,-1, 1,1,1,1,1,1, 2,2,2,2,2,2];
+// 時間報酬: -2=15%, -1=25%, +1=35%, +2=25% → EV=+0.3枚/回 → 10回で+3枚
+const HOURLY_REWARDS  = [-2,-2,-2, -1,-1,-1,-1,-1, 1,1,1,1,1,1,1, 2,2,2,2,2];
 
 const fbApp = initializeApp(firebaseConfig);
 const auth = getAuth(fbApp);
@@ -1271,7 +1401,7 @@ onAuthStateChanged(auth, async user => {
     setTimeout(initChipDrag, 800);
   } else {
     currentUser=null;
-    hide('tabs');['s0','s1','s2','s3','lock'].forEach(hide);
+    hide('tabs');['s0','s1','s2','s3','s4','lock'].forEach(hide);
     show('auth');
     initEmojiGrids();
   }
@@ -1280,9 +1410,8 @@ onAuthStateChanged(auth, async user => {
 // ── TAB ───────────────────────────────────────────────────
 window.switchTab = (i) => {
   currentTab = i;
-  // lockも含めて全画面を隠す
   hide('lock');
-  [0,1,2,3].forEach(j => {
+  [0,1,2,3,4].forEach(j => {
     const t = document.getElementById(`t${j}`);
     if(t) t.classList.toggle('on', j===i);
     hide(`s${j}`);
@@ -1290,10 +1419,11 @@ window.switchTab = (i) => {
   if(i===2 && !adminUnlocked){ showLock(); return; }
   show(`s${i}`);
   if(i===1) renderRanking(true);
+  if(i===4) initRoulette();
 };
 
 function showLock(){
-  [0,1,2,3].forEach(j => hide(`s${j}`));
+  [0,1,2,3,4].forEach(j => hide(`s${j}`));
   show('lock');
 }
 window.checkPin = () => {
@@ -1318,7 +1448,7 @@ function renderHome() {
   const cv=document.getElementById('my-chips');
   cv.textContent=me.chips; bump('my-chips');
   const invested=parseFloat(me.invested||0);
-  const slots=2, usedSlots=me.investSlotsUsed??0;
+  const slots=4, usedSlots=me.investSlotsUsed??0;
   const remaining=Math.max(0,slots-usedSlots);
   document.getElementById('invest-num').textContent=invested.toFixed(2);
   document.getElementById('my-invested-val').textContent=invested.toFixed(2);
@@ -1545,7 +1675,7 @@ window.addInvest=async()=>{
   if(!me) return;
   const invested=parseFloat(me.invested||0);
   const usedSlots=me.investSlotsUsed??0;
-  if(usedSlots>=2){toast('投資枠上限です（今期2枚）');return;}
+  if(usedSlots>=4){toast('投資枠上限です（今期4枚）');return;}
   if(me.chips<=0){toast('チップが足りません');return;}
   // DB更新を先に実行（アニメーションに依存しない）
   await update(ref(db,`players/${currentUser.uid}`),{
@@ -1681,6 +1811,12 @@ function renderAdmin(){
         <div style="font-size:.72rem;color:var(--muted);">所持 ${p.chips}枚${p.invested?` 投資中 ${p.invested}枚`:''}${p.debt?` 借金 ${p.debt}枚`:''}</div>
       </div>
     </div>`).join('');
+  const ap=document.getElementById('adjplayer');
+  if(ap){
+    const av=ap.value;
+    ap.innerHTML='<option value="">プレイヤーを選択</option>'+sorted.map(p=>`<option value="${p.uid}">${p.emoji||'🃏'} ${p.name}（${p.chips}枚）</option>`).join('');
+    if(av) ap.value=av;
+  }
   const ds=document.getElementById('debtplayer');
   if(ds){
     const dv=ds.value;
@@ -1688,6 +1824,9 @@ function renderAdmin(){
     if(dv) ds.value=dv;
   }
   const it=document.getElementById('invest-toggle');if(it) it.checked=settings.investEnabled;
+  // チケットレート表示
+  const tri=document.getElementById('ticket-rate-info');
+  if(tri) tri.textContent=`現在のレート: チップ→券 ${settings.chipToTicket||5}枚 / 券→チップ ${settings.ticketToChip||3}枚`;
   const iv=document.getElementById('invest-time');if(iv) iv.value=settings.investTime||'18:00';
   if(settings.gameStartTime){
     const d=new Date(settings.gameStartTime),pad=n=>n.toString().padStart(2,'0');
@@ -1777,13 +1916,14 @@ window.runInvestResolution=async()=>{
       entries.push({name:p.name,uid:p.uid,prevDebt,newDebt,base,type:'debt'});
     }
   });
-  if(Object.keys(upd).length===0){toast('投資中・借金のプレイヤーがいません');return;}
-  await update(ref(db,'players'),upd);
+  if(Object.keys(upd).length>0) await update(ref(db,'players'),upd);
   for(const e of entries){
     if(e.type==='invest') await pushLog('inv-res','投資判定',e.name,e.diff,`×${e.mult} (${e.invested}枚→${e.result}枚)`,e.result);
     else await pushLog('debt','利子発生',e.name,e.newDebt-e.prevDebt,`借金 ${e.prevDebt}枚 → ${e.newDebt}枚`);
   }
   if(currentUser){const me=entries.find(e=>e.uid===currentUser.uid&&e.type==='invest');if(me) showInvestPopup(me);}
+  // 投資判定と同タイミングでレートをランダム変化
+  await randomizeTicketRate(true);
   toast('投資判定を実行しました');
 };
 window.runHourlyReward=async()=>{
@@ -1896,6 +2036,17 @@ window.saveTicketRate=async()=>{
   document.getElementById('rate-chip-to-ticket').value='';
   document.getElementById('rate-ticket-to-chip').value='';
   toast('レートを更新しました');
+};
+
+window.randomizeTicketRate=async(silent=false)=>{
+  // チップ→抽選券: 2〜10枚、2〜5が60%・6〜10が40%
+  const c2tPool = [2,2,2,2,2,3,3,3,3,3,4,4,4,4,5,5,5,5, 6,6,6,7,7,7,8,8,9,9,10,10];
+  const c2t = c2tPool[Math.floor(Math.random()*c2tPool.length)];
+  // 抽選券→チップ: 1〜15枚、1〜4が60%・5〜15が40%
+  const t2cPool = [1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,4,4, 5,5,5,6,6,7,7,8,8,9,10,11,12,13,14,15];
+  const t2c = t2cPool[Math.floor(Math.random()*t2cPool.length)];
+  await update(ref(db,'settings'),{chipToTicket:c2t, ticketToChip:t2c});
+  if(!silent) toast(`🎲 レート変化！ チップ→券: ${c2t}枚 / 券→チップ: ${t2c}枚`);
 };
 
 // ── QUIZ ──────────────────────────────────────────────────
@@ -2035,6 +2186,343 @@ window.saveProfile=async()=>{
   await updateProfile(currentUser,{displayName:name});
   closeProfile();toast('プロフィールを更新しました');
 };
+
+
+// ══════════════════════════════════════════════════
+// ROULETTE ENGINE
+// ══════════════════════════════════════════════════
+
+// ヨーロピアンルーレット番号配列（時計回り）
+const RL_SEQUENCE = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+const RL_RED = new Set([1,3,5,7,9,12,14,16,18,21,23,25,27,30,32,34,36]);
+const RL_BLACK = new Set([2,4,6,8,10,11,13,15,17,19,20,22,24,26,28,29,31,33,35]);
+
+let rlBetType = null;   // 'number','red','black','even','odd','low','high','dozen'
+let rlBetValue = null;  // numberなら数字、dozenなら1/2/3
+let rlSpinning = false;
+let rlHistory = [];
+let rlCurrentAngle = 0;
+
+function rlColor(n){
+  if(n===0) return 'green';
+  return RL_RED.has(n)?'red':'black';
+}
+
+function initRoulette(){
+  drawRouletteWheel(rlCurrentAngle);
+  // 数字グリッド生成（1〜36）
+  const grid = document.getElementById('rl-number-grid');
+  if(grid && !grid.children.length){
+    for(let n=1;n<=36;n++){
+      const btn = document.createElement('button');
+      btn.className = `rl-num-btn ${rlColor(n)==='red'?'rl-red':'rl-black'}`;
+      btn.textContent = n;
+      btn.id = `rl-btn-n${n}`;
+      btn.onclick = ()=>rlSelectBet('number',n);
+      grid.appendChild(btn);
+    }
+  }
+  // チップ表示更新
+  const me = players[currentUser?.uid];
+  const chips = document.getElementById('rl-chips');
+  if(chips && me) chips.textContent = me.chips + '枚';
+  rlUpdateBetInfo();
+}
+
+function drawRouletteWheel(angle){
+  const canvas = document.getElementById('roulette-canvas');
+  if(!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const SIZE = 320;
+  canvas.width  = SIZE * dpr;
+  canvas.height = SIZE * dpr;
+  canvas.style.width  = SIZE + 'px';
+  canvas.style.height = SIZE + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const cx = SIZE/2, cy = SIZE/2;
+  const R   = SIZE/2 - 4;  // 外縁
+  const r1  = R - 6;        // スロット外縁
+  const r2  = R - 38;       // スロット内縁
+  const r3  = r2 - 10;      // トラック外縁
+  const r4  = 54;           // 内円外縁
+  const N   = RL_SEQUENCE.length; // 37
+  const sa  = (2 * Math.PI) / N;
+
+  ctx.clearRect(0, 0, SIZE, SIZE);
+
+  // ── 木目外リング
+  const woodGrad = ctx.createRadialGradient(cx,cy,r1,cx,cy,R);
+  woodGrad.addColorStop(0,'#2a1500');
+  woodGrad.addColorStop(.5,'#5a2c00');
+  woodGrad.addColorStop(1,'#1a0a00');
+  ctx.beginPath(); ctx.arc(cx,cy,R,0,2*Math.PI);
+  ctx.fillStyle=woodGrad; ctx.fill();
+  ctx.strokeStyle='#d4a84c'; ctx.lineWidth=3; ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx,cy,r1+2,0,2*Math.PI);
+  ctx.strokeStyle='rgba(212,168,76,.4)'; ctx.lineWidth=1; ctx.stroke();
+
+  // ── スロット描画
+  // 描画基準: スロット i の中心角 = angle + i*sa
+  // 針は真上 (角度 -π/2 = 270°) を指す
+  // → angle=0 のとき index=0 (0番) の中心が真上
+  RL_SEQUENCE.forEach((num, i) => {
+    const midA   = angle + i * sa - Math.PI / 2;  // スロット中心
+    const startA = midA - sa / 2;
+    const endA   = midA + sa / 2;
+
+    // スロット扇形
+    ctx.beginPath();
+    ctx.arc(cx, cy, r1, startA, endA);
+    ctx.arc(cx, cy, r2, endA, startA, true);
+    ctx.closePath();
+
+    const baseCol = num===0 ? '#0b5e22' : RL_RED.has(num) ? '#a01020' : '#111';
+    const lightCol= num===0 ? '#18a040' : RL_RED.has(num) ? '#d03040' : '#2a2a2a';
+    const g = ctx.createLinearGradient(
+      cx+(r2+6)*Math.cos(midA), cy+(r2+6)*Math.sin(midA),
+      cx+(r1-6)*Math.cos(midA), cy+(r1-6)*Math.sin(midA)
+    );
+    g.addColorStop(0, lightCol);
+    g.addColorStop(1, baseCol);
+    ctx.fillStyle = g; ctx.fill();
+    ctx.strokeStyle='rgba(212,168,76,.45)'; ctx.lineWidth=0.8; ctx.stroke();
+
+    // 仕切り線
+    ctx.beginPath();
+    ctx.moveTo(cx+r1*Math.cos(startA), cy+r1*Math.sin(startA));
+    ctx.lineTo(cx+r2*Math.cos(startA), cy+r2*Math.sin(startA));
+    ctx.strokeStyle='rgba(212,168,76,.7)'; ctx.lineWidth=1.2; ctx.stroke();
+
+    // 数字テキスト
+    const tr = r2 + (r1-r2)*0.52;
+    const tx = cx + tr*Math.cos(midA);
+    const ty = cy + tr*Math.sin(midA);
+    ctx.save();
+    ctx.translate(tx, ty);
+    ctx.rotate(midA + Math.PI/2);
+    ctx.shadowColor='rgba(0,0,0,.9)'; ctx.shadowBlur=3;
+    ctx.fillStyle='#fff';
+    ctx.font='bold 9px sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(num, 0, 0);
+    ctx.shadowBlur=0;
+    ctx.restore();
+  });
+
+  // ── スロット内縁リング
+  ctx.beginPath(); ctx.arc(cx,cy,r2,0,2*Math.PI);
+  ctx.strokeStyle='#d4a84c'; ctx.lineWidth=2.5; ctx.stroke();
+
+  // ── ボールトラック
+  const tg = ctx.createRadialGradient(cx,cy,r4,cx,cy,r3);
+  tg.addColorStop(0,'#0d3a18'); tg.addColorStop(1,'#071508');
+  ctx.beginPath(); ctx.arc(cx,cy,r3,0,2*Math.PI);
+  ctx.fillStyle=tg; ctx.fill();
+  ctx.strokeStyle='#d4a84c'; ctx.lineWidth=1.5; ctx.stroke();
+  // トラック放射線
+  for(let i=0;i<18;i++){
+    const a=i*(Math.PI/9)+angle;
+    ctx.beginPath();
+    ctx.moveTo(cx+(r4+2)*Math.cos(a), cy+(r4+2)*Math.sin(a));
+    ctx.lineTo(cx+(r3-3)*Math.cos(a), cy+(r3-3)*Math.sin(a));
+    ctx.strokeStyle='rgba(212,168,76,.12)'; ctx.lineWidth=1; ctx.stroke();
+  }
+
+  // ── 内円ターンテーブル
+  const hg = ctx.createRadialGradient(cx-8,cy-8,4,cx,cy,r4);
+  hg.addColorStop(0,'#2a2a2a'); hg.addColorStop(1,'#050505');
+  ctx.beginPath(); ctx.arc(cx,cy,r4,0,2*Math.PI);
+  ctx.fillStyle=hg; ctx.fill();
+  ctx.strokeStyle='#d4a84c'; ctx.lineWidth=2; ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx,cy,r4-6,0,2*Math.PI);
+  ctx.strokeStyle='rgba(212,168,76,.2)'; ctx.lineWidth=1; ctx.stroke();
+
+  // ── 中央ハブ
+  const cg = ctx.createRadialGradient(cx-4,cy-4,2,cx,cy,18);
+  cg.addColorStop(0,'#444'); cg.addColorStop(1,'#0a0a0a');
+  ctx.beginPath(); ctx.arc(cx,cy,18,0,2*Math.PI);
+  ctx.fillStyle=cg; ctx.fill();
+  ctx.strokeStyle='#d4a84c'; ctx.lineWidth=2; ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx-4,cy-4,5,0,2*Math.PI);
+  ctx.fillStyle='rgba(255,255,255,.07)'; ctx.fill();
+}
+
+window.rlSetBet = (v) => {
+  document.getElementById('rl-bet-amt').value = v;
+  document.querySelectorAll('#rl-bet-quicks .qbtn').forEach(b=>b.classList.toggle('on',parseInt(b.textContent)===v));
+};
+
+window.rlSelectBet = (type, value) => {
+  rlBetType = type; rlBetValue = value;
+  // 全ボタンのon解除
+  ['red','black','even','odd','low','high'].forEach(t=>{
+    const b=document.getElementById(`rl-btn-${t}`); if(b) b.style.outline='none';
+  });
+  [1,2,3].forEach(d=>{
+    const b=document.getElementById(`rl-btn-d${d}`); if(b) b.style.outline='none';
+  });
+  document.querySelectorAll('.rl-num-btn').forEach(b=>b.classList.remove('on'));
+  const b0=document.getElementById('rl-btn-0'); if(b0) b0.classList.remove('on');
+
+  // 選択中をハイライト
+  if(type==='number'){
+    const btn=document.getElementById(`rl-btn-${value===0?'0':'n'+value}`);
+    if(btn) btn.classList.add('on');
+  } else if(['red','black','even','odd','low','high'].includes(type)){
+    const btn=document.getElementById(`rl-btn-${type}`);
+    if(btn) btn.style.outline='2.5px solid var(--brass-light)';
+  } else if(type==='dozen'){
+    const btn=document.getElementById(`rl-btn-d${value}`);
+    if(btn) btn.style.outline='2.5px solid var(--brass-light)';
+  }
+  rlUpdateBetInfo();
+};
+
+function rlUpdateBetInfo(){
+  const el = document.getElementById('rl-bet-info');
+  if(!el) return;
+  if(!rlBetType){el.textContent='賭け方を選択してください'; return;}
+  const labels={
+    number:`数字 ${rlBetValue}（35倍利益＋賭け戻し）`,
+    red:'赤（1倍利益＋賭け戻し）', black:'黒（1倍利益＋賭け戻し）',
+    even:'偶数（1倍利益）', odd:'奇数（1倍利益）',
+    low:'Low 1〜18（1倍利益）', high:'High 19〜36（1倍利益）',
+    dozen:`${rlBetValue}st/nd/rd ダズン（2倍利益）`,
+  };
+  el.textContent = `選択中: ${labels[rlBetType]||rlBetType}`;
+}
+
+function rlCheckWin(result, type, value){
+  if(type==='number')  return result===value;
+  if(type==='red')     return RL_RED.has(result);
+  if(type==='black')   return RL_BLACK.has(result);
+  if(type==='even')    return result!==0 && result%2===0;
+  if(type==='odd')     return result%2===1;
+  if(type==='low')     return result>=1&&result<=18;
+  if(type==='high')    return result>=19&&result<=36;
+  if(type==='dozen'){
+    if(value===1) return result>=1&&result<=12;
+    if(value===2) return result>=13&&result<=24;
+    if(value===3) return result>=25&&result<=36;
+  }
+  return false;
+}
+
+function rlPayout(type){
+  // 純利益倍率（賭け金は別途返却）
+  // 数字: 35倍利益（賭け含め36倍相当）
+  // ダズン: 2倍利益（賭け含め3倍相当）
+  // その他: 1倍利益（賭け含め2倍相当）
+  if(type==='number') return 35;
+  if(type==='dozen')  return 2;
+  return 1;
+}
+
+window.spinRoulette = async () => {
+  if(rlSpinning) return;
+  const me = players[currentUser?.uid];
+  if(!me){toast('ログインしてください');return;}
+  const bet = parseInt(document.getElementById('rl-bet-amt').value);
+  if(!bet||bet<=0){toast('賭ける枚数を入力してください');return;}
+  if(!rlBetType){toast('賭け方を選択してください');return;}
+  if(me.chips<bet){toast(`チップが足りません（${me.chips}枚）`);return;}
+
+  rlSpinning=true;
+  document.getElementById('rl-spin-btn').disabled=true;
+
+  // 結果を先に決定
+  const resultIdx = Math.floor(Math.random() * RL_SEQUENCE.length);
+  const resultNum = RL_SEQUENCE[resultIdx];
+
+  // 停止角度の計算:
+  // 描画では スロットiの中心角 midA = angle + i*sa - π/2
+  // 針は真上 (-π/2) を指す
+  // 停止時に resultIdx の中心が真上になる条件:
+  //   angle + resultIdx*sa - π/2 = -π/2 + 2πk
+  //   → angle = -resultIdx*sa + 2πk
+  // つまり targetAngle = -resultIdx * sa（mod 2π）
+  const sliceAngle = (2 * Math.PI) / RL_SEQUENCE.length;
+  const targetAngle = ((-resultIdx * sliceAngle) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+
+  // 現在角から targetAngle まで、スピン回数分だけ追加回転
+  const spins = 5 + Math.floor(Math.random() * 4); // 5〜8回転
+  const currentNorm = ((rlCurrentAngle % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
+  let delta = targetAngle - currentNorm;
+  if(delta <= 0) delta += 2 * Math.PI; // 必ず正方向に回転
+  const totalRad = spins * 2 * Math.PI + delta;
+
+  const duration = 4000;
+  const startAngle = rlCurrentAngle;
+  const endAngle = startAngle + totalRad;
+  const startTime = performance.now();
+
+  function easeOut(t){ return 1-Math.pow(1-t,3); }
+
+  function animate(now){
+    const t = Math.min((now-startTime)/duration, 1);
+    const ease = easeOut(t);
+    rlCurrentAngle = startAngle + totalRad*ease;
+    drawRouletteWheel(rlCurrentAngle);
+    if(t<1){ requestAnimationFrame(animate); return; }
+
+    // スピン完了
+    rlCurrentAngle = endAngle % (2*Math.PI);
+    const col = rlColor(resultNum);
+    const colStyle = col==='red'?'var(--crimson-light)': col==='black'?'#ccc':'var(--emerald-light)';
+
+    document.getElementById('roulette-num').textContent = resultNum;
+    document.getElementById('roulette-num').style.color = colStyle;
+    document.getElementById('roulette-color-label').innerHTML =
+      `<span style="color:${colStyle};font-weight:700;">${col==='red'?'🔴 赤':col==='black'?'⚫ 黒':'🟢 グリーン'}</span>`;
+
+    const win = rlCheckWin(resultNum, rlBetType, rlBetValue);
+    const payout = rlPayout(rlBetType);
+    // 勝ち: 賭け金返還 + 利益（賭け金×倍率）= 賭け前 + bet*payout
+    // 負け: 賭け金を没収
+    const newChips = win ? me.chips + bet * payout : me.chips - bet;
+    const gain = newChips - me.chips;
+
+    // DB更新・ログ
+    update(ref(db,`players/${currentUser.uid}`),{chips: Math.max(0, newChips)});
+    pushLog('roulette', me.name, resultNum+'番', gain,
+      `${win?'WIN':'LOSE'} [${rlBetType}:${rlBetValue??''}] ${me.chips}→${Math.max(0,newChips)}枚`);
+
+    // toast
+    if(win){
+      toast(`🎉 ${resultNum}！ +${gain}枚 WIN！`);
+    } else {
+      toast(`😢 ${resultNum}… -${bet}枚`);
+    }
+
+    // 履歴追加
+    rlHistory.unshift({num:resultNum, col});
+    if(rlHistory.length>20) rlHistory.pop();
+    renderRlHistory();
+
+    // チップ更新
+    const chipsEl=document.getElementById('rl-chips');
+    if(chipsEl) chipsEl.textContent = Math.max(0,newChips)+'枚';
+
+    rlSpinning=false;
+    document.getElementById('rl-spin-btn').disabled=false;
+  }
+  requestAnimationFrame(animate);
+};
+
+function renderRlHistory(){
+  const el=document.getElementById('rl-history');
+  if(!el) return;
+  if(!rlHistory.length){el.innerHTML='<div style="font-size:.72rem;color:var(--muted);">まだ記録がありません</div>';return;}
+  el.innerHTML=rlHistory.map(h=>{
+    const colStyle=h.col==='red'?'#c0202a':h.col==='black'?'#333':'#1a7a30';
+    return `<div style="width:32px;height:32px;border-radius:50%;background:${colStyle};
+      display:flex;align-items:center;justify-content:center;
+      font-size:.72rem;font-weight:700;color:#fff;border:1.5px solid rgba(255,255,255,.2);
+      flex-shrink:0;">${h.num}</div>`;
+  }).join('');
+}
 
 // ── TOAST / PWA ───────────────────────────────────────────
 window.toast=(msg)=>{
