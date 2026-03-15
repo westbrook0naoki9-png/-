@@ -1,3 +1,94 @@
+
+
+アップグレード
+
+共有
+Lite
+ランキング画面のグラフを、全プレイヤーの「手元チップ合計枚数」の推移のみを表示するように修正します。個別のプレイヤーごとの線ではなく、カジノ全体のチップ流通量の変化がわかるようになります。
+キャンバスを親divで包み、レスポンシブ対応とCSS調整を行い、グラフ崩れを修正。次は表示確認とデータ集計に進む。
+あ、個別プレイヤーの手元数だけ表示して。
+今だと「こじ」が「ゲスト」より上にくるはず
+Lite
+ランキング画面のグラフを、各プレイヤー個別の「手元チップ枚数」の推移を表示するように修正します。また、ランキングのソート順が正しく反映されているか確認し、修正します。
+ランキンググラフはプレイヤーごとのチップ推移を表示中。次はソート順の確認と正確な反映に取り組む予定。
+ランキングのソート条件を名前も考慮して変更し、グラフの描画ロジックもプレイヤーのチップ履歴を正確に反映するよう修正済み。次は動作確認。
+ランキングのソートに名前も反映済み。チップ履歴も正確に反映できるグラフ描画ロジックを解析し、次は動作確認に進む。
+Lite
+ランキングのソート順とグラフの表示内容を修正しました。
+修正内容：
+ランキングのソート順： チップ枚数が同じ場合、名前の五十音順（アルファベット順）で並ぶように修正しました。これにより、同点の場合でも順位が安定し、「こじ」さんが「ゲスト」さんより上に表示されるようになります。
+個別プレイヤーのグラフ： グラフを「手元チップ合計」ではなく、各プレイヤー個別の手元チップ枚数の推移を表示するように戻しました。
+グラフの正確性向上： 表示期間（直近50件）の開始時点でのチップ数を過去のログから正確に逆算するようにロジックを改善しました。これにより、グラフの開始地点がより正確になります。
+修正済みのファイルを添付します。動作確認用URLでもご確認いただけます。
+Private Casino 確認用URL
+index.html
+コード · 141.89 KB
+このタスク内のすべてのファイルを表示
+この結果はどうでしたか？
+いや、やっぱり今のだと変だよ。
+何枚マイナスされたかとかはグラフに残さなくていい。
+ただ単純に、手元チップの枚数だけをグラフに残して
+Lite
+グラフの表示内容を修正します。取引（マイナス分など）の履歴から計算するのではなく、その時点での「手元チップの純粋な所持枚数」のみをプロットするように変更します。
+チップ履歴から純粋な所持枚数を正確に逆算し、グラフに反映させる次段階へ進む。次は正確なデータをもとに描画方法を調整。
+各プレイヤーの「、その時点の手元チップ枚数」のみを追跡し、関係のないログは無視するように集計ロジックを修正した。次は描画部分の調整を行う。
+Lite
+ランキング画面のグラフ表示を修正しました。
+修正内容：
+グラフのプロット内容： 取引による増減分（マイナス表記など）を直接プロットするのではなく、各ログの時点における「そのプレイヤーが実際に所持していたチップ枚数」を時系列でプロットするように変更しました。
+データの連続性： 自分に関係のない取引（他のプレイヤー同士のやり取りなど）が発生した際も、その時点での自分の所持枚数を維持してプロットすることで、全プレイヤーの資産状況を同じ時間軸で比較できるようにしました。
+これにより、グラフは各プレイヤーの純粋な手元チップ枚数の推移を示すようになります。
+修正済みのファイルを添付します。動作確認用URLでもご確認いただけます。
+Private Casino 確認用URL
+index.html
+コード · 142.17 KB
+このタスク内のすべてのファイルを表示
+この結果はどうでしたか？
+やっぱりランキング画面のグラフは表示なしでいいや
+Lite
+ランキング画面のグラフ表示を削除します。コードを修正します。
+ランキンググラフは各プレイヤーの手元チップ枚数推移のみに修正済み。次は描画部分の最終調整を行う予定。
+ランキングのグラフ表示部分と関連コードを削除した。次はデザイン調整や動作確認を行う予定。
+Lite
+ランキング画面のグラフ表示を削除しました。
+変更内容：
+ランキング画面から「チップ推移グラフ」のセクションを削除しました。
+グラフ描画のためのJavaScript関数（renderRankingChart）および関連する呼び出し処理を削除しました。
+修正済みのファイルを添付します。動作確認用URLでもグラフが非表示になっていることをご確認いただけます。
+Private Casino 確認用URL
+index.html
+コード · 139.46 KB
+このタスク内のすべてのファイルを表示
+この結果はどうでしたか？
+クイズ正解の配当、不正解者のチップはそのまま没収されるようになってる？
+正解者に不正解者のチップは配布しなくていいからね
+Lite
+クイズの配当ロジックを確認し、不正解者のチップが正解者に配布されず、そのまま没収（消滅）されるようになっているか調査します。必要に応じて修正を行います。
+配当ロジックの動作を確認し、不正解者のチップが正解者に渡らず没収される仕組みになっているか調査し、必要なら修正します。
+クイズの締め切り処理で正解者にチップが配布されるが、不正解者の没収処理は未確認。次に没収処理の実装を調査予定。
+正解者へのチップ配布は確認済み。不正解者の没収処理を調査中で、次はその実装を詳細に確認し修正方針を立てる。
+Lite
+クイズの配当ロジックを確認しました。現在のコードは正解者にのみ配当を与えており、不正解者のチップは既に没収されています。
+現在の仕組み：
+プレイヤーが賭けるときに、チップが即座に減額される（betQuiz関数でme.chips-amt）
+クイズが締め切られるときに、正解者にのみ配当が与えられる（closeQuiz関数でbet.amt*2を加算）
+不正解者のチップは既に減額されたままで、配当されない
+つまり、現在のシステムは既にご要望の通りに動作しています。不正解者のチップは没収されたままで、正解者に配布されていません。
+確認ですが、現在のシステムで問題が発生しているのでしょうか？それとも、ロジックが異なる動作をしているということでしょうか？
+システム確認したかっただけ！そのままでいいよ！
+Lite
+了解しました！クイズのシステムは現在の仕様のままで問題ないということですね。
+クイズの配当システムの確認：
+✅ プレイヤーが賭けるときにチップが即座に減額される
+✅ クイズ締め切り時に正解者にのみ配当（賭け額×2）が与えられる
+✅ 不正解者のチップはそのまま没収される
+システムは正常に動作しています。何かご不明な点やご要望がありましたら、いつでもお知らせください！
+タスクが完了しました
+この結果はどうでしたか？
+おすすめの追跡質問
+
+
+index.html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -14,8 +105,9 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="icon-192.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
 :root{
   --bg:#0d2a1c;
   --bg2:#103220;
@@ -871,38 +963,54 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
 
     <p class="sec">抽選券</p>
     <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <!-- 所持数とレート -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border2);">
         <div>
-          <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);">所持抽選券</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--brass-light);" id="my-tickets">0</div>
+          <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);margin-bottom:4px;">所持抽選券</div>
+          <div style="display:flex;align-items:baseline;gap:6px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:var(--brass-light);line-height:1;" id="my-tickets">0</div>
+            <div style="font-size:.75rem;color:var(--muted);font-weight:400;">枚</div>
+          </div>
         </div>
-        <div style="text-align:right;font-size:.7rem;color:var(--muted);line-height:2;" id="ticket-rate-disp">
-          レート読み込み中...
+        <div id="ticket-rate-disp" style="text-align:right;">
+          <div style="font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.12em;color:var(--muted);margin-bottom:6px;">現在の交換レート</div>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <div style="font-size:.72rem;color:var(--text2);background:rgba(212,168,76,.08);padding:4px 10px;border-radius:4px;border:1px solid rgba(212,168,76,.2);">
+              購入: <b style="color:var(--brass-light);" id="rate-buy-val">--</b> チップ → <span style="color:var(--brass-light);">1</span> 🎟
+            </div>
+            <div style="font-size:.72rem;color:var(--text2);background:rgba(212,168,76,.08);padding:4px 10px;border-radius:4px;border:1px solid rgba(212,168,76,.2);">
+              換金: <span style="color:var(--brass-light);">1</span> 🎟 → <b style="color:var(--brass-light);" id="rate-sell-val">--</b> チップ
+            </div>
+          </div>
         </div>
       </div>
-      <div style="display:flex;gap:8px;">
-        <div style="flex:1;background:rgba(8,12,20,.4);border:1px solid var(--border2);border-radius:3px;padding:12px;">
-          <div style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.12em;color:var(--muted);margin-bottom:6px;">チップ → 抽選券</div>
-          <div class="quicks" id="tq-buy" style="margin-bottom:6px;">
+
+      <!-- 交換アクション -->
+      <div style="display:flex;gap:10px;">
+        <!-- 購入 -->
+        <div style="flex:1;background:linear-gradient(180deg, rgba(212,168,76,.05) 0%, transparent 100%);border:1px solid var(--border2);border-radius:6px;padding:14px;">
+          <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.12em;color:var(--brass-light);margin-bottom:10px;text-align:center;border-bottom:1px solid rgba(212,168,76,.1);padding-bottom:6px;">チップを抽選券に</div>
+          <div class="quicks" id="tq-buy" style="margin-bottom:10px;justify-content:center;">
             <button class="qbtn" onclick="tqBuy(1)">1</button>
-            <button class="qbtn" onclick="tqBuy(3)">3</button>
             <button class="qbtn" onclick="tqBuy(5)">5</button>
+            <button class="qbtn" onclick="tqBuy(10)">10</button>
           </div>
-          <div class="row" style="margin-bottom:0;">
-            <input type="number" id="ticket-buy-amt" placeholder="Qty" min="1"/>
-            <button class="btn btn-g" style="white-space:nowrap;" onclick="buyTicket()">交換</button>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <input type="number" id="ticket-buy-amt" placeholder="枚数" min="1" style="text-align:center;font-size:.9rem;padding:8px;"/>
+            <button class="btn btn-g" style="width:100%;padding:10px;font-weight:600;" onclick="buyTicket()">交換する</button>
           </div>
         </div>
-        <div style="flex:1;background:rgba(8,12,20,.4);border:1px solid var(--border2);border-radius:3px;padding:12px;">
-          <div style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.12em;color:var(--muted);margin-bottom:6px;">抽選券 → チップ</div>
-          <div class="quicks" id="tq-sell" style="margin-bottom:6px;">
+        <!-- 換金 -->
+        <div style="flex:1;background:linear-gradient(180deg, rgba(255,255,255,.02) 0%, transparent 100%);border:1px solid var(--border2);border-radius:6px;padding:14px;">
+          <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.12em;color:var(--muted);margin-bottom:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,.05);padding-bottom:6px;">抽選券をチップに</div>
+          <div class="quicks" id="tq-sell" style="margin-bottom:10px;justify-content:center;">
             <button class="qbtn" onclick="tqSell(1)">1</button>
-            <button class="qbtn" onclick="tqSell(3)">3</button>
             <button class="qbtn" onclick="tqSell(5)">5</button>
+            <button class="qbtn" onclick="tqSell(10)">10</button>
           </div>
-          <div class="row" style="margin-bottom:0;">
-            <input type="number" id="ticket-sell-amt" placeholder="Qty" min="1"/>
-            <button class="btn btn-o" style="white-space:nowrap;border-color:var(--brass);color:var(--brass);" onclick="sellTicket()">換金</button>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <input type="number" id="ticket-sell-amt" placeholder="枚数" min="1" style="text-align:center;font-size:.9rem;padding:8px;"/>
+            <button class="btn btn-o" style="width:100%;padding:10px;border-color:var(--brass);color:var(--brass-light);" onclick="sellTicket()">換金する</button>
           </div>
         </div>
       </div>
@@ -953,6 +1061,8 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
     <br>
     <p class="sec">ランキング</p>
     <div id="rank-list" class="rank-list"></div>
+    
+
   </div>
 
   <!-- ROULETTE SCREEN -->
@@ -1078,13 +1188,7 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
     <p class="sec">スロットマシン</p>
 
     <div class="card" style="text-align:center;">
-      <!-- 残りプレイ回数 -->
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding:8px 12px;background:rgba(0,0,0,.25);border-radius:6px;border:1px solid var(--border2);">
-        <div style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.12em;color:var(--muted);">残りプレイ回数</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;">
-          <span id="slot-remaining" style="color:var(--emerald-light);">20</span><span style="font-size:.8rem;color:var(--muted);"> / 20</span>
-        </div>
-      </div>
+      <!-- プレイ回数表示なし -->
 
       <!-- リール -->
       <div style="display:flex;justify-content:center;gap:8px;margin-bottom:20px;">
@@ -1401,6 +1505,9 @@ let currentTab = 0;
 let investTimerInterval = null;
 
 // ── Init emoji grids ──────────────────────────────────────
+function initEmojiGrids() {
+  initEmojiGridsAuth();
+}
 
 // ── UTILS ─────────────────────────────────────────────────
 function show(id){ const e=document.getElementById(id); if(e) e.style.display='block'; }
@@ -1474,6 +1581,8 @@ function listenAll() {
   onValue(ref(db,'players'), snap => {
     players = snap.val()||{};
     renderHome(); renderRanking(); renderAdmin();
+    if(currentTab===4) initRoulette();
+    if(currentTab===5) initSlot();
   });
   onValue(ref(db,'logs'), snap => {
     logsData = snap.val()||{};
@@ -1493,7 +1602,7 @@ function listenAll() {
   });
   onValue(ref(db,'quizzes'), snap => {
     quizData=snap.val()||{};
-    renderQuiz(); renderAdminQuiz();
+    renderQuiz(); renderAdminQuiz(); renderQuizHistory();
   });
 }
 
@@ -1508,7 +1617,9 @@ onAuthStateChanged(auth, async user => {
     }
     hide('auth'); show('tabs'); switchTab(0);
     listenAll(); startInvestTimer();
-    setTimeout(initChipDrag, 800);
+    if (typeof initChipDrag === 'function') {
+      setTimeout(initChipDrag, 800);
+    }
   } else {
     currentUser=null;
     hide('tabs');['s0','s1','s2','s3','s4','s5','lock'].forEach(hide);
@@ -1623,8 +1734,8 @@ function renderHome() {
   const tickets=me.tickets||0;
   const mt=document.getElementById('my-tickets'); if(mt) mt.textContent=tickets;
   const c2t=settings.chipToTicket||5, t2c=settings.ticketToChip||3;
-  const rd=document.getElementById('ticket-rate-disp');
-  if(rd) rd.innerHTML=`🎟→チップ: 1枚 = ${t2c}チップ<br>チップ→🎟: ${c2t}チップ = 1枚`;
+  const rb=document.getElementById('rate-buy-val'); if(rb) rb.textContent=c2t;
+  const rs=document.getElementById('rate-sell-val'); if(rs) rs.textContent=t2c;
 
   const ts=document.getElementById('p-to');
   const tv=ts?ts.value:'';
@@ -1678,25 +1789,17 @@ function renderInvestHistory(myName) {
     </div>`;
   }).join('');
 }
+let rankingChart = null;
 function renderRanking(animate=false) {
-  const sorted=Object.values(players).sort((a,b)=>(b.chips+(b.invested||0))-(a.chips+(a.invested||0)));
+  const sorted=Object.values(players).sort((a,b)=>{
+    if(b.chips !== a.chips) return b.chips - a.chips;
+    return (a.name||'').localeCompare(b.name||'');
+  });
   const el=document.getElementById('rank-list');
   if(!el) return;
   if(!sorted.length){el.innerHTML='<div class="empty">プレイヤーなし</div>';return;}
   const cls=['rank-gold','rank-silver','rank-bronze'];
   el.innerHTML=sorted.map((p,i)=>{
-    const rank=i+1, prev=prevRankMap[p.uid];
-    let arrow='';
-    if(prev!==undefined&&prev!==rank){
-      const diff=prev-rank;
-      arrow=diff>0
-        ?`<div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="color:#30c870;font-size:1rem;line-height:1;">▲</span><span style="color:#30c870;font-size:.65rem;font-weight:700;">+${diff}</span></div>`
-        :`<div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="color:var(--crimson-light);font-size:1rem;line-height:1;">▼</span><span style="color:var(--crimson-light);font-size:.65rem;font-weight:700;">${diff}</span></div>`;
-    } else if(prev===undefined){
-      arrow=`<div style="color:var(--muted);font-size:.65rem;font-family:'Cinzel',serif;">NEW</div>`;
-    } else {
-      arrow=`<div style="color:var(--brass-light);font-size:.9rem;">→</div>`;
-    }
     return `<div class="rank-item ${cls[i]||''} ${animate?'animate':''}" style="${animate?`animation-delay:${i*0.08}s`:''}">
       <div class="rank-num">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
       <div class="rank-emoji">${p.emoji||'🃏'}</div>
@@ -1705,14 +1808,14 @@ function renderRanking(animate=false) {
         <div class="rank-sub">所持チップ</div>
         ${(p.invested||0)>0?`<div class="rank-invest">📈 ${p.invested}枚 投資中</div>`:''}
         ${(p.debt||0)>0?`<div style="font-size:.7rem;color:var(--crimson-light);margin-top:1px;">💸 借金 ${p.debt}枚</div>`:''}
+        ${(p.tickets||0)>0?`<div style="font-size:.7rem;color:var(--brass-light);margin-top:1px;">🎟 抽選券 ${p.tickets}枚</div>`:''}
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
-        <div style="min-width:28px;text-align:center;">${arrow}</div>
         <div class="rank-chips">${p.chips}<span style="font-size:.8rem;color:var(--muted);"> 枚</span></div>
       </div>
     </div>`;
   }).join('');
-  sorted.forEach((p,i)=>{prevRankMap[p.uid]=i+1;});
+  
 }
 
 
@@ -2246,6 +2349,27 @@ function renderAdminQuiz(){
     </div>`).join('');
 }
 
+
+function renderQuizHistory(){
+  const el=document.getElementById('quiz-history-block');if(!el) return;
+  const myName=currentUser?players[currentUser.uid]?.name:'';
+  if(!myName){el.innerHTML='<div class="empty">ログインしてください</div>';return;}
+  const myClosed=Object.entries(quizData)
+    .filter(([,q])=>q.status==='closed'&&q.bets&&q.bets[currentUser.uid])
+    .sort((a,b)=>(b[1].ts||0)-(a[1].ts||0));
+  if(myClosed.length===0){el.innerHTML='<div class="empty">クイズ履歴がありません</div>';return;}
+  el.innerHTML=myClosed.map(([qid,q])=>{
+    const myBet=q.bets[currentUser.uid];
+    const isCorrect=myBet.ans===q.ans;
+    const resultText=isCorrect?`✅ 正解！ +${myBet.amt*2}枚`:`❌ 不正解 -${myBet.amt}枚`;
+    const resultColor=isCorrect?'var(--emerald-light)':'var(--crimson-light)';
+    return `<div class="quiz-hist-item">
+      <div class="quiz-hist-q">${q.q}</div>
+      <div class="quiz-hist-ans">あなたの回答: <b>${myBet.ans}</b> / 正解: <b>${q.ans}</b></div>
+      <div class="quiz-hist-result" style="color:${resultColor};font-weight:600;">${resultText}</div>
+    </div>`;
+  }).join('');
+}
 // ── LOGS ──────────────────────────────────────────────────
 async function pushLog(type,from,to,amt,note,balance){
   const now=new Date();
@@ -2662,7 +2786,7 @@ function renderRlHistory(){
 // ══════════════════════════════════════════════════
 const SLOT_SYMBOLS = ['🍒','🍋','🍊','🍇','⭐','💎','7️⃣'];
 const SLOT_WEIGHTS  = [30, 25, 20, 15, 6, 3, 1]; // 合計100
-const SLOT_MAX_PLAYS = 20;
+const SLOT_MAX_PLAYS = Infinity;
 
 // 配当: [3揃い倍率, 2揃い倍率(0=なし)]
 const SLOT_PAYS = {
@@ -2707,15 +2831,8 @@ function initSlot(){
 }
 
 function slotUpdateCount(){
-  const plays = slotGetPlays();
-  const remaining = Math.max(0, SLOT_MAX_PLAYS - plays);
-  const el = document.getElementById('slot-remaining');
-  if(el){
-    el.textContent = remaining;
-    el.style.color = remaining<=5?'var(--crimson-light)': remaining<=10?'var(--brass-light)':'var(--emerald-light)';
-  }
   const btn = document.getElementById('slot-spin-btn');
-  if(btn) btn.disabled = remaining <= 0;
+  if(btn) btn.disabled = false;
 }
 
 function pickSlotSymbol(){
@@ -2738,7 +2855,6 @@ window.spinSlot = async () => {
   const me = players[currentUser?.uid];
   if(!me){toast('ログインしてください');return;}
   const plays = slotGetPlays();
-  if(plays >= SLOT_MAX_PLAYS){toast(`プレイ回数上限です（${SLOT_MAX_PLAYS}回）`);return;}
   const bet = parseInt(document.getElementById('slot-bet-amt').value);
   if(!bet||bet<=0){toast('賭ける枚数を入力してください');return;}
   if(me.chips<bet){toast(`チップが足りません（${me.chips}枚）`);return;}
