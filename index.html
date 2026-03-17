@@ -14,9 +14,8 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="icon-192.png">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
 :root{
   --bg:#0d2a1c;
   --bg2:#103220;
@@ -872,54 +871,38 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
 
     <p class="sec">抽選券</p>
     <div class="card">
-      <!-- 所持数とレート -->
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border2);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
         <div>
-          <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);margin-bottom:4px;">所持抽選券</div>
-          <div style="display:flex;align-items:baseline;gap:6px;">
-            <div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:var(--brass-light);line-height:1;" id="my-tickets">0</div>
-            <div style="font-size:.75rem;color:var(--muted);font-weight:400;">枚</div>
-          </div>
+          <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);">所持抽選券</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--brass-light);" id="my-tickets">0</div>
         </div>
-        <div id="ticket-rate-disp" style="text-align:right;">
-          <div style="font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.12em;color:var(--muted);margin-bottom:6px;">現在の交換レート</div>
-          <div style="display:flex;flex-direction:column;gap:4px;">
-            <div style="font-size:.72rem;color:var(--text2);background:rgba(212,168,76,.08);padding:4px 10px;border-radius:4px;border:1px solid rgba(212,168,76,.2);">
-              購入: <b style="color:var(--brass-light);" id="rate-buy-val">--</b> チップ → <span style="color:var(--brass-light);">1</span> 🎟
-            </div>
-            <div style="font-size:.72rem;color:var(--text2);background:rgba(212,168,76,.08);padding:4px 10px;border-radius:4px;border:1px solid rgba(212,168,76,.2);">
-              換金: <span style="color:var(--brass-light);">1</span> 🎟 → <b style="color:var(--brass-light);" id="rate-sell-val">--</b> チップ
-            </div>
-          </div>
+        <div style="text-align:right;font-size:.7rem;color:var(--muted);line-height:2;" id="ticket-rate-disp">
+          レート読み込み中...
         </div>
       </div>
-
-      <!-- 交換アクション -->
-      <div style="display:flex;gap:10px;">
-        <!-- 購入 -->
-        <div style="flex:1;background:linear-gradient(180deg, rgba(212,168,76,.05) 0%, transparent 100%);border:1px solid var(--border2);border-radius:6px;padding:14px;">
-          <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.12em;color:var(--brass-light);margin-bottom:10px;text-align:center;border-bottom:1px solid rgba(212,168,76,.1);padding-bottom:6px;">チップを抽選券に</div>
-          <div class="quicks" id="tq-buy" style="margin-bottom:10px;justify-content:center;">
+      <div style="display:flex;gap:8px;">
+        <div style="flex:1;background:rgba(8,12,20,.4);border:1px solid var(--border2);border-radius:3px;padding:12px;">
+          <div style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.12em;color:var(--muted);margin-bottom:6px;">チップ → 抽選券</div>
+          <div class="quicks" id="tq-buy" style="margin-bottom:6px;">
             <button class="qbtn" onclick="tqBuy(1)">1</button>
+            <button class="qbtn" onclick="tqBuy(3)">3</button>
             <button class="qbtn" onclick="tqBuy(5)">5</button>
-            <button class="qbtn" onclick="tqBuy(10)">10</button>
           </div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <input type="number" id="ticket-buy-amt" placeholder="枚数" min="1" style="text-align:center;font-size:.9rem;padding:8px;"/>
-            <button class="btn btn-g" style="width:100%;padding:10px;font-weight:600;" onclick="buyTicket()">交換する</button>
+          <div class="row" style="margin-bottom:0;">
+            <input type="number" id="ticket-buy-amt" placeholder="Qty" min="1"/>
+            <button class="btn btn-g" style="white-space:nowrap;" onclick="buyTicket()">交換</button>
           </div>
         </div>
-        <!-- 換金 -->
-        <div style="flex:1;background:linear-gradient(180deg, rgba(255,255,255,.02) 0%, transparent 100%);border:1px solid var(--border2);border-radius:6px;padding:14px;">
-          <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.12em;color:var(--muted);margin-bottom:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,.05);padding-bottom:6px;">抽選券をチップに</div>
-          <div class="quicks" id="tq-sell" style="margin-bottom:10px;justify-content:center;">
+        <div style="flex:1;background:rgba(8,12,20,.4);border:1px solid var(--border2);border-radius:3px;padding:12px;">
+          <div style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.12em;color:var(--muted);margin-bottom:6px;">抽選券 → チップ</div>
+          <div class="quicks" id="tq-sell" style="margin-bottom:6px;">
             <button class="qbtn" onclick="tqSell(1)">1</button>
+            <button class="qbtn" onclick="tqSell(3)">3</button>
             <button class="qbtn" onclick="tqSell(5)">5</button>
-            <button class="qbtn" onclick="tqSell(10)">10</button>
           </div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <input type="number" id="ticket-sell-amt" placeholder="枚数" min="1" style="text-align:center;font-size:.9rem;padding:8px;"/>
-            <button class="btn btn-o" style="width:100%;padding:10px;border-color:var(--brass);color:var(--brass-light);" onclick="sellTicket()">換金する</button>
+          <div class="row" style="margin-bottom:0;">
+            <input type="number" id="ticket-sell-amt" placeholder="Qty" min="1"/>
+            <button class="btn btn-o" style="white-space:nowrap;border-color:var(--brass);color:var(--brass);" onclick="sellTicket()">換金</button>
           </div>
         </div>
       </div>
@@ -970,8 +953,6 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
     <br>
     <p class="sec">ランキング</p>
     <div id="rank-list" class="rank-list"></div>
-    
-
   </div>
 
   <!-- ROULETTE SCREEN -->
@@ -1097,7 +1078,13 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
     <p class="sec">スロットマシン</p>
 
     <div class="card" style="text-align:center;">
-      <!-- プレイ回数表示なし -->
+      <!-- 残りプレイ回数 -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding:8px 12px;background:rgba(0,0,0,.25);border-radius:6px;border:1px solid var(--border2);">
+        <div style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.12em;color:var(--muted);">残りプレイ回数</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;">
+          <span id="slot-remaining" style="color:var(--emerald-light);">20</span><span style="font-size:.8rem;color:var(--muted);"> / 20</span>
+        </div>
+      </div>
 
       <!-- リール -->
       <div style="display:flex;justify-content:center;gap:8px;margin-bottom:20px;">
@@ -1414,9 +1401,6 @@ let currentTab = 0;
 let investTimerInterval = null;
 
 // ── Init emoji grids ──────────────────────────────────────
-function initEmojiGrids() {
-  initEmojiGridsAuth();
-}
 
 // ── UTILS ─────────────────────────────────────────────────
 function show(id){ const e=document.getElementById(id); if(e) e.style.display='block'; }
@@ -1489,9 +1473,7 @@ window.doSignOut = async () => {
 function listenAll() {
   onValue(ref(db,'players'), snap => {
     players = snap.val()||{};
-    renderHome(); renderRanking(); renderAdmin();
-    if(currentTab===4) initRoulette();
-    if(currentTab===5) initSlot();
+    renderHome(); renderRanking(); renderAdmin(); updateRlRemaining();
   });
   onValue(ref(db,'logs'), snap => {
     logsData = snap.val()||{};
@@ -1511,7 +1493,7 @@ function listenAll() {
   });
   onValue(ref(db,'quizzes'), snap => {
     quizData=snap.val()||{};
-    renderQuiz(); renderAdminQuiz(); renderQuizHistory();
+    renderQuiz(); renderAdminQuiz();
   });
 }
 
@@ -1526,9 +1508,7 @@ onAuthStateChanged(auth, async user => {
     }
     hide('auth'); show('tabs'); switchTab(0);
     listenAll(); startInvestTimer();
-    if (typeof initChipDrag === 'function') {
-      setTimeout(initChipDrag, 800);
-    }
+    setTimeout(initChipDrag, 800);
   } else {
     currentUser=null;
     hide('tabs');['s0','s1','s2','s3','s4','s5','lock'].forEach(hide);
@@ -1643,8 +1623,8 @@ function renderHome() {
   const tickets=me.tickets||0;
   const mt=document.getElementById('my-tickets'); if(mt) mt.textContent=tickets;
   const c2t=settings.chipToTicket||5, t2c=settings.ticketToChip||3;
-  const rb=document.getElementById('rate-buy-val'); if(rb) rb.textContent=c2t;
-  const rs=document.getElementById('rate-sell-val'); if(rs) rs.textContent=t2c;
+  const rd=document.getElementById('ticket-rate-disp');
+  if(rd) rd.innerHTML=`🎟→チップ: 1枚 = ${t2c}チップ<br>チップ→🎟: ${c2t}チップ = 1枚`;
 
   const ts=document.getElementById('p-to');
   const tv=ts?ts.value:'';
@@ -1698,17 +1678,25 @@ function renderInvestHistory(myName) {
     </div>`;
   }).join('');
 }
-let rankingChart = null;
 function renderRanking(animate=false) {
-  const sorted=Object.values(players).sort((a,b)=>{
-    if(b.chips !== a.chips) return b.chips - a.chips;
-    return (a.name||'').localeCompare(b.name||'');
-  });
+  const sorted=Object.values(players).sort((a,b)=>(b.chips+(b.invested||0))-(a.chips+(a.invested||0)));
   const el=document.getElementById('rank-list');
   if(!el) return;
   if(!sorted.length){el.innerHTML='<div class="empty">プレイヤーなし</div>';return;}
   const cls=['rank-gold','rank-silver','rank-bronze'];
   el.innerHTML=sorted.map((p,i)=>{
+    const rank=i+1, prev=prevRankMap[p.uid];
+    let arrow='';
+    if(prev!==undefined&&prev!==rank){
+      const diff=prev-rank;
+      arrow=diff>0
+        ?`<div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="color:#30c870;font-size:1rem;line-height:1;">▲</span><span style="color:#30c870;font-size:.65rem;font-weight:700;">+${diff}</span></div>`
+        :`<div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="color:var(--crimson-light);font-size:1rem;line-height:1;">▼</span><span style="color:var(--crimson-light);font-size:.65rem;font-weight:700;">${diff}</span></div>`;
+    } else if(prev===undefined){
+      arrow=`<div style="color:var(--muted);font-size:.65rem;font-family:'Cinzel',serif;">NEW</div>`;
+    } else {
+      arrow=`<div style="color:var(--brass-light);font-size:.9rem;">→</div>`;
+    }
     return `<div class="rank-item ${cls[i]||''} ${animate?'animate':''}" style="${animate?`animation-delay:${i*0.08}s`:''}">
       <div class="rank-num">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
       <div class="rank-emoji">${p.emoji||'🃏'}</div>
@@ -1717,14 +1705,14 @@ function renderRanking(animate=false) {
         <div class="rank-sub">所持チップ</div>
         ${(p.invested||0)>0?`<div class="rank-invest">📈 ${p.invested}枚 投資中</div>`:''}
         ${(p.debt||0)>0?`<div style="font-size:.7rem;color:var(--crimson-light);margin-top:1px;">💸 借金 ${p.debt}枚</div>`:''}
-        ${(p.tickets||0)>0?`<div style="font-size:.7rem;color:var(--brass-light);margin-top:1px;">🎟 抽選券 ${p.tickets}枚</div>`:''}
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
+        <div style="min-width:28px;text-align:center;">${arrow}</div>
         <div class="rank-chips">${p.chips}<span style="font-size:.8rem;color:var(--muted);"> 枚</span></div>
       </div>
     </div>`;
   }).join('');
-  
+  sorted.forEach((p,i)=>{prevRankMap[p.uid]=i+1;});
 }
 
 
@@ -2206,6 +2194,12 @@ window.closeQuiz=async(qid)=>{
   if(Object.keys(upd).length>0) await update(ref(db,'players'),upd);
   toast('クイズを締め切りました');
 };
+window.quizSelectBet=(qid,n,el)=>{
+  document.querySelectorAll(`#quiz-bet-quicks-${qid} .qbtn`).forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  const hidden=document.getElementById(`quiz-bet-${qid}`);
+  if(hidden) hidden.value=n;
+};
 window.betQuiz=async(qid)=>{
   const me=players[currentUser.uid];if(!me) return;
   const ansEl=document.querySelector(`[data-quiz="${qid}"].selected`);
@@ -2213,12 +2207,12 @@ window.betQuiz=async(qid)=>{
   const ans=ansEl?ansEl.dataset.ans:'';
   const amt=parseInt(amtEl?.value||0);
   if(!ans){toast('選択肢を選んでください');return;}
-  if(!amt||amt<=0){toast('賭け枚数を入力してください');return;}
+  if(!amt||amt<=0){toast('枚数を選んでください（1〜5枚）');return;}
+  if(amt>5){toast('賭けは最大5枚までです');return;}
   if(me.chips<amt){toast(`チップが足りません（${me.chips}枚）`);return;}
   await update(ref(db,`players/${currentUser.uid}`),{chips:me.chips-amt});
   await update(ref(db,`quizzes/${qid}/bets/${currentUser.uid}`),{ans,amt});
   await pushLog('quiz',me.name,qid,amt,`クイズ賭け: ${ans}`);
-  if(amtEl) amtEl.value='';
   toast(`${amt}枚 賭けました！`);
 };
 window.selectQuizOpt=(qid,ans,el)=>{
@@ -2228,21 +2222,50 @@ window.selectQuizOpt=(qid,ans,el)=>{
 function renderQuiz(){
   const el=document.getElementById('quiz-active-block');if(!el) return;
   const active=Object.entries(quizData).filter(([,q])=>q.status==='open');
-  if(active.length===0){el.innerHTML='<div class="empty" style="padding:16px;color:var(--muted);font-size:.8rem;">受付中のクイズはありません</div>';return;}
-  el.innerHTML=active.map(([qid,q])=>{
+  if(active.length===0){el.innerHTML='<div class="empty" style="padding:16px;color:var(--muted);font-size:.8rem;">受付中のクイズはありません</div>';}
+  else{
+    el.innerHTML=active.map(([qid,q])=>{
+      const myBet=q.bets?.[currentUser?.uid];
+      return `<div class="quiz-card">
+        <span class="quiz-status open">OPEN</span>
+        <div class="quiz-q">${q.q}</div>
+        <div class="quiz-opts">
+          <div class="quiz-opt ${myBet?.ans==='A'?'selected':''}" data-quiz="${qid}" data-ans="A" onclick="selectQuizOpt('${qid}','A',this)">A: ${q.a}</div>
+          <div class="quiz-opt ${myBet?.ans==='B'?'selected':''}" data-quiz="${qid}" data-ans="B" onclick="selectQuizOpt('${qid}','B',this)">B: ${q.b}</div>
+        </div>
+        ${myBet?`<div style="font-size:.72rem;color:var(--brass-light);margin-bottom:8px;">✅ ${myBet.ans}に${myBet.amt}枚 賭け済み</div>`:`
+        <div style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.12em;color:var(--muted);margin-bottom:6px;">賭ける枚数（最大5枚）</div>
+        <div class="quicks" id="quiz-bet-quicks-${qid}" style="margin-bottom:10px;">
+          ${[1,2,3,4,5].map(n=>`<button class="qbtn" onclick="quizSelectBet('${qid}',${n},this)">${n}</button>`).join('')}
+        </div>
+        <input type="hidden" id="quiz-bet-${qid}" value=""/>
+        <button class="btn btn-g btn-full" onclick="betQuiz('${qid}')">賭ける</button>`}
+      </div>`;
+    }).join('');
+  }
+  // 履歴（締め切り済み）
+  const hel=document.getElementById('quiz-history-block');if(!hel) return;
+  const closed=Object.entries(quizData).filter(([,q])=>q.status==='closed').reverse();
+  if(closed.length===0){hel.innerHTML='<div class="empty" style="padding:16px;color:var(--muted);font-size:.8rem;">まだクイズがありません</div>';return;}
+  hel.innerHTML=closed.map(([qid,q])=>{
     const myBet=q.bets?.[currentUser?.uid];
-    return `<div class="quiz-card">
-      <span class="quiz-status open">OPEN</span>
+    const betsArr=Object.values(q.bets||{});
+    const totalAmt=betsArr.reduce((s,b)=>s+b.amt,0);
+    const winCount=betsArr.filter(b=>b.ans===q.ans).length;
+    let myResult='';
+    if(myBet){
+      const won=myBet.ans===q.ans;
+      const gain=won?myBet.amt:'−'+myBet.amt;
+      const col=won?'var(--emerald-light)':'var(--crimson-light)';
+      myResult=`<div style="font-size:.75rem;font-weight:700;color:${col};margin-top:6px;">${won?'✅ 正解！':'❌ 不正解'} &nbsp;賭け: ${myBet.ans} ${myBet.amt}枚 &nbsp;(${won?'+':'-'}${myBet.amt}枚)</div>`;
+    } else {
+      myResult=`<div style="font-size:.72rem;color:var(--muted);margin-top:6px;">未参加</div>`;
+    }
+    return `<div class="quiz-card" style="opacity:.85;">
+      <span class="quiz-status closed">CLOSED</span>
       <div class="quiz-q">${q.q}</div>
-      <div class="quiz-opts">
-        <div class="quiz-opt ${myBet?.ans==='A'?'selected':''}" data-quiz="${qid}" data-ans="A" onclick="selectQuizOpt('${qid}','A',this)">A: ${q.a}</div>
-        <div class="quiz-opt ${myBet?.ans==='B'?'selected':''}" data-quiz="${qid}" data-ans="B" onclick="selectQuizOpt('${qid}','B',this)">B: ${q.b}</div>
-      </div>
-      ${myBet?`<div style="font-size:.72rem;color:var(--brass-light);margin-bottom:8px;">✅ ${myBet.ans}に${myBet.amt}枚 賭け済み</div>`:`
-      <div class="row" style="margin-bottom:0;">
-        <input type="number" id="quiz-bet-${qid}" placeholder="賭け枚数" min="1" style="font-size:.85rem;"/>
-        <button class="btn btn-g" onclick="betQuiz('${qid}')">賭ける</button>
-      </div>`}
+      <div style="font-size:.72rem;color:var(--muted);margin-top:4px;">正解: <span style="color:var(--brass-light);font-weight:700;">${q.ans} (${q.ans==='A'?q.a:q.b})</span> &nbsp;|&nbsp; 参加: ${betsArr.length}人 &nbsp;|&nbsp; 合計: ${totalAmt}枚</div>
+      ${myResult}
     </div>`;
   }).join('');
 }
@@ -2258,27 +2281,6 @@ function renderAdminQuiz(){
     </div>`).join('');
 }
 
-
-function renderQuizHistory(){
-  const el=document.getElementById('quiz-history-block');if(!el) return;
-  const myName=currentUser?players[currentUser.uid]?.name:'';
-  if(!myName){el.innerHTML='<div class="empty">ログインしてください</div>';return;}
-  const myClosed=Object.entries(quizData)
-    .filter(([,q])=>q.status==='closed'&&q.bets&&q.bets[currentUser.uid])
-    .sort((a,b)=>(b[1].ts||0)-(a[1].ts||0));
-  if(myClosed.length===0){el.innerHTML='<div class="empty">クイズ履歴がありません</div>';return;}
-  el.innerHTML=myClosed.map(([qid,q])=>{
-    const myBet=q.bets[currentUser.uid];
-    const isCorrect=myBet.ans===q.ans;
-    const resultText=isCorrect?`✅ 正解！ +${myBet.amt*2}枚`:`❌ 不正解 -${myBet.amt}枚`;
-    const resultColor=isCorrect?'var(--emerald-light)':'var(--crimson-light)';
-    return `<div class="quiz-hist-item">
-      <div class="quiz-hist-q">${q.q}</div>
-      <div class="quiz-hist-ans">あなたの回答: <b>${myBet.ans}</b> / 正解: <b>${q.ans}</b></div>
-      <div class="quiz-hist-result" style="color:${resultColor};font-weight:600;">${resultText}</div>
-    </div>`;
-  }).join('');
-}
 // ── LOGS ──────────────────────────────────────────────────
 async function pushLog(type,from,to,amt,note,balance){
   const now=new Date();
@@ -2359,6 +2361,21 @@ function rlGetPlays(){
   return me?.rouletteCount || 0;
 }
 
+function updateRlRemaining(){
+  const me = players[currentUser?.uid];
+  if(!me) return;
+  const plays = me.rouletteCount || 0;
+  const remaining = Math.max(0, RL_MAX_PLAYS - plays);
+  const remEl = document.getElementById('rl-remaining');
+  if(remEl){
+    remEl.textContent = remaining;
+    remEl.style.color = remaining <= 5 ? 'var(--crimson-light)' : remaining <= 10 ? 'var(--brass-light)' : 'var(--emerald-light)';
+  }
+  const chips = document.getElementById('rl-chips');
+  if(chips) chips.textContent = me.chips + '枚';
+  const spinBtn = document.getElementById('rl-spin-btn');
+  if(spinBtn) spinBtn.disabled = remaining <= 0;
+}
 function initRoulette(){
   drawRouletteWheel(rlCurrentAngle);
   // 数字グリッド生成（1〜36）
@@ -2695,7 +2712,7 @@ function renderRlHistory(){
 // ══════════════════════════════════════════════════
 const SLOT_SYMBOLS = ['🍒','🍋','🍊','🍇','⭐','💎','7️⃣'];
 const SLOT_WEIGHTS  = [30, 25, 20, 15, 6, 3, 1]; // 合計100
-const SLOT_MAX_PLAYS = Infinity;
+const SLOT_MAX_PLAYS = 20;
 
 // 配当: [3揃い倍率, 2揃い倍率(0=なし)]
 const SLOT_PAYS = {
@@ -2740,8 +2757,15 @@ function initSlot(){
 }
 
 function slotUpdateCount(){
+  const plays = slotGetPlays();
+  const remaining = Math.max(0, SLOT_MAX_PLAYS - plays);
+  const el = document.getElementById('slot-remaining');
+  if(el){
+    el.textContent = remaining;
+    el.style.color = remaining<=5?'var(--crimson-light)': remaining<=10?'var(--brass-light)':'var(--emerald-light)';
+  }
   const btn = document.getElementById('slot-spin-btn');
-  if(btn) btn.disabled = false;
+  if(btn) btn.disabled = remaining <= 0;
 }
 
 function pickSlotSymbol(){
@@ -2764,6 +2788,7 @@ window.spinSlot = async () => {
   const me = players[currentUser?.uid];
   if(!me){toast('ログインしてください');return;}
   const plays = slotGetPlays();
+  if(plays >= SLOT_MAX_PLAYS){toast(`プレイ回数上限です（${SLOT_MAX_PLAYS}回）`);return;}
   const bet = parseInt(document.getElementById('slot-bet-amt').value);
   if(!bet||bet<=0){toast('賭ける枚数を入力してください');return;}
   if(me.chips<bet){toast(`チップが足りません（${me.chips}枚）`);return;}
