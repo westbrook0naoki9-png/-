@@ -703,8 +703,9 @@ input:checked + .slider:before{transform:translateX(20px);background:var(--emera
             <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--muted);margin-bottom:8px;">アイコンを選んでください</div>
             <div class="emoji-grid" id="emoji-grid"></div>
           </div>
+          <input type="text" id="auth-name" placeholder="表示名（例：たろう）" maxlength="10" onkeydown="if(event.key==='Enter')doAuth()"/>
         </div>
-        <input type="text" id="auth-name" placeholder="名前（例：たろう）" maxlength="10" onkeydown="if(event.key==='Enter')doAuth()"/>
+        <input type="email" id="auth-email" placeholder="メールアドレス" onkeydown="if(event.key==='Enter')doAuth()"/>
         <input type="password" id="auth-pass" placeholder="パスワード（4文字以上）" onkeydown="if(event.key==='Enter')doAuth()"/>
         <div class="err" id="auth-err"></div>
         <button class="btn btn-g btn-full" onclick="doAuth()" id="auth-btn">ログイン</button>
@@ -1428,18 +1429,16 @@ window.switchAuth = (mode) => {
 };
 
 window.doAuth = async () => {
-  const name  = document.getElementById('auth-name').value.trim();
-  const pass  = document.getElementById('auth-pass').value;
-  const errEl = document.getElementById('auth-err');
+  const email  = document.getElementById('auth-email').value.trim();
+  const pass   = document.getElementById('auth-pass').value;
+  const errEl  = document.getElementById('auth-err');
   errEl.textContent = '';
-  if (!name) { errEl.textContent = '名前を入力してください'; return; }
+  if (!email) { errEl.textContent = 'メールアドレスを入力してください'; return; }
   if (!pass || pass.length < 4) { errEl.textContent = 'パスワードは4文字以上で入力してください'; return; }
-  // 名前からダミーメールを生成（Firebase Auth用）
-  const email = name.toLowerCase().replace(/[^a-z0-9]/g, '') + '_' +
-    btoa(encodeURIComponent(name)).replace(/[^a-z0-9]/gi,'').slice(0,8).toLowerCase()
-    + '@casino.local';
   try {
     if (authMode === 'reg') {
+      const name = document.getElementById('auth-name').value.trim();
+      if (!name) { errEl.textContent = '表示名を入力してください'; return; }
       const uc = await createUserWithEmailAndPassword(auth, email, pass);
       await updateProfile(uc.user, { displayName: name });
       await set(ref(db, `players/${uc.user.uid}`), {
@@ -1450,12 +1449,12 @@ window.doAuth = async () => {
     }
   } catch(err) {
     const msgs = {
-      'auth/email-already-in-use': 'この名前は既に使われています',
-      'auth/user-not-found':       '名前またはパスワードが違います',
-      'auth/wrong-password':       '名前またはパスワードが違います',
-      'auth/invalid-credential':   '名前またはパスワードが違います',
+      'auth/email-already-in-use': 'このメールアドレスは既に使われています',
+      'auth/user-not-found':       'メールアドレスまたはパスワードが違います',
+      'auth/wrong-password':       'メールアドレスまたはパスワードが違います',
+      'auth/invalid-credential':   'メールアドレスまたはパスワードが違います',
       'auth/weak-password':        'パスワードは4文字以上で入力してください',
-      'auth/invalid-email':        '名前に使えない文字が含まれています',
+      'auth/invalid-email':        'メールアドレスの形式が正しくありません',
       'auth/too-many-requests':    'しばらく待ってから再試行してください',
     };
     errEl.textContent = msgs[err.code] || err.message;
